@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Kotoba</title>
+  <meta name="description" content="Japanese flashcards with spaced repetition.">
+  <meta name="theme-color" id="meta-theme-color" content="#f7f3ec">
+  <meta name="color-scheme" content="light dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Kotoba">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="icon" href="./icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ============ HOME ============ -->
+  <section class="screen is-active" id="screen-home" data-screen="home">
+    <div class="home-wrap">
+      <header class="home-header">
+        <div>
+          <p class="eyebrow" id="home-date"></p>
+          <h1 class="greeting"><span class="jp">おかえり</span>, <span id="home-name">Elan</span></h1>
+          <p class="greeting-sub">Welcome back. Let's keep going.</p>
+        </div>
+        <button class="icon-btn" id="btn-settings" aria-label="Settings">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        </button>
+      </header>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-icon stat-icon-flame">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M13.5 2.5c.3 3.2-1.6 4.6-3 6.2-1.5 1.7-2.9 3.4-2.6 6 .1 1.1.6 2 1.3 2.7-.1-1.8.8-3.1 2.1-4.1.1 2.3 1.6 3 2.6 4.4.5.7.6 1.5.5 2.2 2.9-1 5-3.6 5-6.7 0-3.9-2.9-5.8-3.8-9.1-.2-.8-.2-1.3-.1-1.6-.8.1-1.6.4-2 0z"/></svg>
+          </div>
+          <div>
+            <div class="stat-value"><span id="stat-streak">0</span><span class="stat-unit">day streak</span></div>
+            <div class="stat-label" id="stat-streak-sub">Study today to start one</div>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="stat-icon stat-icon-seal">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <div>
+            <div class="stat-value"><span id="stat-mastered">0</span><span class="stat-unit">mastered</span></div>
+            <div class="stat-label" id="stat-mastered-sub">of 0 cards</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="hero-btn" id="btn-study-due">
+        <span class="hero-main">
+          <span class="hero-title">Study due cards</span>
+          <span class="hero-sub" id="hero-sub">Loading…</span>
+        </span>
+        <span class="hero-count" id="hero-count">0</span>
+      </button>
+
+      <div class="options">
+        <button class="chip" id="opt-reverse" aria-pressed="false">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4-4 4"/><path d="M3 7h18"/><path d="M7 21l-4-4 4-4"/><path d="M21 17H3"/></svg>
+          Reverse
+        </button>
+        <button class="chip" id="opt-shuffle" aria-pressed="false">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="m4 4 5 5"/></svg>
+          Shuffle
+        </button>
+        <div class="segmented" id="opt-size" role="radiogroup" aria-label="Session size">
+          <button class="seg" data-size="10" role="radio">10</button>
+          <button class="seg" data-size="20" role="radio">20</button>
+          <button class="seg" data-size="0" role="radio">All</button>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <h2>Decks</h2>
+        <button class="text-btn" id="btn-all-decks">All decks</button>
+      </div>
+      <p class="hint" id="deck-hint">Tap a deck to study it. Tick decks to mix them.</p>
+      <div class="deck-list" id="deck-list"></div>
+      <div class="home-bottom-space"></div>
+    </div>
+
+    <div class="mix-bar" id="mix-bar" hidden>
+      <div class="mix-info">
+        <strong id="mix-title">2 decks selected</strong>
+        <span id="mix-sub">34 cards · 12 due</span>
+      </div>
+      <button class="text-btn" id="btn-mix-clear">Clear</button>
+      <button class="btn btn-primary btn-small" id="btn-mix-study">Study mix</button>
+    </div>
+  </section>
+
+  <!-- ============ STUDY ============ -->
+  <section class="screen screen-study" id="screen-study" data-screen="study">
+    <header class="study-header">
+      <button class="icon-btn" id="btn-study-close" aria-label="End session">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="progress" aria-hidden="true"><div class="progress-fill" id="study-progress"></div></div>
+      <span class="counter" id="study-counter">0 left</span>
+    </header>
+    <div class="study-title" id="study-title">Deck</div>
+    <div class="card-stage" id="card-stage">
+      <div class="card-ghost card-ghost-2"></div>
+      <div class="card-ghost card-ghost-1"></div>
+    </div>
+    <div class="study-actions">
+      <div class="actions-reveal" id="actions-reveal">
+        <button class="btn btn-reveal" id="btn-reveal">Show answer</button>
+      </div>
+      <div class="actions-grade" id="actions-grade" hidden>
+        <button class="btn btn-again" id="btn-again">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+          Again
+        </button>
+        <button class="btn btn-good" id="btn-good">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Got it
+        </button>
+      </div>
+      <p class="swipe-hint" id="swipe-hint">Swipe right for got it · left for again</p>
+    </div>
+  </section>
+
+  <!-- ============ SUMMARY ============ -->
+  <section class="screen" id="screen-summary" data-screen="summary">
+    <canvas class="petals" id="petals"></canvas>
+    <div class="summary-wrap">
+      <div class="summary-top">
+        <p class="eyebrow" id="summary-eyebrow">Session complete</p>
+        <h1 class="summary-jp jp" id="summary-jp">おつかれさま</h1>
+        <p class="summary-sub" id="summary-sub">Nice work.</p>
+      </div>
+      <div class="score-ring-wrap">
+        <svg class="score-ring" viewBox="0 0 120 120">
+          <circle class="ring-track" cx="60" cy="60" r="52"/>
+          <circle class="ring-fill" id="score-ring-fill" cx="60" cy="60" r="52"/>
+        </svg>
+        <div class="score-text">
+          <div class="score-pct"><span id="score-pct">0</span><span class="score-pct-sign">%</span></div>
+          <div class="score-sub" id="score-sub">0 of 0 first try</div>
+        </div>
+      </div>
+      <div class="summary-stats">
+        <div class="mini-stat"><strong id="sum-good">0</strong><span>Got it</span></div>
+        <div class="mini-stat"><strong id="sum-again">0</strong><span>Again</span></div>
+        <div class="mini-stat"><strong id="sum-time">0:00</strong><span>Time</span></div>
+      </div>
+      <div class="missed" id="missed-block" hidden>
+        <h3>Missed cards</h3>
+        <ul class="missed-list" id="missed-list"></ul>
+      </div>
+      <div class="summary-bottom-space"></div>
+    </div>
+    <div class="summary-actions">
+      <button class="btn btn-secondary" id="btn-redo-missed" hidden>Redo missed</button>
+      <button class="btn btn-primary" id="btn-summary-done">Done</button>
+    </div>
+  </section>
+
+  <!-- ============ SETTINGS ============ -->
+  <section class="screen" id="screen-settings" data-screen="settings">
+    <div class="settings-wrap">
+      <header class="sub-header">
+        <button class="icon-btn" id="btn-settings-back" aria-label="Back">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <h1>Settings</h1>
+      </header>
+
+      <h3 class="group-title">Appearance</h3>
+      <div class="group">
+        <div class="row">
+          <span class="row-label">Theme</span>
+          <div class="segmented segmented-sm" id="opt-theme">
+            <button class="seg" data-theme="auto">Auto</button>
+            <button class="seg" data-theme="light">Light</button>
+            <button class="seg" data-theme="dark">Dark</button>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="group-title">Study</h3>
+      <div class="group">
+        <label class="row">
+          <span class="row-label">Your name</span>
+          <input class="row-input" id="opt-name" type="text" maxlength="24" autocomplete="off" autocapitalize="words">
+        </label>
+        <label class="row">
+          <span class="row-label">Auto-pronounce new cards<small>Reads the Japanese aloud when a card appears</small></span>
+          <span class="switch"><input type="checkbox" id="opt-autospeak"><span class="switch-ui"></span></span>
+        </label>
+        <div class="row">
+          <span class="row-label">Test voice<small id="voice-name">Uses your iPhone's Japanese voice</small></span>
+          <button class="btn btn-ghost btn-small" id="btn-test-voice">Play</button>
+        </div>
+      </div>
+
+      <h3 class="group-title">Data</h3>
+      <div class="group">
+        <div class="row">
+          <span class="row-label">Cards<small id="data-info">—</small></span>
+          <button class="btn btn-ghost btn-small" id="btn-refresh-cards">Check for new</button>
+        </div>
+        <div class="row">
+          <span class="row-label">Reset progress<small>Clears boxes, streak and history</small></span>
+          <button class="btn btn-danger-ghost btn-small" id="btn-reset">Reset</button>
+        </div>
+      </div>
+
+      <p class="about">Kotoba · <span id="app-version"></span> · works offline</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="sheet-handle"></div>
+    <h2 id="modal-title">Reset progress?</h2>
+    <p id="modal-text">This removes your streak and every card's review history. It cannot be undone.</p>
+    <div class="sheet-actions">
+      <button class="btn btn-secondary" id="modal-cancel">Cancel</button>
+      <button class="btn btn-danger" id="modal-confirm">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden><span id="toast-text"></span><button class="toast-btn" id="toast-btn" hidden></button></div>
+
+<script src="./app.js"></script>
+</body>
+</html>
