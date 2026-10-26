@@ -357,6 +357,11 @@ ul { margin: 0; padding: 0; list-style: none; }
   opacity: 0.8;
 }
 .card-back { transform: rotateY(180deg); }
+/* Safari ignores backface-visibility on children with their own layers, so the front
+   face bleeds through mirrored. Explicitly hide the far face at the flip's midpoint. */
+.card-face { transition: opacity 0s linear 260ms; }
+.card-inner.is-flipped .card-front { opacity: 0; pointer-events: none; }
+.card-inner:not(.is-flipped) .card-back { opacity: 0; pointer-events: none; }
 .card-top { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; }
 .card-deck { font-size: 12px; max-width: 70%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-3); }
 .speak-btn {
@@ -499,6 +504,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; transition-duration: 1ms !important; }
   .card-inner { transition: none; }
+  .card-face { transition: none; }
 }
 
 /* ---------- Small / large phones ---------- */

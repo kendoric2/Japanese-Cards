@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = '1.0.0';
+  const APP_VERSION = '1.0.2';
   const KEY_PROGRESS = 'kotoba.progress.v1';
   const KEY_SETTINGS = 'kotoba.settings.v1';
   const SEP = '\u001f';                       // deck name + SEP + jp text = progress key
@@ -104,15 +104,30 @@
     loadVoices();
     speechSynthesis.addEventListener?.('voiceschanged', loadVoices);
   }
+  let currentUtterance = null; // keep a reference so the utterance isn't garbage-collected mid-speech
+  let speechPrimed = false;
+  function primeSpeech() {
+    // iOS only lets speech start from a user gesture; an empty utterance on the first tap unlocks it
+    if (speechPrimed || !('speechSynthesis' in window)) return;
+    speechPrimed = true;
+    try { const u = new SpeechSynthesisUtterance(''); u.volume = 0; speechSynthesis.speak(u); } catch {}
+  }
   function speak(text, btn) {
     if (!('speechSynthesis' in window)) { toast('Speech is not supported on this device'); return; }
     const clean = text.replace(/○○/g, 'なになに').replace(/／/g, '、').replace(/[（）()]/g, '');
     const u = new SpeechSynthesisUtterance(clean);
-    u.lang = 'ja-JP'; u.rate = 0.9; u.pitch = 1;
+    u.lang = 'ja-JP'; u.rate = 0.9; u.pitch = 1; u.volume = 1;
     const v = pickVoice(); if (v) u.voice = v;
     if (btn) { btn.classList.add('is-speaking'); u.onend = u.onerror = () => btn.classList.remove('is-speaking'); }
-    speechSynthesis.cancel();
-    speechSynthesis.speak(u);
+    currentUtterance = u;
+    const go = () => { try { speechSynthesis.resume(); speechSynthesis.speak(u); } catch (e) { console.warn('speak failed', e); } };
+    if (speechSynthesis.speaking || speechSynthesis.pending) {
+      // iOS drops an utterance queued immediately after cancel(); give the engine a beat
+      speechSynthesis.cancel();
+      setTimeout(go, 80);
+    } else {
+      go();
+    }
   }
 
   // ---------------------------------------------------------------- screens
@@ -667,6 +682,7 @@
       else if (e.key === 'Escape') endSessionEarly();
     });
 
+    document.addEventListener('pointerdown', primeSpeech, { once: true, capture: true });
     // block pinch/double-tap zoom on iOS
     document.addEventListener('gesturestart', e => e.preventDefault());
     document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
