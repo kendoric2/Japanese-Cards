@@ -3,7 +3,7 @@
    - cards.json: network-first, so a replaced file shows up on the next open; cached copy used offline.
    - Google Fonts: cache-first with background refresh.
 */
-const CACHE_VERSION = 'kotoba-v3';
+const CACHE_VERSION = 'kotoba-v5';
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 const FONT_CACHE = 'kotoba-fonts';
@@ -13,6 +13,7 @@ const SHELL = [
   './index.html',
   './styles.css',
   './app.js',
+  './kana-data.js',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -24,7 +25,8 @@ const SHELL = [
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(SHELL_CACHE);
-    await cache.addAll(SHELL);
+    // cache: 'reload' bypasses the browser's HTTP cache so a fresh deploy is never precached stale
+    await cache.addAll(SHELL.map(u => new Request(u, { cache: 'reload' })));
     // warm the data cache so the very first offline launch still has cards
     try { const r = await fetch('./cards.json', { cache: 'no-store' }); if (r.ok) await (await caches.open(DATA_CACHE)).put('./cards.json', r); } catch {}
   })());

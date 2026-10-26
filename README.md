@@ -8,7 +8,8 @@ A small, offline-capable flashcard app for iPhone (Safari → Add to Home Screen
 | --- | --- |
 | `index.html` | App shell (home, study, summary, settings screens) |
 | `styles.css` | Design: light/dark themes, card flip, swipe feedback |
-| `app.js` | Logic: decks, Leitner spaced repetition, swipe, speech, streak, settings |
+| `app.js` | Logic: decks, Leitner spaced repetition, swipe, speech, streak, kana lessons, quizzes, settings |
+| `kana-data.js` | Built-in hiragana: 46 basic, 25 dakuten, 33 combos, with romaji and sounds-like |
 | `cards.json` | **Your cards.** Replace this file after each lesson. |
 | `manifest.json` | PWA manifest (name, icons, standalone display) |
 | `sw.js` | Service worker: offline cache, network-first for `cards.json` |
@@ -30,6 +31,14 @@ Edit or replace `cards.json` and push. Format:
 ```
 
 Progress is keyed by **deck name + Japanese text**, so keep those unchanged for cards you've already studied. New decks and cards appear automatically the next time the app opens online. Change `version` whenever you update so the app shows a "New cards loaded" note.
+
+## Hiragana
+
+The Kana tab teaches hiragana row by row (あいうえお, then かきくけこ, ...). Each row is a short lesson with audio, followed by a 10-question drill; 80% or better marks the row learned and unlocks the next. When all 46 are learned, a mixed test (90% to pass) unlocks the Dakuten tier, which in turn unlocks the Combos tier.
+
+## Quiz
+
+The Quiz tab tests any lesson decks or your learned kana with multiple choice (either direction), listening, a timed match game, or a mixed test. Cards you miss in a quiz become due in flashcards.
 
 ## Spaced repetition
 

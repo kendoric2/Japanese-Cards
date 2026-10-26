@@ -24,7 +24,7 @@
 <div id="app">
 
   <!-- ============ HOME ============ -->
-  <section class="screen is-active" id="screen-home" data-screen="home">
+  <section class="screen screen-tab is-active" id="screen-home" data-screen="home">
     <div class="home-wrap">
       <header class="home-header">
         <div>
@@ -82,13 +82,22 @@
         </div>
       </div>
 
+      <button class="kana-card" id="home-kana-card">
+        <span class="kana-card-glyph jp">あ</span>
+        <span class="kana-card-body">
+          <span class="kana-card-title">Hiragana</span>
+          <span class="kana-card-sub" id="home-kana-sub">0 of 46 learned</span>
+        </span>
+        <span class="kana-card-arrow"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
+
       <div class="section-head">
         <h2>Decks</h2>
         <button class="text-btn" id="btn-all-decks">All decks</button>
       </div>
       <p class="hint" id="deck-hint">Tap a deck to study it. Tick decks to mix them.</p>
       <div class="deck-list" id="deck-list"></div>
-      <div class="home-bottom-space"></div>
+      <div class="tab-bottom-space"></div>
     </div>
 
     <div class="mix-bar" id="mix-bar" hidden>
@@ -153,8 +162,8 @@
         </div>
       </div>
       <div class="summary-stats">
-        <div class="mini-stat"><strong id="sum-good">0</strong><span>Got it</span></div>
-        <div class="mini-stat"><strong id="sum-again">0</strong><span>Again</span></div>
+        <div class="mini-stat"><strong id="sum-good">0</strong><span id="sum-good-label">Got it</span></div>
+        <div class="mini-stat"><strong id="sum-again">0</strong><span id="sum-again-label">Again</span></div>
         <div class="mini-stat"><strong id="sum-time">0:00</strong><span>Time</span></div>
       </div>
       <div class="missed" id="missed-block" hidden>
@@ -223,6 +232,161 @@
     </div>
   </section>
 
+  <!-- ============ KANA ============ -->
+  <section class="screen screen-tab" id="screen-kana" data-screen="kana">
+    <div class="page-wrap">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">ひらがな</p>
+          <h1 class="page-title">Hiragana</h1>
+          <p class="greeting-sub" id="kana-sub">0 of 46 learned</p>
+        </div>
+        <div class="kana-badge jp" id="kana-badge">あ</div>
+      </header>
+      <div class="tier-chips" id="tier-chips"></div>
+      <div class="tier-desc" id="tier-desc"></div>
+      <div class="kana-progress"><div class="progress"><div class="progress-fill" id="kana-progress"></div></div><span class="counter" id="kana-counter">0%</span></div>
+      <div class="kana-actions">
+        <button class="btn btn-primary" id="btn-kana-continue">Learn あ row</button>
+        <button class="btn btn-secondary" id="btn-kana-practice">Practice</button>
+      </div>
+      <div class="kana-rows" id="kana-rows"></div>
+      <div class="tab-bottom-space"></div>
+    </div>
+  </section>
+
+  <!-- ============ LEARN (kana row lesson) ============ -->
+  <section class="screen screen-study" id="screen-learn" data-screen="learn">
+    <header class="study-header">
+      <button class="icon-btn" id="btn-learn-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="progress" aria-hidden="true"><div class="progress-fill" id="learn-progress"></div></div>
+      <span class="counter" id="learn-counter">1 / 5</span>
+    </header>
+    <div class="study-title" id="learn-title">あ row</div>
+    <div class="card-stage" id="learn-stage"></div>
+    <div class="study-actions">
+      <button class="btn btn-reveal" id="btn-learn-next">Next</button>
+      <p class="swipe-hint">Tap the speaker to hear it again</p>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ SETUP ============ -->
+  <section class="screen screen-tab" id="screen-quiz" data-screen="quiz">
+    <div class="page-wrap">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">テスト</p>
+          <h1 class="page-title">Quiz</h1>
+          <p class="greeting-sub">Test yourself a different way.</p>
+        </div>
+      </header>
+
+      <h3 class="group-title">What to quiz</h3>
+      <div class="source-chips">
+        <button class="chip chip-lg" id="src-decks" aria-pressed="true">Lesson decks</button>
+        <button class="chip chip-lg" id="src-kana" aria-pressed="false"><span class="jp">あ</span> Hiragana</button>
+      </div>
+      <div class="deck-chips" id="quiz-deck-chips"></div>
+      <p class="hint" id="quiz-source-hint"></p>
+
+      <h3 class="group-title">Mode</h3>
+      <div class="mode-grid" id="mode-grid">
+        <button class="mode-card" data-mode="mc">
+          <span class="mode-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1.5"/><rect x="3" y="10" width="18" height="4" rx="1.5"/><rect x="3" y="16" width="18" height="4" rx="1.5"/></svg></span>
+          <span class="mode-name">Multiple choice</span>
+          <span class="mode-desc">Pick the right answer from four</span>
+        </button>
+        <button class="mode-card" data-mode="listen">
+          <span class="mode-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a9 9 0 0 1 0 14"/></svg></span>
+          <span class="mode-name">Listening</span>
+          <span class="mode-desc">Hear it, choose the Japanese</span>
+        </button>
+        <button class="mode-card" data-mode="match">
+          <span class="mode-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg></span>
+          <span class="mode-name">Match</span>
+          <span class="mode-desc">Pair them up against the clock</span>
+        </button>
+        <button class="mode-card" data-mode="mixed">
+          <span class="mode-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+          <span class="mode-name">Mixed test</span>
+          <span class="mode-desc">A bit of everything, scored</span>
+        </button>
+      </div>
+
+      <div class="quiz-opts">
+        <div class="row row-plain" id="quiz-dir-row">
+          <span class="row-label">Direction</span>
+          <div class="segmented segmented-sm" id="quiz-dir">
+            <button class="seg" data-dir="jp-en">JP → EN</button>
+            <button class="seg" data-dir="en-jp">EN → JP</button>
+            <button class="seg" data-dir="both">Both</button>
+          </div>
+        </div>
+        <div class="row row-plain">
+          <span class="row-label">Questions</span>
+          <div class="segmented segmented-sm" id="quiz-count">
+            <button class="seg" data-count="10">10</button>
+            <button class="seg" data-count="20">20</button>
+            <button class="seg" data-count="0">All</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-wide" id="btn-quiz-start">Start quiz</button>
+      <div class="tab-bottom-space"></div>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ RUN ============ -->
+  <section class="screen screen-study" id="screen-quizrun" data-screen="quizrun">
+    <header class="study-header">
+      <button class="icon-btn" id="btn-quiz-close" aria-label="End quiz">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="progress" aria-hidden="true"><div class="progress-fill" id="quiz-progress"></div></div>
+      <span class="counter" id="quiz-counter">1 / 10</span>
+    </header>
+    <div class="study-title" id="quiz-title">Quiz</div>
+    <div class="quiz-body" id="quiz-body"></div>
+  </section>
+
+</div>
+
+<!-- Tab bar -->
+<nav class="tabbar" id="tabbar">
+  <button class="tab is-on" data-tab="home">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18"/></svg>
+    <span>Decks</span>
+  </button>
+  <button class="tab" data-tab="kana">
+    <span class="tab-jp jp">あ</span>
+    <span>Kana</span>
+  </button>
+  <button class="tab" data-tab="quiz">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <span>Quiz</span>
+  </button>
+</nav>
+
+<!-- Kana detail sheet -->
+<div class="modal" id="kana-modal" hidden>
+  <div class="modal-backdrop" id="kana-modal-backdrop"></div>
+  <div class="sheet kana-sheet" role="dialog" aria-modal="true">
+    <div class="sheet-handle"></div>
+    <div class="kana-sheet-char jp" id="ks-char">あ</div>
+    <div class="kana-sheet-romaji" id="ks-romaji">a</div>
+    <div class="kana-sheet-sounds" id="ks-sounds">“ah”</div>
+    <p class="kana-sheet-note" id="ks-note"></p>
+    <div class="sheet-actions">
+      <button class="btn btn-secondary" id="ks-close">Close</button>
+      <button class="btn btn-primary" id="ks-speak">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a9 9 0 0 1 0 14"/></svg>
+        Hear it
+      </button>
+    </div>
+  </div>
 </div>
 
 <!-- Modal -->
@@ -241,6 +405,7 @@
 
 <div class="toast" id="toast" hidden><span id="toast-text"></span><button class="toast-btn" id="toast-btn" hidden></button></div>
 
+<script src="./kana-data.js"></script>
 <script src="./app.js"></script>
 </body>
 </html>
