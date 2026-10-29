@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = '1.1.0';
+  const APP_VERSION = '1.2.0';
   const KEY_PROGRESS = 'kotoba.progress.v1';
   const KEY_SETTINGS = 'kotoba.settings.v1';
   const SEP = '\u001f';                       // deck name + SEP + jp text = progress key
@@ -26,7 +26,7 @@
   function saveJSON(key, value) {
     try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { console.warn('save failed', e); }
   }
-  const QUIZ_DEFAULTS = { source: 'decks', decks: [], mode: 'mc', direction: 'both', count: 10 };
+  const QUIZ_DEFAULTS = { source: 'decks', decks: [], mode: 'mc', direction: 'both', count: 10, answer: 'en' };
 
   const state = {
     decks: [],            // [{ name, cards: [{ deck, jp, romaji, sounds, en, key }] }]
@@ -259,10 +259,11 @@
   const totalKanaLearned = () => KANA.tiers.reduce((n, t) => n + tierLearned(t), 0);
   const totalKana = () => KANA.tiers.reduce((n, t) => n + tierTotal(t), 0);
   function kanaItem(k, tier, row) {
-    return { id: `k:${k[0]}`, kind: 'kana', jp: k[0], en: k[1], romaji: k[1], sounds: k[2], note: k[3] || '', group: row.name, tier: tier.id };
+    return { id: `k:${k[0]}`, kind: 'kana', jp: k[0], en: k[1], meaning: k[1], romaji: k[1], sounds: k[2], note: k[3] || '', group: row.name, tier: tier.id };
   }
   function cardItem(c) {
-    return { id: `c:${c.key}`, kind: 'card', jp: c.jp, en: c.en, romaji: c.romaji, sounds: c.sounds, group: c.deck, card: c };
+    const useRomaji = state.settings.quiz.answer === 'romaji' && c.romaji;
+    return { id: `c:${c.key}`, kind: 'card', jp: c.jp, en: useRomaji ? c.romaji : c.en, meaning: c.en, romaji: c.romaji, sounds: c.sounds, group: c.deck, card: c };
   }
   const tierItems = t => t.rows.flatMap(r => r.kana.map(k => kanaItem(k, t, r)));
   function learnedKanaItems(onlyTier = null) {
@@ -599,7 +600,7 @@
       missedBlock.hidden = false;
       r.missed.forEach(c => {
         const li = document.createElement('li');
-        li.innerHTML = `<span class="m-jp">${escapeHTML(c.jp)}</span><span class="m-en">${escapeHTML(c.kind === 'kana' ? `${c.romaji} · “${c.sounds}”` : c.en)}</span>`;
+        li.innerHTML = `<span class="m-jp">${escapeHTML(c.jp)}</span><span class="m-en">${escapeHTML(c.kind === 'kana' ? `${c.romaji} · “${c.sounds}”` : c.romaji && c.en !== c.meaning ? `${c.romaji} · ${c.meaning}` : c.en)}</span>`;
         li.addEventListener('click', () => speak(c.jp));
         list.appendChild(li);
       });
@@ -847,6 +848,8 @@
       : `${items.length} cards`;
     $$('#mode-grid .mode-card').forEach(b => b.classList.toggle('is-on', b.dataset.mode === q.mode));
     $('#quiz-dir-row').hidden = q.mode === 'match' || q.mode === 'listen';
+    $('#quiz-answer-row').hidden = q.source !== 'decks' || q.mode === 'listen';
+    $$('#quiz-answer .seg').forEach(b => b.classList.toggle('is-on', b.dataset.answer === (q.answer || 'en')));
     $$('#quiz-dir .seg').forEach(b => b.classList.toggle('is-on', b.dataset.dir === q.direction));
     $$('#quiz-count .seg').forEach(b => b.classList.toggle('is-on', Number(b.dataset.count) === Number(q.count)));
     $('#btn-quiz-start').disabled = items.length === 0;
@@ -920,12 +923,12 @@
     const options = buildOptions(item, field);
     const promptHTML = promptJP
       ? `<div class="card-jp ${jpSizeClass(item.jp)}">${escapeHTML(item.jp)}</div>`
-      : `<div class="q-en ${item.en.length > 28 ? 'long' : ''}">${escapeHTML(item.en)}</div>${item.kind === 'kana' ? `<div class="q-sub">“${escapeHTML(item.sounds)}”</div>` : ''}`;
+      : `<div class="q-en ${item.en.length > 28 ? 'long' : ''}">${escapeHTML(item.en)}</div>${item.kind === 'kana' || item.en === item.romaji ? `<div class="q-sub">“${escapeHTML(item.sounds)}”</div>` : ''}`;
     body.innerHTML = `
       <div class="q-prompt">
         <div class="card-top"><span class="card-deck">${escapeHTML(item.group)}</span>${promptJP ? `<button class="speak-btn" aria-label="Read aloud">${SPEAK_SVG}</button>` : '<span></span>'}</div>
         <div class="q-prompt-main">${promptHTML}</div>
-        <div class="card-hint">${promptJP ? (item.kind === 'kana' ? 'How is it read?' : 'What does it mean?') : 'Which one is it?'}</div>
+        <div class="card-hint">${promptJP ? (item.en === item.romaji ? 'How is it read?' : 'What does it mean?') : 'Which one is it?'}</div>
       </div>
       <div class="q-options">${options.map((o, i) => `<button class="${promptJP ? 'q-opt' : jpOptClass(o.jp)}" data-i="${i}">${escapeHTML(o[field])}</button>`).join('')}</div>`;
     body.querySelector('.speak-btn')?.addEventListener('click', e => speak(item.jp, e.currentTarget));
@@ -972,7 +975,7 @@
     if (q.matchPos >= q.items.length) { finishQuiz(); return; }
     const batch = q.items.slice(q.matchPos, q.matchPos + 6); q.matchPos += batch.length;
     const tiles = shuffle([...batch.map(it => ({ it, side: 'jp' })), ...batch.map(it => ({ it, side: 'en' }))]);
-    body.innerHTML = `<p class="match-hint">Tap a Japanese tile, then its match</p><div class="match-grid">${tiles.map((t, i) =>
+    body.innerHTML = `<p class="match-hint">${q.items[0]?.en === q.items[0]?.romaji ? 'Match each kana word to how it\'s read' : 'Tap a Japanese tile, then its match'}</p><div class="match-grid">${tiles.map((t, i) =>
       `<button class="m-tile ${t.side === 'jp' ? `jp${jpLen(t.it.jp) <= 2 ? ' big' : ''}` : (t.it.en.length > 26 ? 'long' : '')}" data-i="${i}" style="--i:${i}">${escapeHTML(t.side === 'jp' ? t.it.jp : t.it.en)}</button>`).join('')}</div>`;
     updateQuizHeader();
     let first = null, remaining = batch.length;
@@ -1112,6 +1115,7 @@
     $$('#mode-grid .mode-card').forEach(b => b.addEventListener('click', () => { state.settings.quiz.mode = b.dataset.mode; saveSettings(); haptic(); renderQuizSetup(); }));
     $$('#quiz-dir .seg').forEach(b => b.addEventListener('click', () => { state.settings.quiz.direction = b.dataset.dir; saveSettings(); haptic(); renderQuizSetup(); }));
     $$('#quiz-count .seg').forEach(b => b.addEventListener('click', () => { state.settings.quiz.count = Number(b.dataset.count); saveSettings(); haptic(); renderQuizSetup(); }));
+    $$('#quiz-answer .seg').forEach(b => b.addEventListener('click', () => { state.settings.quiz.answer = b.dataset.answer; saveSettings(); haptic(); renderQuizSetup(); }));
     $('#btn-quiz-start').addEventListener('click', startQuizFromSetup);
     $('#btn-quiz-close').addEventListener('click', endQuizEarly);
 
