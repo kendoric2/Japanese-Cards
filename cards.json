@@ -1,190 +1,1565 @@
 {
-  "version": "lessons-1-4",
+  "version": "lessons-1-4b",
   "decks": [
+    {
+      "name": "Hiragana",
+      "cards": [
+        {
+          "jp": "あ",
+          "romaji": "a",
+          "sounds": "",
+          "en": "a"
+        },
+        {
+          "jp": "い",
+          "romaji": "i",
+          "sounds": "",
+          "en": "i"
+        },
+        {
+          "jp": "う",
+          "romaji": "u",
+          "sounds": "",
+          "en": "u"
+        },
+        {
+          "jp": "え",
+          "romaji": "e",
+          "sounds": "",
+          "en": "e"
+        },
+        {
+          "jp": "お",
+          "romaji": "o",
+          "sounds": "",
+          "en": "o"
+        },
+        {
+          "jp": "か",
+          "romaji": "ka",
+          "sounds": "",
+          "en": "ka"
+        },
+        {
+          "jp": "き",
+          "romaji": "ki",
+          "sounds": "",
+          "en": "ki"
+        },
+        {
+          "jp": "く",
+          "romaji": "ku",
+          "sounds": "",
+          "en": "ku"
+        },
+        {
+          "jp": "け",
+          "romaji": "ke",
+          "sounds": "",
+          "en": "ke"
+        },
+        {
+          "jp": "こ",
+          "romaji": "ko",
+          "sounds": "",
+          "en": "ko"
+        },
+        {
+          "jp": "さ",
+          "romaji": "sa",
+          "sounds": "",
+          "en": "sa"
+        },
+        {
+          "jp": "し",
+          "romaji": "shi",
+          "sounds": "",
+          "en": "shi"
+        },
+        {
+          "jp": "す",
+          "romaji": "su",
+          "sounds": "",
+          "en": "su"
+        },
+        {
+          "jp": "せ",
+          "romaji": "se",
+          "sounds": "",
+          "en": "se"
+        },
+        {
+          "jp": "そ",
+          "romaji": "so",
+          "sounds": "",
+          "en": "so"
+        },
+        {
+          "jp": "た",
+          "romaji": "ta",
+          "sounds": "",
+          "en": "ta"
+        },
+        {
+          "jp": "ち",
+          "romaji": "chi",
+          "sounds": "",
+          "en": "chi"
+        },
+        {
+          "jp": "つ",
+          "romaji": "tsu",
+          "sounds": "",
+          "en": "tsu"
+        },
+        {
+          "jp": "て",
+          "romaji": "te",
+          "sounds": "",
+          "en": "te"
+        },
+        {
+          "jp": "と",
+          "romaji": "to",
+          "sounds": "",
+          "en": "to"
+        },
+        {
+          "jp": "な",
+          "romaji": "na",
+          "sounds": "",
+          "en": "na"
+        },
+        {
+          "jp": "に",
+          "romaji": "ni",
+          "sounds": "",
+          "en": "ni"
+        },
+        {
+          "jp": "ぬ",
+          "romaji": "nu",
+          "sounds": "",
+          "en": "nu"
+        },
+        {
+          "jp": "ね",
+          "romaji": "ne",
+          "sounds": "",
+          "en": "ne"
+        },
+        {
+          "jp": "の",
+          "romaji": "no",
+          "sounds": "",
+          "en": "no"
+        },
+        {
+          "jp": "は",
+          "romaji": "ha",
+          "sounds": "",
+          "en": "ha"
+        },
+        {
+          "jp": "ひ",
+          "romaji": "hi",
+          "sounds": "",
+          "en": "hi"
+        },
+        {
+          "jp": "ふ",
+          "romaji": "fu",
+          "sounds": "",
+          "en": "fu"
+        },
+        {
+          "jp": "へ",
+          "romaji": "he",
+          "sounds": "",
+          "en": "he"
+        },
+        {
+          "jp": "ほ",
+          "romaji": "ho",
+          "sounds": "",
+          "en": "ho"
+        },
+        {
+          "jp": "ま",
+          "romaji": "ma",
+          "sounds": "",
+          "en": "ma"
+        },
+        {
+          "jp": "み",
+          "romaji": "mi",
+          "sounds": "",
+          "en": "mi"
+        },
+        {
+          "jp": "む",
+          "romaji": "mu",
+          "sounds": "",
+          "en": "mu"
+        },
+        {
+          "jp": "め",
+          "romaji": "me",
+          "sounds": "",
+          "en": "me"
+        },
+        {
+          "jp": "も",
+          "romaji": "mo",
+          "sounds": "",
+          "en": "mo"
+        },
+        {
+          "jp": "や",
+          "romaji": "ya",
+          "sounds": "",
+          "en": "ya"
+        },
+        {
+          "jp": "ゆ",
+          "romaji": "yu",
+          "sounds": "",
+          "en": "yu"
+        },
+        {
+          "jp": "よ",
+          "romaji": "yo",
+          "sounds": "",
+          "en": "yo"
+        },
+        {
+          "jp": "ら",
+          "romaji": "ra",
+          "sounds": "",
+          "en": "ra"
+        },
+        {
+          "jp": "り",
+          "romaji": "ri",
+          "sounds": "",
+          "en": "ri"
+        },
+        {
+          "jp": "る",
+          "romaji": "ru",
+          "sounds": "",
+          "en": "ru"
+        },
+        {
+          "jp": "れ",
+          "romaji": "re",
+          "sounds": "",
+          "en": "re"
+        },
+        {
+          "jp": "ろ",
+          "romaji": "ro",
+          "sounds": "",
+          "en": "ro"
+        },
+        {
+          "jp": "わ",
+          "romaji": "wa",
+          "sounds": "",
+          "en": "wa"
+        },
+        {
+          "jp": "を",
+          "romaji": "wo",
+          "sounds": "",
+          "en": "wo"
+        },
+        {
+          "jp": "ん",
+          "romaji": "n",
+          "sounds": "",
+          "en": "n"
+        },
+        {
+          "jp": "が",
+          "romaji": "ga",
+          "sounds": "",
+          "en": "ga"
+        },
+        {
+          "jp": "ぎ",
+          "romaji": "gi",
+          "sounds": "",
+          "en": "gi"
+        },
+        {
+          "jp": "ぐ",
+          "romaji": "gu",
+          "sounds": "",
+          "en": "gu"
+        },
+        {
+          "jp": "げ",
+          "romaji": "ge",
+          "sounds": "",
+          "en": "ge"
+        },
+        {
+          "jp": "ご",
+          "romaji": "go",
+          "sounds": "",
+          "en": "go"
+        },
+        {
+          "jp": "ざ",
+          "romaji": "za",
+          "sounds": "",
+          "en": "za"
+        },
+        {
+          "jp": "じ",
+          "romaji": "ji",
+          "sounds": "",
+          "en": "ji"
+        },
+        {
+          "jp": "ず",
+          "romaji": "zu",
+          "sounds": "",
+          "en": "zu"
+        },
+        {
+          "jp": "ぜ",
+          "romaji": "ze",
+          "sounds": "",
+          "en": "ze"
+        },
+        {
+          "jp": "ぞ",
+          "romaji": "zo",
+          "sounds": "",
+          "en": "zo"
+        },
+        {
+          "jp": "だ",
+          "romaji": "da",
+          "sounds": "",
+          "en": "da"
+        },
+        {
+          "jp": "ぢ",
+          "romaji": "ji",
+          "sounds": "",
+          "en": "ji"
+        },
+        {
+          "jp": "づ",
+          "romaji": "zu",
+          "sounds": "",
+          "en": "zu"
+        },
+        {
+          "jp": "で",
+          "romaji": "de",
+          "sounds": "",
+          "en": "de"
+        },
+        {
+          "jp": "ど",
+          "romaji": "do",
+          "sounds": "",
+          "en": "do"
+        },
+        {
+          "jp": "ば",
+          "romaji": "ba",
+          "sounds": "",
+          "en": "ba"
+        },
+        {
+          "jp": "び",
+          "romaji": "bi",
+          "sounds": "",
+          "en": "bi"
+        },
+        {
+          "jp": "ぶ",
+          "romaji": "bu",
+          "sounds": "",
+          "en": "bu"
+        },
+        {
+          "jp": "べ",
+          "romaji": "be",
+          "sounds": "",
+          "en": "be"
+        },
+        {
+          "jp": "ぼ",
+          "romaji": "bo",
+          "sounds": "",
+          "en": "bo"
+        },
+        {
+          "jp": "ぱ",
+          "romaji": "pa",
+          "sounds": "",
+          "en": "pa"
+        },
+        {
+          "jp": "ぴ",
+          "romaji": "pi",
+          "sounds": "",
+          "en": "pi"
+        },
+        {
+          "jp": "ぷ",
+          "romaji": "pu",
+          "sounds": "",
+          "en": "pu"
+        },
+        {
+          "jp": "ぺ",
+          "romaji": "pe",
+          "sounds": "",
+          "en": "pe"
+        },
+        {
+          "jp": "ぽ",
+          "romaji": "po",
+          "sounds": "",
+          "en": "po"
+        },
+        {
+          "jp": "きゃ",
+          "romaji": "kya",
+          "sounds": "",
+          "en": "kya"
+        },
+        {
+          "jp": "きゅ",
+          "romaji": "kyu",
+          "sounds": "",
+          "en": "kyu"
+        },
+        {
+          "jp": "きょ",
+          "romaji": "kyo",
+          "sounds": "",
+          "en": "kyo"
+        },
+        {
+          "jp": "しゃ",
+          "romaji": "sha",
+          "sounds": "",
+          "en": "sha"
+        },
+        {
+          "jp": "しゅ",
+          "romaji": "shu",
+          "sounds": "",
+          "en": "shu"
+        },
+        {
+          "jp": "しょ",
+          "romaji": "sho",
+          "sounds": "",
+          "en": "sho"
+        },
+        {
+          "jp": "ちゃ",
+          "romaji": "cha",
+          "sounds": "",
+          "en": "cha"
+        },
+        {
+          "jp": "ちゅ",
+          "romaji": "chu",
+          "sounds": "",
+          "en": "chu"
+        },
+        {
+          "jp": "ちょ",
+          "romaji": "cho",
+          "sounds": "",
+          "en": "cho"
+        },
+        {
+          "jp": "にゃ",
+          "romaji": "nya",
+          "sounds": "",
+          "en": "nya"
+        },
+        {
+          "jp": "にゅ",
+          "romaji": "nyu",
+          "sounds": "",
+          "en": "nyu"
+        },
+        {
+          "jp": "にょ",
+          "romaji": "nyo",
+          "sounds": "",
+          "en": "nyo"
+        },
+        {
+          "jp": "ひゃ",
+          "romaji": "hya",
+          "sounds": "",
+          "en": "hya"
+        },
+        {
+          "jp": "ひゅ",
+          "romaji": "hyu",
+          "sounds": "",
+          "en": "hyu"
+        },
+        {
+          "jp": "ひょ",
+          "romaji": "hyo",
+          "sounds": "",
+          "en": "hyo"
+        },
+        {
+          "jp": "みゃ",
+          "romaji": "mya",
+          "sounds": "",
+          "en": "mya"
+        },
+        {
+          "jp": "みゅ",
+          "romaji": "myu",
+          "sounds": "",
+          "en": "myu"
+        },
+        {
+          "jp": "みょ",
+          "romaji": "myo",
+          "sounds": "",
+          "en": "myo"
+        },
+        {
+          "jp": "りゃ",
+          "romaji": "rya",
+          "sounds": "",
+          "en": "rya"
+        },
+        {
+          "jp": "りゅ",
+          "romaji": "ryu",
+          "sounds": "",
+          "en": "ryu"
+        },
+        {
+          "jp": "りょ",
+          "romaji": "ryo",
+          "sounds": "",
+          "en": "ryo"
+        },
+        {
+          "jp": "ぎゃ",
+          "romaji": "gya",
+          "sounds": "",
+          "en": "gya"
+        },
+        {
+          "jp": "ぎゅ",
+          "romaji": "gyu",
+          "sounds": "",
+          "en": "gyu"
+        },
+        {
+          "jp": "ぎょ",
+          "romaji": "gyo",
+          "sounds": "",
+          "en": "gyo"
+        },
+        {
+          "jp": "じゃ",
+          "romaji": "ja",
+          "sounds": "",
+          "en": "ja"
+        },
+        {
+          "jp": "じゅ",
+          "romaji": "ju",
+          "sounds": "",
+          "en": "ju"
+        },
+        {
+          "jp": "じょ",
+          "romaji": "jo",
+          "sounds": "",
+          "en": "jo"
+        },
+        {
+          "jp": "びゃ",
+          "romaji": "bya",
+          "sounds": "",
+          "en": "bya"
+        },
+        {
+          "jp": "びゅ",
+          "romaji": "byu",
+          "sounds": "",
+          "en": "byu"
+        },
+        {
+          "jp": "びょ",
+          "romaji": "byo",
+          "sounds": "",
+          "en": "byo"
+        },
+        {
+          "jp": "ぴゃ",
+          "romaji": "pya",
+          "sounds": "",
+          "en": "pya"
+        },
+        {
+          "jp": "ぴゅ",
+          "romaji": "pyu",
+          "sounds": "",
+          "en": "pyu"
+        },
+        {
+          "jp": "ぴょ",
+          "romaji": "pyo",
+          "sounds": "",
+          "en": "pyo"
+        }
+      ]
+    },
     {
       "name": "How are you?",
       "cards": [
-        { "jp": "げんきですか？", "romaji": "genki desu ka?", "sounds": "gehn-kee dess kah?", "en": "How are you?" },
-        { "jp": "げんきです。", "romaji": "genki desu", "sounds": "gehn-kee dess", "en": "I'm good." },
-        { "jp": "（ちょっと）つかれています。", "romaji": "(chotto) tsukarete imasu", "sounds": "(choht-toh) tsoo-kah-reh-teh ee-mahss", "en": "I'm (a little) tired." },
-        { "jp": "しゅうまつは ゆっくりします。", "romaji": "shuumatsu wa yukkuri shimasu", "sounds": "shoo-mah-tsoo wah yook-koo-ree shee-mahss", "en": "I'll take it easy this weekend." }
+        {
+          "jp": "げんきですか？",
+          "romaji": "genki desu ka?",
+          "sounds": "gehn-kee dess kah?",
+          "en": "How are you?"
+        },
+        {
+          "jp": "げんきです。",
+          "romaji": "genki desu",
+          "sounds": "gehn-kee dess",
+          "en": "I'm good."
+        },
+        {
+          "jp": "（ちょっと）つかれています。",
+          "romaji": "(chotto) tsukarete imasu",
+          "sounds": "(choht-toh) tsoo-kah-reh-teh ee-mahss",
+          "en": "I'm (a little) tired."
+        },
+        {
+          "jp": "しゅうまつは ゆっくりします。",
+          "romaji": "shuumatsu wa yukkuri shimasu",
+          "sounds": "shoo-mah-tsoo wah yook-koo-ree shee-mahss",
+          "en": "I'll take it easy this weekend."
+        }
       ]
     },
     {
       "name": "Greetings & everyday phrases",
       "cards": [
-        { "jp": "こんにちは。", "romaji": "konnichiwa", "sounds": "kohn-nee-chee-wah", "en": "Hello. (daytime)" },
-        { "jp": "こんばんは。", "romaji": "konbanwa", "sounds": "kohm-bahn-wah", "en": "Good evening." },
-        { "jp": "おはよう。", "romaji": "ohayou", "sounds": "oh-hah-yoh", "en": "Good morning. (casual)" },
-        { "jp": "おはようございます。", "romaji": "ohayou gozaimasu", "sounds": "oh-hah-yoh go-zai-mahss", "en": "Good morning. (polite)" },
-        { "jp": "ありがとう（ございます）。", "romaji": "arigatou (gozaimasu)", "sounds": "ah-ree-gah-toh (go-zai-mahss)", "en": "Thank you. (polite with ございます)" },
-        { "jp": "おねがいします。", "romaji": "onegaishimasu", "sounds": "oh-neh-guy-shee-mahss", "en": "Please." },
-        { "jp": "はい ／ いいえ", "romaji": "hai / iie", "sounds": "hai / ee-eh", "en": "Yes / No" },
-        { "jp": "きょうは どうでしたか？", "romaji": "kyou wa dou deshita ka?", "sounds": "kyoh wah doh desh-tah kah?", "en": "How was your day?" },
-        { "jp": "いいですね。", "romaji": "ii desu ne", "sounds": "ee dess neh", "en": "Nice. / Sounds good." },
-        { "jp": "もういちど おねがいします。", "romaji": "mou ichido onegaishimasu", "sounds": "moh ee-chee-doh oh-neh-guy-shee-mahss", "en": "Please say that again." },
-        { "jp": "じゃあね。", "romaji": "jaa ne", "sounds": "jah neh", "en": "See you. (casual)" },
-        { "jp": "すみません。", "romaji": "sumimasen", "sounds": "soo-mee-mah-sen", "en": "Excuse me. / Sorry." },
-        { "jp": "ちょっと まって ください。", "romaji": "chotto matte kudasai", "sounds": "choht-toh maht-teh koo-dah-sai", "en": "Please wait a moment." },
-        { "jp": "どうぞ。", "romaji": "douzo", "sounds": "doh-zoh", "en": "Go ahead. / Here you are." },
-        { "jp": "わかりません。", "romaji": "wakarimasen", "sounds": "wah-kah-ree-mah-sen", "en": "I don't understand. / I don't know." },
-        { "jp": "よかったです。", "romaji": "yokatta desu", "sounds": "yoh-kaht-tah dess", "en": "It was good." },
-        { "jp": "きょうの レッスンは よかったです。", "romaji": "kyou no ressun wa yokatta desu", "sounds": "kyoh noh rehs-soon wah yoh-kaht-tah dess", "en": "Today's lesson was good." },
-        { "jp": "おいしいですね。", "romaji": "oishii desu ne", "sounds": "oh-ee-shee dess neh", "en": "It's delicious, isn't it?" },
-        { "jp": "きいて ください。", "romaji": "kiite kudasai", "sounds": "kee-teh koo-dah-sai", "en": "Please listen." },
-        { "jp": "わかりました。", "romaji": "wakarimashita", "sounds": "wah-kah-ree-mahsh-tah", "en": "I understand. / Got it." }
+        {
+          "jp": "こんにちは。",
+          "romaji": "konnichiwa",
+          "sounds": "kohn-nee-chee-wah",
+          "en": "Hello. (daytime)"
+        },
+        {
+          "jp": "こんばんは。",
+          "romaji": "konbanwa",
+          "sounds": "kohm-bahn-wah",
+          "en": "Good evening."
+        },
+        {
+          "jp": "おはよう。",
+          "romaji": "ohayou",
+          "sounds": "oh-hah-yoh",
+          "en": "Good morning. (casual)"
+        },
+        {
+          "jp": "おはようございます。",
+          "romaji": "ohayou gozaimasu",
+          "sounds": "oh-hah-yoh go-zai-mahss",
+          "en": "Good morning. (polite)"
+        },
+        {
+          "jp": "ありがとう（ございます）。",
+          "romaji": "arigatou (gozaimasu)",
+          "sounds": "ah-ree-gah-toh (go-zai-mahss)",
+          "en": "Thank you. (polite with ございます)"
+        },
+        {
+          "jp": "おねがいします。",
+          "romaji": "onegaishimasu",
+          "sounds": "oh-neh-guy-shee-mahss",
+          "en": "Please."
+        },
+        {
+          "jp": "はい ／ いいえ",
+          "romaji": "hai / iie",
+          "sounds": "hai / ee-eh",
+          "en": "Yes / No"
+        },
+        {
+          "jp": "きょうは どうでしたか？",
+          "romaji": "kyou wa dou deshita ka?",
+          "sounds": "kyoh wah doh desh-tah kah?",
+          "en": "How was your day?"
+        },
+        {
+          "jp": "いいですね。",
+          "romaji": "ii desu ne",
+          "sounds": "ee dess neh",
+          "en": "Nice. / Sounds good."
+        },
+        {
+          "jp": "もういちど おねがいします。",
+          "romaji": "mou ichido onegaishimasu",
+          "sounds": "moh ee-chee-doh oh-neh-guy-shee-mahss",
+          "en": "Please say that again."
+        },
+        {
+          "jp": "じゃあね。",
+          "romaji": "jaa ne",
+          "sounds": "jah neh",
+          "en": "See you. (casual)"
+        },
+        {
+          "jp": "すみません。",
+          "romaji": "sumimasen",
+          "sounds": "soo-mee-mah-sen",
+          "en": "Excuse me. / Sorry."
+        },
+        {
+          "jp": "ちょっと まって ください。",
+          "romaji": "chotto matte kudasai",
+          "sounds": "choht-toh maht-teh koo-dah-sai",
+          "en": "Please wait a moment."
+        },
+        {
+          "jp": "どうぞ。",
+          "romaji": "douzo",
+          "sounds": "doh-zoh",
+          "en": "Go ahead. / Here you are."
+        },
+        {
+          "jp": "わかりません。",
+          "romaji": "wakarimasen",
+          "sounds": "wah-kah-ree-mah-sen",
+          "en": "I don't understand. / I don't know."
+        },
+        {
+          "jp": "よかったです。",
+          "romaji": "yokatta desu",
+          "sounds": "yoh-kaht-tah dess",
+          "en": "It was good."
+        },
+        {
+          "jp": "きょうの レッスンは よかったです。",
+          "romaji": "kyou no ressun wa yokatta desu",
+          "sounds": "kyoh noh rehs-soon wah yoh-kaht-tah dess",
+          "en": "Today's lesson was good."
+        },
+        {
+          "jp": "おいしいですね。",
+          "romaji": "oishii desu ne",
+          "sounds": "oh-ee-shee dess neh",
+          "en": "It's delicious, isn't it?"
+        },
+        {
+          "jp": "きいて ください。",
+          "romaji": "kiite kudasai",
+          "sounds": "kee-teh koo-dah-sai",
+          "en": "Please listen."
+        },
+        {
+          "jp": "わかりました。",
+          "romaji": "wakarimashita",
+          "sounds": "wah-kah-ree-mahsh-tah",
+          "en": "I understand. / Got it."
+        },
+        {
+          "jp": "ジムに いきました。",
+          "romaji": "jimu ni ikimashita",
+          "sounds": "jee-moo nee ee-kee-mahsh-tah",
+          "en": "I went to the gym."
+        }
       ]
     },
     {
       "name": "Self-introduction",
       "cards": [
-        { "jp": "はじめまして。", "romaji": "hajimemashite", "sounds": "hah-jee-meh-mahsh-teh", "en": "Nice to meet you." },
-        { "jp": "（ぼくは）エランです。", "romaji": "(boku wa) Eran desu", "sounds": "(boh-koo wah) eh-rahn dess", "en": "I'm Elan." },
-        { "jp": "フロリダから きました。", "romaji": "Furorida kara kimashita", "sounds": "foo-roh-ree-dah kah-rah kee-mahsh-tah", "en": "I came from Florida." },
-        { "jp": "ぼくは オフィスマネージャーです。", "romaji": "boku wa ofisu manējā desu", "sounds": "boh-koo wah oh-fee-soo mah-neh-jah dess", "en": "I'm an office manager." },
-        { "jp": "よろしく おねがいします。", "romaji": "yoroshiku onegaishimasu", "sounds": "yoh-rohsh-koo oh-neh-guy-shee-mahss", "en": "Nice to meet you. / Please treat me well." }
+        {
+          "jp": "はじめまして。",
+          "romaji": "hajimemashite",
+          "sounds": "hah-jee-meh-mahsh-teh",
+          "en": "Nice to meet you."
+        },
+        {
+          "jp": "（ぼくは）エランです。",
+          "romaji": "(boku wa) Eran desu",
+          "sounds": "(boh-koo wah) eh-rahn dess",
+          "en": "I'm Elan."
+        },
+        {
+          "jp": "フロリダから きました。",
+          "romaji": "Furorida kara kimashita",
+          "sounds": "foo-roh-ree-dah kah-rah kee-mahsh-tah",
+          "en": "I came from Florida."
+        },
+        {
+          "jp": "ぼくは オフィスマネージャーです。",
+          "romaji": "boku wa ofisu manējā desu",
+          "sounds": "boh-koo wah oh-fee-soo mah-neh-jah dess",
+          "en": "I'm an office manager."
+        },
+        {
+          "jp": "よろしく おねがいします。",
+          "romaji": "yoroshiku onegaishimasu",
+          "sounds": "yoh-rohsh-koo oh-neh-guy-shee-mahss",
+          "en": "Nice to meet you. / Please treat me well."
+        }
       ]
     },
     {
       "name": "Asking & answering",
       "cards": [
-        { "jp": "○○は なんですか？", "romaji": "○○ wa nan desu ka?", "sounds": "○○ wah nahn dess kah?", "en": "What is ○○?" },
-        { "jp": "これは なんですか？", "romaji": "kore wa nan desu ka?", "sounds": "koh-reh wah nahn dess kah?", "en": "What is this?" },
-        { "jp": "しゅみは なんですか？", "romaji": "shumi wa nan desu ka?", "sounds": "shoo-mee wah nahn dess kah?", "en": "What's your hobby?" },
-        { "jp": "しゅみは おんがくです。", "romaji": "shumi wa ongaku desu", "sounds": "shoo-mee wah ohn-gah-koo dess", "en": "My hobby is music." },
-        { "jp": "すきな たべものは なんですか？", "romaji": "suki na tabemono wa nan desu ka?", "sounds": "skee nah tah-beh-moh-noh wah nahn dess kah?", "en": "What's your favorite food?" },
-        { "jp": "すきな たべものは すしです。", "romaji": "suki na tabemono wa sushi desu", "sounds": "skee nah tah-beh-moh-noh wah soo-shee dess", "en": "My favorite food is sushi." },
-        { "jp": "もくひょうは にほんりょこうです。", "romaji": "mokuhyou wa nihon ryokou desu", "sounds": "moh-koo-hyoh wah nee-hohn ryoh-koh dess", "en": "My goal is a trip to Japan." },
-        { "jp": "これは いくらですか？", "romaji": "kore wa ikura desu ka?", "sounds": "koh-reh wah ee-koo-rah dess kah?", "en": "How much is this?" },
-        { "jp": "ひゃく えんです。", "romaji": "hyaku en desu", "sounds": "hyah-koo en dess", "en": "It's 100 yen." },
-        { "jp": "やすいですね！", "romaji": "yasui desu ne!", "sounds": "yah-soo-ee dess neh", "en": "That's cheap!" },
-        { "jp": "これは どんな おんがくですか？", "romaji": "kore wa donna ongaku desu ka?", "sounds": "koh-reh wah dohn-nah ohn-gah-koo dess kah?", "en": "What kind of music is this?" },
-        { "jp": "これは どういう いみですか？", "romaji": "kore wa douiu imi desu ka?", "sounds": "koh-reh wah doh-yoo ee-mee dess kah?", "en": "What does this mean?" },
-        { "jp": "なにか しつもんは ありますか？", "romaji": "nanika shitsumon wa arimasu ka?", "sounds": "nah-nee-kah shtsoo-mohn wah ah-ree-mahss kah?", "en": "Do you have any questions?" },
-        { "jp": "はい、あります。", "romaji": "hai, arimasu", "sounds": "hai, ah-ree-mahss", "en": "Yes, I do (have one)." },
-        { "jp": "いいえ、ありません。", "romaji": "iie, arimasen", "sounds": "ee-eh, ah-ree-mah-sen", "en": "No, I don't." },
-        { "jp": "○○さんは？", "romaji": "○○ san wa?", "sounds": "○○ sahn wah?", "en": "How about you, ○○?" }
+        {
+          "jp": "○○は なんですか？",
+          "romaji": "○○ wa nan desu ka?",
+          "sounds": "○○ wah nahn dess kah?",
+          "en": "What is ○○?"
+        },
+        {
+          "jp": "これは なんですか？",
+          "romaji": "kore wa nan desu ka?",
+          "sounds": "koh-reh wah nahn dess kah?",
+          "en": "What is this?"
+        },
+        {
+          "jp": "しゅみは なんですか？",
+          "romaji": "shumi wa nan desu ka?",
+          "sounds": "shoo-mee wah nahn dess kah?",
+          "en": "What's your hobby?"
+        },
+        {
+          "jp": "しゅみは おんがくです。",
+          "romaji": "shumi wa ongaku desu",
+          "sounds": "shoo-mee wah ohn-gah-koo dess",
+          "en": "My hobby is music."
+        },
+        {
+          "jp": "すきな たべものは なんですか？",
+          "romaji": "suki na tabemono wa nan desu ka?",
+          "sounds": "skee nah tah-beh-moh-noh wah nahn dess kah?",
+          "en": "What's your favorite food?"
+        },
+        {
+          "jp": "すきな たべものは すしです。",
+          "romaji": "suki na tabemono wa sushi desu",
+          "sounds": "skee nah tah-beh-moh-noh wah soo-shee dess",
+          "en": "My favorite food is sushi."
+        },
+        {
+          "jp": "もくひょうは にほんりょこうです。",
+          "romaji": "mokuhyou wa nihon ryokou desu",
+          "sounds": "moh-koo-hyoh wah nee-hohn ryoh-koh dess",
+          "en": "My goal is a trip to Japan."
+        },
+        {
+          "jp": "これは いくらですか？",
+          "romaji": "kore wa ikura desu ka?",
+          "sounds": "koh-reh wah ee-koo-rah dess kah?",
+          "en": "How much is this?"
+        },
+        {
+          "jp": "ひゃく えんです。",
+          "romaji": "hyaku en desu",
+          "sounds": "hyah-koo en dess",
+          "en": "It's 100 yen."
+        },
+        {
+          "jp": "やすいですね！",
+          "romaji": "yasui desu ne!",
+          "sounds": "yah-soo-ee dess neh",
+          "en": "That's cheap!"
+        },
+        {
+          "jp": "これは どんな おんがくですか？",
+          "romaji": "kore wa donna ongaku desu ka?",
+          "sounds": "koh-reh wah dohn-nah ohn-gah-koo dess kah?",
+          "en": "What kind of music is this?"
+        },
+        {
+          "jp": "これは どういう いみですか？",
+          "romaji": "kore wa douiu imi desu ka?",
+          "sounds": "koh-reh wah doh-yoo ee-mee dess kah?",
+          "en": "What does this mean?"
+        },
+        {
+          "jp": "なにか しつもんは ありますか？",
+          "romaji": "nanika shitsumon wa arimasu ka?",
+          "sounds": "nah-nee-kah shtsoo-mohn wah ah-ree-mahss kah?",
+          "en": "Do you have any questions?"
+        },
+        {
+          "jp": "はい、あります。",
+          "romaji": "hai, arimasu",
+          "sounds": "hai, ah-ree-mahss",
+          "en": "Yes, I do (have one)."
+        },
+        {
+          "jp": "いいえ、ありません。",
+          "romaji": "iie, arimasen",
+          "sounds": "ee-eh, ah-ree-mah-sen",
+          "en": "No, I don't."
+        },
+        {
+          "jp": "○○さんは？",
+          "romaji": "○○ san wa?",
+          "sounds": "○○ sahn wah?",
+          "en": "How about you, ○○?"
+        },
+        {
+          "jp": "あなたは？",
+          "romaji": "anata wa?",
+          "sounds": "ah-nah-tah wah?",
+          "en": "And you? (rarely used — say Name + さんは？ instead)"
+        },
+        {
+          "jp": "○○は どれですか？",
+          "romaji": "○○ wa dore desu ka?",
+          "sounds": "○○ wah doh-reh dess kah?",
+          "en": "Which one is ○○?"
+        }
       ]
     },
     {
       "name": "Likes & dislikes",
       "cards": [
-        { "jp": "○○が すきです。", "romaji": "○○ ga suki desu", "sounds": "○○ gah skee dess", "en": "I like ○○." },
-        { "jp": "○○が すきですか？", "romaji": "○○ ga suki desu ka?", "sounds": "○○ gah skee dess kah?", "en": "Do you like ○○?" },
-        { "jp": "はい、すきです。", "romaji": "hai, suki desu", "sounds": "hai, skee dess", "en": "Yes, I like it." },
-        { "jp": "いいえ、すきじゃないです。", "romaji": "iie, suki janai desu", "sounds": "ee-eh, skee jah-nai dess", "en": "No, I don't like it." },
-        { "jp": "どんな ○○が すきですか？", "romaji": "donna ○○ ga suki desu ka?", "sounds": "dohn-nah ○○ gah skee dess kah?", "en": "What kind of ○○ do you like?" },
-        { "jp": "どんな おんがくが すきですか？", "romaji": "donna ongaku ga suki desu ka?", "sounds": "dohn-nah ohn-gah-koo gah skee dess kah?", "en": "What kind of music do you like?" },
-        { "jp": "ヒップホップと ロックが すきです。", "romaji": "hippuhoppu to rokku ga suki desu", "sounds": "heep-poo-hohp-poo toh rohk-koo gah skee dess", "en": "I like hip-hop and rock." },
-        { "jp": "ぼくも ロックが すきです。", "romaji": "boku mo rokku ga suki desu", "sounds": "boh-koo moh rohk-koo gah skee dess", "en": "I like rock, too." },
-        { "jp": "にほんの れきしが すきです。", "romaji": "nihon no rekishi ga suki desu", "sounds": "nee-hohn noh reh-kee-shee gah skee dess", "en": "I like Japanese history." },
-        { "jp": "なっとうが すきじゃないです。", "romaji": "nattou ga suki janai desu", "sounds": "naht-toh gah skee jah-nai dess", "en": "I don't like natto." },
-        { "jp": "ぼくは まぐろが すきです。", "romaji": "boku wa maguro ga suki desu", "sounds": "boh-koo wah mah-goo-roh gah skee dess", "en": "I like tuna." }
+        {
+          "jp": "○○が すきです。",
+          "romaji": "○○ ga suki desu",
+          "sounds": "○○ gah skee dess",
+          "en": "I like ○○."
+        },
+        {
+          "jp": "○○が すきですか？",
+          "romaji": "○○ ga suki desu ka?",
+          "sounds": "○○ gah skee dess kah?",
+          "en": "Do you like ○○?"
+        },
+        {
+          "jp": "はい、すきです。",
+          "romaji": "hai, suki desu",
+          "sounds": "hai, skee dess",
+          "en": "Yes, I like it."
+        },
+        {
+          "jp": "いいえ、すきじゃないです。",
+          "romaji": "iie, suki janai desu",
+          "sounds": "ee-eh, skee jah-nai dess",
+          "en": "No, I don't like it."
+        },
+        {
+          "jp": "どんな ○○が すきですか？",
+          "romaji": "donna ○○ ga suki desu ka?",
+          "sounds": "dohn-nah ○○ gah skee dess kah?",
+          "en": "What kind of ○○ do you like?"
+        },
+        {
+          "jp": "どんな おんがくが すきですか？",
+          "romaji": "donna ongaku ga suki desu ka?",
+          "sounds": "dohn-nah ohn-gah-koo gah skee dess kah?",
+          "en": "What kind of music do you like?"
+        },
+        {
+          "jp": "ヒップホップと ロックが すきです。",
+          "romaji": "hippuhoppu to rokku ga suki desu",
+          "sounds": "heep-poo-hohp-poo toh rohk-koo gah skee dess",
+          "en": "I like hip-hop and rock."
+        },
+        {
+          "jp": "ぼくも ロックが すきです。",
+          "romaji": "boku mo rokku ga suki desu",
+          "sounds": "boh-koo moh rohk-koo gah skee dess",
+          "en": "I like rock, too."
+        },
+        {
+          "jp": "にほんの れきしが すきです。",
+          "romaji": "nihon no rekishi ga suki desu",
+          "sounds": "nee-hohn noh reh-kee-shee gah skee dess",
+          "en": "I like Japanese history."
+        },
+        {
+          "jp": "なっとうが すきじゃないです。",
+          "romaji": "nattou ga suki janai desu",
+          "sounds": "naht-toh gah skee jah-nai dess",
+          "en": "I don't like natto."
+        },
+        {
+          "jp": "ぼくは まぐろが すきです。",
+          "romaji": "boku wa maguro ga suki desu",
+          "sounds": "boh-koo wah mah-goo-roh gah skee dess",
+          "en": "I like tuna."
+        }
       ]
     },
     {
       "name": "Saying “is not” · じゃないです",
       "cards": [
-        { "jp": "○○じゃないです。", "romaji": "○○ janai desu", "sounds": "○○ jah-nai dess", "en": "It's not ○○. (です → じゃないです)" },
-        { "jp": "これは すしじゃないです。", "romaji": "kore wa sushi janai desu", "sounds": "koh-reh wah soo-shee jah-nai dess", "en": "This isn't sushi." },
-        { "jp": "これは コーヒーじゃないです。", "romaji": "kore wa kōhī janai desu", "sounds": "koh-reh wah koh-hee jah-nai dess", "en": "This isn't coffee." },
-        { "jp": "きょうは しごとじゃないです。", "romaji": "kyou wa shigoto janai desu", "sounds": "kyoh wah shee-goh-toh jah-nai dess", "en": "Today isn't a work day." },
-        { "jp": "きょうは やすみじゃないです。", "romaji": "kyou wa yasumi janai desu", "sounds": "kyoh wah yah-soo-mee jah-nai dess", "en": "Today isn't a day off." },
-        { "jp": "これは さんびゃく えんじゃないです。", "romaji": "kore wa sanbyaku en janai desu", "sounds": "koh-reh wah sahm-byah-koo en jah-nai dess", "en": "This isn't 300 yen." },
-        { "jp": "アオイさんは せんせいじゃないです。", "romaji": "Aoi-san wa sensei janai desu", "sounds": "ah-oh-ee sahn wah sen-say jah-nai dess", "en": "Aoi isn't a teacher." }
+        {
+          "jp": "○○じゃないです。",
+          "romaji": "○○ janai desu",
+          "sounds": "○○ jah-nai dess",
+          "en": "It's not ○○. (です → じゃないです)"
+        },
+        {
+          "jp": "これは すしじゃないです。",
+          "romaji": "kore wa sushi janai desu",
+          "sounds": "koh-reh wah soo-shee jah-nai dess",
+          "en": "This isn't sushi."
+        },
+        {
+          "jp": "これは コーヒーじゃないです。",
+          "romaji": "kore wa kōhī janai desu",
+          "sounds": "koh-reh wah koh-hee jah-nai dess",
+          "en": "This isn't coffee."
+        },
+        {
+          "jp": "きょうは しごとじゃないです。",
+          "romaji": "kyou wa shigoto janai desu",
+          "sounds": "kyoh wah shee-goh-toh jah-nai dess",
+          "en": "Today isn't a work day."
+        },
+        {
+          "jp": "きょうは やすみじゃないです。",
+          "romaji": "kyou wa yasumi janai desu",
+          "sounds": "kyoh wah yah-soo-mee jah-nai dess",
+          "en": "Today isn't a day off."
+        },
+        {
+          "jp": "これは さんびゃく えんじゃないです。",
+          "romaji": "kore wa sanbyaku en janai desu",
+          "sounds": "koh-reh wah sahm-byah-koo en jah-nai dess",
+          "en": "This isn't 300 yen."
+        },
+        {
+          "jp": "アオイさんは せんせいじゃないです。",
+          "romaji": "Aoi-san wa sensei janai desu",
+          "sounds": "ah-oh-ee sahn wah sen-say jah-nai dess",
+          "en": "Aoi isn't a teacher."
+        },
+        {
+          "jp": "これは「わ」です。",
+          "romaji": "kore wa \"wa\" desu",
+          "sounds": "koh-reh wah wah dess",
+          "en": "This is \"wa.\""
+        },
+        {
+          "jp": "これは「わ」じゃないです。",
+          "romaji": "kore wa \"wa\" janai desu",
+          "sounds": "koh-reh wah wah jah-nai dess",
+          "en": "This is not \"wa.\""
+        }
       ]
     },
     {
       "name": "This one, which one & where",
       "cards": [
-        { "jp": "これ ／ それ ／ あれ", "romaji": "kore / sore / are", "sounds": "koh-reh / soh-reh / ah-reh", "en": "this (near me) / that (near you) / that (over there)" },
-        { "jp": "どれ", "romaji": "dore", "sounds": "doh-reh", "en": "which one (3+ choices)" },
-        { "jp": "どれですか？", "romaji": "dore desu ka?", "sounds": "doh-reh dess kah?", "en": "Which one is it?" },
-        { "jp": "あおい せんすは どれですか？", "romaji": "aoi sensu wa dore desu ka?", "sounds": "ah-oh-ee sen-soo wah doh-reh dess kah?", "en": "Which one is the blue fan?" },
-        { "jp": "ひだり ／ まんなか ／ みぎ", "romaji": "hidari / mannaka / migi", "sounds": "hee-dah-ree / mahn-nah-kah / mee-gee", "en": "left / middle / right" },
-        { "jp": "ひだりは はっぴゃく えんです。", "romaji": "hidari wa happyaku en desu", "sounds": "hee-dah-ree wah hahp-pyah-koo en dess", "en": "The left one is 800 yen." },
-        { "jp": "みぎは にまん えんです。", "romaji": "migi wa niman en desu", "sounds": "mee-gee wah nee-mahn en dess", "en": "The right one is 20,000 yen." }
+        {
+          "jp": "これ ／ それ ／ あれ",
+          "romaji": "kore / sore / are",
+          "sounds": "koh-reh / soh-reh / ah-reh",
+          "en": "this (near me) / that (near you) / that (over there)"
+        },
+        {
+          "jp": "どれ",
+          "romaji": "dore",
+          "sounds": "doh-reh",
+          "en": "which one (3+ choices)"
+        },
+        {
+          "jp": "どれですか？",
+          "romaji": "dore desu ka?",
+          "sounds": "doh-reh dess kah?",
+          "en": "Which one is it?"
+        },
+        {
+          "jp": "あおい せんすは どれですか？",
+          "romaji": "aoi sensu wa dore desu ka?",
+          "sounds": "ah-oh-ee sen-soo wah doh-reh dess kah?",
+          "en": "Which one is the blue fan?"
+        },
+        {
+          "jp": "ひだり ／ まんなか ／ みぎ",
+          "romaji": "hidari / mannaka / migi",
+          "sounds": "hee-dah-ree / mahn-nah-kah / mee-gee",
+          "en": "left / middle / right"
+        },
+        {
+          "jp": "ひだりは はっぴゃく えんです。",
+          "romaji": "hidari wa happyaku en desu",
+          "sounds": "hee-dah-ree wah hahp-pyah-koo en dess",
+          "en": "The left one is 800 yen."
+        },
+        {
+          "jp": "みぎは にまん えんです。",
+          "romaji": "migi wa niman en desu",
+          "sounds": "mee-gee wah nee-mahn en dess",
+          "en": "The right one is 20,000 yen."
+        }
       ]
     },
     {
       "name": "Words",
       "cards": [
-        { "jp": "しごと", "romaji": "shigoto", "sounds": "shee-goh-toh", "en": "work / job" },
-        { "jp": "しゅみ", "romaji": "shumi", "sounds": "shoo-mee", "en": "hobby" },
-        { "jp": "たべもの", "romaji": "tabemono", "sounds": "tah-beh-moh-noh", "en": "food" },
-        { "jp": "もくひょう", "romaji": "mokuhyou", "sounds": "moh-koo-hyoh", "en": "goal" },
-        { "jp": "なに ／ なん", "romaji": "nani / nan", "sounds": "nah-nee / nahn", "en": "what" },
-        { "jp": "これ", "romaji": "kore", "sounds": "koh-reh", "en": "this" },
-        { "jp": "も", "romaji": "mo", "sounds": "moh", "en": "also, too" },
-        { "jp": "にほん", "romaji": "nihon", "sounds": "nee-hohn", "en": "Japan" },
-        { "jp": "にほんの ○○", "romaji": "nihon no ○○", "sounds": "nee-hohn noh ○○", "en": "Japanese ○○" },
-        { "jp": "おんがく", "romaji": "ongaku", "sounds": "ohn-gah-koo", "en": "music" },
-        { "jp": "れきし", "romaji": "rekishi", "sounds": "reh-kee-shee", "en": "history" },
-        { "jp": "えいが", "romaji": "eiga", "sounds": "ay-gah", "en": "movie" },
-        { "jp": "すし ／ さしみ", "romaji": "sushi / sashimi", "sounds": "soo-shee / sah-shee-mee", "en": "sushi / sashimi" },
-        { "jp": "ヒップホップ ／ ロック", "romaji": "hippuhoppu / rokku", "sounds": "heep-poo-hohp-poo / rohk-koo", "en": "hip-hop / rock" },
-        { "jp": "ホラー ／ アクション", "romaji": "horā / akushon", "sounds": "hoh-rah / ahk-shohn", "en": "horror / action" },
-        { "jp": "アニメ", "romaji": "anime", "sounds": "ah-nee-meh", "en": "anime" },
-        { "jp": "にほんりょこう", "romaji": "nihon ryokou", "sounds": "nee-hohn ryoh-koh", "en": "trip to Japan" },
-        { "jp": "げんき", "romaji": "genki", "sounds": "gehn-kee", "en": "well, fine" },
-        { "jp": "しゅうまつ", "romaji": "shuumatsu", "sounds": "shoo-mah-tsoo", "en": "weekend" },
-        { "jp": "ゆっくり", "romaji": "yukkuri", "sounds": "yook-koo-ree", "en": "slowly; relaxed" },
-        { "jp": "いくら", "romaji": "ikura", "sounds": "ee-koo-rah", "en": "how much" },
-        { "jp": "やすい", "romaji": "yasui", "sounds": "yah-soo-ee", "en": "cheap" },
-        { "jp": "どんな", "romaji": "donna", "sounds": "dohn-nah", "en": "what kind of" },
-        { "jp": "いみ", "romaji": "imi", "sounds": "ee-mee", "en": "meaning" },
-        { "jp": "しつもん", "romaji": "shitsumon", "sounds": "shtsoo-mohn", "en": "question" },
-        { "jp": "えん", "romaji": "en", "sounds": "en", "en": "yen" },
-        { "jp": "まぐろ", "romaji": "maguro", "sounds": "mah-goo-roh", "en": "tuna" },
-        { "jp": "なっとう", "romaji": "nattou", "sounds": "naht-toh", "en": "natto (fermented soybeans)" },
-        { "jp": "ラーメン ／ コーヒー", "romaji": "rāmen / kōhī", "sounds": "rah-mehn / koh-hee", "en": "ramen / coffee" },
-        { "jp": "あおい", "romaji": "aoi", "sounds": "ah-oh-ee", "en": "blue" },
-        { "jp": "せんす", "romaji": "sensu", "sounds": "sen-soo", "en": "folding fan" },
-        { "jp": "せんせい", "romaji": "sensei", "sounds": "sen-say", "en": "teacher" },
-        { "jp": "やすみ", "romaji": "yasumi", "sounds": "yah-soo-mee", "en": "day off / rest" }
+        {
+          "jp": "しごと",
+          "romaji": "shigoto",
+          "sounds": "shee-goh-toh",
+          "en": "work / job"
+        },
+        {
+          "jp": "しゅみ",
+          "romaji": "shumi",
+          "sounds": "shoo-mee",
+          "en": "hobby"
+        },
+        {
+          "jp": "たべもの",
+          "romaji": "tabemono",
+          "sounds": "tah-beh-moh-noh",
+          "en": "food"
+        },
+        {
+          "jp": "もくひょう",
+          "romaji": "mokuhyou",
+          "sounds": "moh-koo-hyoh",
+          "en": "goal"
+        },
+        {
+          "jp": "なに ／ なん",
+          "romaji": "nani / nan",
+          "sounds": "nah-nee / nahn",
+          "en": "what"
+        },
+        {
+          "jp": "これ",
+          "romaji": "kore",
+          "sounds": "koh-reh",
+          "en": "this"
+        },
+        {
+          "jp": "も",
+          "romaji": "mo",
+          "sounds": "moh",
+          "en": "also, too"
+        },
+        {
+          "jp": "にほん",
+          "romaji": "nihon",
+          "sounds": "nee-hohn",
+          "en": "Japan"
+        },
+        {
+          "jp": "にほんの ○○",
+          "romaji": "nihon no ○○",
+          "sounds": "nee-hohn noh ○○",
+          "en": "Japanese ○○"
+        },
+        {
+          "jp": "おんがく",
+          "romaji": "ongaku",
+          "sounds": "ohn-gah-koo",
+          "en": "music"
+        },
+        {
+          "jp": "れきし",
+          "romaji": "rekishi",
+          "sounds": "reh-kee-shee",
+          "en": "history"
+        },
+        {
+          "jp": "えいが",
+          "romaji": "eiga",
+          "sounds": "ay-gah",
+          "en": "movie"
+        },
+        {
+          "jp": "すし ／ さしみ",
+          "romaji": "sushi / sashimi",
+          "sounds": "soo-shee / sah-shee-mee",
+          "en": "sushi / sashimi"
+        },
+        {
+          "jp": "ヒップホップ ／ ロック",
+          "romaji": "hippuhoppu / rokku",
+          "sounds": "heep-poo-hohp-poo / rohk-koo",
+          "en": "hip-hop / rock"
+        },
+        {
+          "jp": "ホラー ／ アクション",
+          "romaji": "horā / akushon",
+          "sounds": "hoh-rah / ahk-shohn",
+          "en": "horror / action"
+        },
+        {
+          "jp": "アニメ",
+          "romaji": "anime",
+          "sounds": "ah-nee-meh",
+          "en": "anime"
+        },
+        {
+          "jp": "にほんりょこう",
+          "romaji": "nihon ryokou",
+          "sounds": "nee-hohn ryoh-koh",
+          "en": "trip to Japan"
+        },
+        {
+          "jp": "げんき",
+          "romaji": "genki",
+          "sounds": "gehn-kee",
+          "en": "well, fine"
+        },
+        {
+          "jp": "しゅうまつ",
+          "romaji": "shuumatsu",
+          "sounds": "shoo-mah-tsoo",
+          "en": "weekend"
+        },
+        {
+          "jp": "ゆっくり",
+          "romaji": "yukkuri",
+          "sounds": "yook-koo-ree",
+          "en": "slowly; relaxed"
+        },
+        {
+          "jp": "いくら",
+          "romaji": "ikura",
+          "sounds": "ee-koo-rah",
+          "en": "how much"
+        },
+        {
+          "jp": "やすい",
+          "romaji": "yasui",
+          "sounds": "yah-soo-ee",
+          "en": "cheap"
+        },
+        {
+          "jp": "どんな",
+          "romaji": "donna",
+          "sounds": "dohn-nah",
+          "en": "what kind of"
+        },
+        {
+          "jp": "いみ",
+          "romaji": "imi",
+          "sounds": "ee-mee",
+          "en": "meaning"
+        },
+        {
+          "jp": "しつもん",
+          "romaji": "shitsumon",
+          "sounds": "shtsoo-mohn",
+          "en": "question"
+        },
+        {
+          "jp": "えん",
+          "romaji": "en",
+          "sounds": "en",
+          "en": "yen"
+        },
+        {
+          "jp": "まぐろ",
+          "romaji": "maguro",
+          "sounds": "mah-goo-roh",
+          "en": "tuna"
+        },
+        {
+          "jp": "なっとう",
+          "romaji": "nattou",
+          "sounds": "naht-toh",
+          "en": "natto (fermented soybeans)"
+        },
+        {
+          "jp": "ラーメン ／ コーヒー",
+          "romaji": "rāmen / kōhī",
+          "sounds": "rah-mehn / koh-hee",
+          "en": "ramen / coffee"
+        },
+        {
+          "jp": "あおい",
+          "romaji": "aoi",
+          "sounds": "ah-oh-ee",
+          "en": "blue"
+        },
+        {
+          "jp": "せんす",
+          "romaji": "sensu",
+          "sounds": "sen-soo",
+          "en": "folding fan"
+        },
+        {
+          "jp": "せんせい",
+          "romaji": "sensei",
+          "sounds": "sen-say",
+          "en": "teacher"
+        },
+        {
+          "jp": "やすみ",
+          "romaji": "yasumi",
+          "sounds": "yah-soo-mee",
+          "en": "day off / rest"
+        },
+        {
+          "jp": "ジム",
+          "romaji": "jimu",
+          "sounds": "jee-moo",
+          "en": "gym"
+        },
+        {
+          "jp": "きょう",
+          "romaji": "kyou",
+          "sounds": "kyoh",
+          "en": "today"
+        },
+        {
+          "jp": "あなた",
+          "romaji": "anata",
+          "sounds": "ah-nah-tah",
+          "en": "you (not used very often)"
+        },
+        {
+          "jp": "すうじ",
+          "romaji": "suuji",
+          "sounds": "soo-jee",
+          "en": "numbers"
+        }
       ]
     },
     {
       "name": "Numbers",
       "cards": [
-        { "jp": "ゼロ ／ れい", "romaji": "zero / rei", "sounds": "zeh-roh / ray", "en": "0" },
-        { "jp": "いち", "romaji": "ichi", "sounds": "ee-chee", "en": "1" },
-        { "jp": "に", "romaji": "ni", "sounds": "nee", "en": "2" },
-        { "jp": "さん", "romaji": "san", "sounds": "sahn", "en": "3" },
-        { "jp": "よん ／ し", "romaji": "yon / shi", "sounds": "yohn / shee", "en": "4 (use よん; し sounds like \"death\")" },
-        { "jp": "ご", "romaji": "go", "sounds": "goh", "en": "5" },
-        { "jp": "ろく", "romaji": "roku", "sounds": "roh-koo", "en": "6" },
-        { "jp": "なな ／ しち", "romaji": "nana / shichi", "sounds": "nah-nah / shee-chee", "en": "7 (use なな)" },
-        { "jp": "はち", "romaji": "hachi", "sounds": "hah-chee", "en": "8" },
-        { "jp": "きゅう ／ く", "romaji": "kyuu / ku", "sounds": "kyoo / koo", "en": "9 (use きゅう)" },
-        { "jp": "じゅう", "romaji": "juu", "sounds": "joo (j as in \"juice\")", "en": "10" },
-        { "jp": "じゅういち", "romaji": "juu-ichi", "sounds": "joo-ee-chee", "en": "11" },
-        { "jp": "にじゅういち", "romaji": "ni-juu-ichi", "sounds": "nee-joo-ee-chee", "en": "21" },
-        { "jp": "きゅうじゅうきゅう", "romaji": "kyuu-juu-kyuu", "sounds": "kyoo-joo-kyoo", "en": "99" },
-        { "jp": "ひゃく", "romaji": "hyaku", "sounds": "hyah-koo", "en": "100" }
+        {
+          "jp": "ゼロ ／ れい",
+          "romaji": "zero / rei",
+          "sounds": "zeh-roh / ray",
+          "en": "0"
+        },
+        {
+          "jp": "いち",
+          "romaji": "ichi",
+          "sounds": "ee-chee",
+          "en": "1"
+        },
+        {
+          "jp": "に",
+          "romaji": "ni",
+          "sounds": "nee",
+          "en": "2"
+        },
+        {
+          "jp": "さん",
+          "romaji": "san",
+          "sounds": "sahn",
+          "en": "3"
+        },
+        {
+          "jp": "よん ／ し",
+          "romaji": "yon / shi",
+          "sounds": "yohn / shee",
+          "en": "4 (use よん; し sounds like \"death\")"
+        },
+        {
+          "jp": "ご",
+          "romaji": "go",
+          "sounds": "goh",
+          "en": "5"
+        },
+        {
+          "jp": "ろく",
+          "romaji": "roku",
+          "sounds": "roh-koo",
+          "en": "6"
+        },
+        {
+          "jp": "なな ／ しち",
+          "romaji": "nana / shichi",
+          "sounds": "nah-nah / shee-chee",
+          "en": "7 (use なな)"
+        },
+        {
+          "jp": "はち",
+          "romaji": "hachi",
+          "sounds": "hah-chee",
+          "en": "8"
+        },
+        {
+          "jp": "きゅう ／ く",
+          "romaji": "kyuu / ku",
+          "sounds": "kyoo / koo",
+          "en": "9 (use きゅう)"
+        },
+        {
+          "jp": "じゅう",
+          "romaji": "juu",
+          "sounds": "joo (j as in \"juice\")",
+          "en": "10"
+        },
+        {
+          "jp": "じゅういち",
+          "romaji": "juu-ichi",
+          "sounds": "joo-ee-chee",
+          "en": "11"
+        },
+        {
+          "jp": "にじゅういち",
+          "romaji": "ni-juu-ichi",
+          "sounds": "nee-joo-ee-chee",
+          "en": "21"
+        },
+        {
+          "jp": "きゅうじゅうきゅう",
+          "romaji": "kyuu-juu-kyuu",
+          "sounds": "kyoo-joo-kyoo",
+          "en": "99"
+        },
+        {
+          "jp": "ひゃく",
+          "romaji": "hyaku",
+          "sounds": "hyah-koo",
+          "en": "100"
+        }
       ]
     },
     {
       "name": "Prices & big numbers",
       "cards": [
-        { "jp": "にひゃく", "romaji": "nihyaku", "sounds": "nee-hyah-koo", "en": "200" },
-        { "jp": "さんびゃく", "romaji": "sanbyaku", "sounds": "sahm-byah-koo", "en": "300 (h → b)" },
-        { "jp": "よんひゃく", "romaji": "yonhyaku", "sounds": "yohn-hyah-koo", "en": "400 (use よん)" },
-        { "jp": "ろっぴゃく", "romaji": "roppyaku", "sounds": "rohp-pyah-koo", "en": "600 (h → pp)" },
-        { "jp": "ななひゃく", "romaji": "nanahyaku", "sounds": "nah-nah-hyah-koo", "en": "700" },
-        { "jp": "はっぴゃく", "romaji": "happyaku", "sounds": "hahp-pyah-koo", "en": "800 (h → pp)" },
-        { "jp": "きゅうひゃく", "romaji": "kyuuhyaku", "sounds": "kyoo-hyah-koo", "en": "900" },
-        { "jp": "にひゃく ごじゅう", "romaji": "nihyaku gojuu", "sounds": "nee-hyah-koo goh-joo", "en": "250 (200 + 50)" },
-        { "jp": "せん", "romaji": "sen", "sounds": "sen", "en": "1,000" },
-        { "jp": "にせん", "romaji": "nisen", "sounds": "nee-sen", "en": "2,000" },
-        { "jp": "さんぜん", "romaji": "sanzen", "sounds": "sahn-zen", "en": "3,000 (s → z)" },
-        { "jp": "ろくせん", "romaji": "rokusen", "sounds": "roh-koo-sen", "en": "6,000 (no change)" },
-        { "jp": "はっせん", "romaji": "hassen", "sounds": "hahs-sen", "en": "8,000" },
-        { "jp": "いちまん", "romaji": "ichiman", "sounds": "ee-chee-mahn", "en": "10,000 (まん = 10,000)" },
-        { "jp": "いちまん ごせん", "romaji": "ichiman gosen", "sounds": "ee-chee-mahn goh-sen", "en": "15,000" },
-        { "jp": "にまん", "romaji": "niman", "sounds": "nee-mahn", "en": "20,000 (2 × まん)" },
-        { "jp": "さんまん", "romaji": "sanman", "sounds": "sahn-mahn", "en": "30,000" },
-        { "jp": "きゅうまん", "romaji": "kyuuman", "sounds": "kyoo-mahn", "en": "90,000" }
+        {
+          "jp": "にひゃく",
+          "romaji": "nihyaku",
+          "sounds": "nee-hyah-koo",
+          "en": "200"
+        },
+        {
+          "jp": "さんびゃく",
+          "romaji": "sanbyaku",
+          "sounds": "sahm-byah-koo",
+          "en": "300 (h → b) ⚠"
+        },
+        {
+          "jp": "よんひゃく",
+          "romaji": "yonhyaku",
+          "sounds": "yohn-hyah-koo",
+          "en": "400 (use よん)"
+        },
+        {
+          "jp": "ろっぴゃく",
+          "romaji": "roppyaku",
+          "sounds": "rohp-pyah-koo",
+          "en": "600 (h → pp) ⚠"
+        },
+        {
+          "jp": "ななひゃく",
+          "romaji": "nanahyaku",
+          "sounds": "nah-nah-hyah-koo",
+          "en": "700"
+        },
+        {
+          "jp": "はっぴゃく",
+          "romaji": "happyaku",
+          "sounds": "hahp-pyah-koo",
+          "en": "800 (h → pp) ⚠"
+        },
+        {
+          "jp": "きゅうひゃく",
+          "romaji": "kyuuhyaku",
+          "sounds": "kyoo-hyah-koo",
+          "en": "900"
+        },
+        {
+          "jp": "にひゃく ごじゅう",
+          "romaji": "nihyaku gojuu",
+          "sounds": "nee-hyah-koo goh-joo",
+          "en": "250 (200 + 50)"
+        },
+        {
+          "jp": "せん",
+          "romaji": "sen",
+          "sounds": "sen",
+          "en": "1,000"
+        },
+        {
+          "jp": "にせん",
+          "romaji": "nisen",
+          "sounds": "nee-sen",
+          "en": "2,000"
+        },
+        {
+          "jp": "さんぜん",
+          "romaji": "sanzen",
+          "sounds": "sahn-zen",
+          "en": "3,000 (s → z) ⚠"
+        },
+        {
+          "jp": "ろくせん",
+          "romaji": "rokusen",
+          "sounds": "roh-koo-sen",
+          "en": "6,000 (no change)"
+        },
+        {
+          "jp": "はっせん",
+          "romaji": "hassen",
+          "sounds": "hahs-sen",
+          "en": "8,000 ⚠"
+        },
+        {
+          "jp": "いちまん",
+          "romaji": "ichiman",
+          "sounds": "ee-chee-mahn",
+          "en": "10,000 (まん = 10,000)"
+        },
+        {
+          "jp": "いちまん ごせん",
+          "romaji": "ichiman gosen",
+          "sounds": "ee-chee-mahn goh-sen",
+          "en": "15,000"
+        },
+        {
+          "jp": "にまん",
+          "romaji": "niman",
+          "sounds": "nee-mahn",
+          "en": "20,000 (2 × まん)"
+        },
+        {
+          "jp": "さんまん",
+          "romaji": "sanman",
+          "sounds": "sahn-mahn",
+          "en": "30,000"
+        },
+        {
+          "jp": "きゅうまん",
+          "romaji": "kyuuman",
+          "sounds": "kyoo-mahn",
+          "en": "90,000"
+        },
+        {
+          "jp": "さんびゃく ろくじゅう ご",
+          "romaji": "sanbyaku rokujuu go",
+          "sounds": "sahm-byah-koo roh-koo-joo goh",
+          "en": "365"
+        },
+        {
+          "jp": "✕ じゅうせん",
+          "romaji": "✕ juusen",
+          "sounds": "—",
+          "en": "10,000 is NOT じゅうせん → always いちまん"
+        }
       ]
     }
   ]
