@@ -1,5 +1,5 @@
 {
-  "version": "lessons-1-4b",
+  "version": "lessons-1-5",
   "decks": [
     {
       "name": "Hiragana",
@@ -1116,6 +1116,285 @@
       ]
     },
     {
+      "name": "My day & weekend",
+      "cards": [
+        {
+          "jp": "いそがしかったです。",
+          "romaji": "isogashikatta desu",
+          "sounds": "ee-soh-gah-shee-kaht-tah dess",
+          "en": "I was busy."
+        },
+        {
+          "jp": "たのしかったです。",
+          "romaji": "tanoshikatta desu",
+          "sounds": "tah-noh-shee-kaht-tah dess",
+          "en": "It was fun."
+        },
+        {
+          "jp": "しごとが いそがしかったです。",
+          "romaji": "shigoto ga isogashikatta desu",
+          "sounds": "shee-goh-toh gah ee-soh-gah-shee-kaht-tah dess",
+          "en": "Work was busy."
+        },
+        {
+          "jp": "ジムは たのしかったです。",
+          "romaji": "jimu wa tanoshikatta desu",
+          "sounds": "jee-moo wah tah-noh-shee-kaht-tah dess",
+          "en": "The gym was fun."
+        },
+        {
+          "jp": "しゅうまつ、なにを しますか？",
+          "romaji": "shuumatsu, nani o shimasu ka?",
+          "sounds": "shoo-mah-tsoo, nah-nee oh shee-mahss kah?",
+          "en": "What will you do this weekend?"
+        },
+        {
+          "jp": "ジムに いきます。",
+          "romaji": "jimu ni ikimasu",
+          "sounds": "jee-moo nee ee-kee-mahss",
+          "en": "I'll go to the gym."
+        },
+        {
+          "jp": "しゅうまつ、ジムに いきます。",
+          "romaji": "shuumatsu, jimu ni ikimasu",
+          "sounds": "shoo-mah-tsoo, jee-moo nee ee-kee-mahss",
+          "en": "I'll go to the gym this weekend."
+        },
+        {
+          "jp": "あした、しごとに いきます。",
+          "romaji": "ashita, shigoto ni ikimasu",
+          "sounds": "ah-shtah, shee-goh-toh nee ee-kee-mahss",
+          "en": "I'll go to work tomorrow."
+        },
+        {
+          "jp": "ゆっくりします。",
+          "romaji": "yukkuri shimasu",
+          "sounds": "yook-koo-ree shee-mahss",
+          "en": "I'll relax. / I'll take it easy."
+        },
+        {
+          "jp": "○○は ▲▲です。",
+          "romaji": "○○ wa ▲▲ desu",
+          "sounds": "○○ wah ▲▲ dess",
+          "en": "○○ is ▲▲."
+        },
+        {
+          "jp": "○○は ▲▲ですか？",
+          "romaji": "○○ wa ▲▲ desu ka?",
+          "sounds": "○○ wah ▲▲ dess kah?",
+          "en": "Is ○○ ▲▲? (add か to make a question)"
+        },
+        {
+          "jp": "きょうは しごとですか？",
+          "romaji": "kyou wa shigoto desu ka?",
+          "sounds": "kyoh wah shee-goh-toh dess kah?",
+          "en": "Do you work today?"
+        },
+        {
+          "jp": "はい、しごとです。",
+          "romaji": "hai, shigoto desu",
+          "sounds": "hai, shee-goh-toh dess",
+          "en": "Yes, I work. / Yes, it's a work day."
+        },
+        {
+          "jp": "あしたは しごとですか？",
+          "romaji": "ashita wa shigoto desu ka?",
+          "sounds": "ah-shtah wah shee-goh-toh dess kah?",
+          "en": "Do you work tomorrow?"
+        },
+        {
+          "jp": "いいえ、しごとじゃないです。",
+          "romaji": "iie, shigoto janai desu",
+          "sounds": "ee-eh, shee-goh-toh jah-nai dess",
+          "en": "No, I don't (work)."
+        },
+        {
+          "jp": "これは おちゃじゃないです。コーヒーです。",
+          "romaji": "kore wa ocha janai desu. koohii desu",
+          "sounds": "koh-reh wah oh-chah jah-nai dess. koh-hee dess",
+          "en": "This isn't tea. It's coffee."
+        },
+        {
+          "jp": "ゆうやさんは？",
+          "romaji": "Yuuya-san wa?",
+          "sounds": "yoo-yah sahn wah?",
+          "en": "How about you, Yuya? (ask the question back)"
+        }
+      ]
+    },
+    {
+      "name": "At a shop · Asakusa",
+      "cards": [
+        {
+          "jp": "いらっしゃいませ。",
+          "romaji": "irasshaimase",
+          "sounds": "ee-rahs-shy-mah-seh",
+          "en": "Welcome. (the staff says this)"
+        },
+        {
+          "jp": "～を ください。",
+          "romaji": "~ o kudasai",
+          "sounds": "oh koo-dah-sai",
+          "en": "~, please. (I'll take ~.)"
+        },
+        {
+          "jp": "これを ください。",
+          "romaji": "kore o kudasai",
+          "sounds": "koh-reh oh koo-dah-sai",
+          "en": "This one, please."
+        },
+        {
+          "jp": "あかい おちゃを ください。",
+          "romaji": "akai ocha o kudasai",
+          "sounds": "ah-kai oh-chah oh koo-dah-sai",
+          "en": "The red tea, please."
+        },
+        {
+          "jp": "おちゃを おねがいします。",
+          "romaji": "ocha o onegaishimasu",
+          "sounds": "oh-chah oh oh-neh-guy-shee-mahss",
+          "en": "Tea, please. (polite ください)"
+        },
+        {
+          "jp": "チーズバーガーと コーラを おねがいします。",
+          "romaji": "chiizubaagaa to koora o onegaishimasu",
+          "sounds": "chee-zoo-bah-gah toh koh-rah oh oh-neh-guy-shee-mahss",
+          "en": "A cheeseburger and a cola, please."
+        },
+        {
+          "jp": "きれいですね。",
+          "romaji": "kirei desu ne",
+          "sounds": "kee-ray dess neh",
+          "en": "It's beautiful."
+        },
+        {
+          "jp": "とても きれいですね。",
+          "romaji": "totemo kirei desu ne",
+          "sounds": "toh-teh-moh kee-ray dess neh",
+          "en": "It's very beautiful."
+        },
+        {
+          "jp": "おちゃは どれですか？",
+          "romaji": "ocha wa dore desu ka?",
+          "sounds": "oh-chah wah doh-reh dess kah?",
+          "en": "Which one is the tea?"
+        },
+        {
+          "jp": "おみやげは どれですか？",
+          "romaji": "omiyage wa dore desu ka?",
+          "sounds": "oh-mee-yah-geh wah doh-reh dess kah?",
+          "en": "Which one is the souvenir?"
+        },
+        {
+          "jp": "あかい おちゃは どれですか？",
+          "romaji": "akai ocha wa dore desu ka?",
+          "sounds": "ah-kai oh-chah wah doh-reh dess kah?",
+          "en": "Which one is the red tea?"
+        },
+        {
+          "jp": "それは いくらですか？",
+          "romaji": "sore wa ikura desu ka?",
+          "sounds": "soh-reh wah ee-koo-rah dess kah?",
+          "en": "How much is that (near you)?"
+        },
+        {
+          "jp": "これは なんですか？……これは いくらですか？",
+          "romaji": "kore wa nan desu ka? ... kore wa ikura desu ka?",
+          "sounds": "koh-reh wah nahn dess kah? ... koh-reh wah ee-koo-rah dess kah?",
+          "en": "What is this? ... How much is this? (ask 2 in a row)"
+        },
+        {
+          "jp": "おちゃです。",
+          "romaji": "ocha desu",
+          "sounds": "oh-chah dess",
+          "en": "It's tea."
+        },
+        {
+          "jp": "おちゃですか。いいですね。",
+          "romaji": "ocha desu ka. ii desu ne",
+          "sounds": "oh-chah dess kah. ee dess neh",
+          "en": "Tea? Nice."
+        },
+        {
+          "jp": "せんえんです。",
+          "romaji": "sen en desu",
+          "sounds": "sen en dess",
+          "en": "It's 1,000 yen."
+        },
+        {
+          "jp": "これです。",
+          "romaji": "kore desu",
+          "sounds": "koh-reh dess",
+          "en": "This one."
+        },
+        {
+          "jp": "おみやげですか？",
+          "romaji": "omiyage desu ka?",
+          "sounds": "oh-mee-yah-geh dess kah?",
+          "en": "Is it a souvenir?"
+        },
+        {
+          "jp": "はい、おみやげです。",
+          "romaji": "hai, omiyage desu",
+          "sounds": "hai, oh-mee-yah-geh dess",
+          "en": "Yes, it's a souvenir."
+        }
+      ]
+    },
+    {
+      "name": "Look-alike hiragana",
+      "cards": [
+        {
+          "jp": "あ ・ お",
+          "romaji": "a / o",
+          "sounds": "ah / oh",
+          "en": "Both start with a cross (十) and a loop. お adds a small dot on the right."
+        },
+        {
+          "jp": "あ ・ め",
+          "romaji": "a / me",
+          "sounds": "ah / meh",
+          "en": "あ has a cross at the top. め has no cross, just two crossing lines and a loop."
+        },
+        {
+          "jp": "め ・ ぬ",
+          "romaji": "me / nu",
+          "sounds": "meh / noo",
+          "en": "Same shape, but ぬ has a small curl at the end."
+        },
+        {
+          "jp": "き ・ さ",
+          "romaji": "ki / sa",
+          "sounds": "kee / sah",
+          "en": "き has two lines at the top, さ has one."
+        },
+        {
+          "jp": "ね ・ れ ・ わ",
+          "romaji": "ne / re / wa",
+          "sounds": "neh / reh / wah",
+          "en": "Look at the end: ね curls, れ kicks out, わ is round."
+        },
+        {
+          "jp": "あかい（✕ めかい）",
+          "romaji": "akai",
+          "sounds": "ah-kai",
+          "en": "red. あ has the cross at the top, め doesn't."
+        },
+        {
+          "jp": "おみやげ（✕ あみやげ）",
+          "romaji": "omiyage",
+          "sounds": "oh-mee-yah-geh",
+          "en": "souvenir. お has the dot on the right."
+        },
+        {
+          "jp": "すし（✕ すじ）",
+          "romaji": "sushi",
+          "sounds": "soo-shee",
+          "en": "sushi. Two small marks (゛) change し to じ."
+        }
+      ]
+    },
+    {
       "name": "Words",
       "cards": [
         {
@@ -1339,6 +1618,60 @@
           "romaji": "suuji",
           "sounds": "soo-jee",
           "en": "numbers"
+        },
+        {
+          "jp": "あした",
+          "romaji": "ashita",
+          "sounds": "ah-shtah",
+          "en": "tomorrow"
+        },
+        {
+          "jp": "おちゃ",
+          "romaji": "ocha",
+          "sounds": "oh-chah",
+          "en": "tea"
+        },
+        {
+          "jp": "おみやげ",
+          "romaji": "omiyage",
+          "sounds": "oh-mee-yah-geh",
+          "en": "souvenir"
+        },
+        {
+          "jp": "あかい",
+          "romaji": "akai",
+          "sounds": "ah-kai",
+          "en": "red"
+        },
+        {
+          "jp": "とても",
+          "romaji": "totemo",
+          "sounds": "toh-teh-moh",
+          "en": "very"
+        },
+        {
+          "jp": "きれい",
+          "romaji": "kirei",
+          "sounds": "kee-ray",
+          "en": "beautiful"
+        },
+        {
+          "jp": "あと",
+          "romaji": "ato",
+          "sounds": "ah-toh",
+          "en": "after"
+        },
+        {
+          "jp": "いそがしい",
+          "romaji": "isogashii",
+          "sounds": "ee-soh-gah-shee",
+          "en": "busy"
+        },
+        {
+          "jp": "たのしい",
+          "romaji": "tanoshii",
+          "sounds": "tah-noh-shee",
+          "en": "fun"
         }
       ]
     },
