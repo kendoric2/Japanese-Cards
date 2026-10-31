@@ -924,3 +924,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .card-hinted { margin-top: 10px; font-size: 16px; color: var(--text-2); animation: fadeUp 200ms var(--ease) both; }
 .card-hinted .s { color: var(--accent); font-style: italic; font-weight: 600; }
 .card-learning { font-size: 10.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent); }
+
+.ro-inline { font-family: var(--font-en); font-style: normal; font-weight: 500; font-size: 0.86em; color: var(--text-3); margin-left: 3px; }
+.g-tip .ro-inline, .b-why .ro-inline { color: inherit; opacity: 0.75; }
+.g-pattern-ro { font-size: 13.5px; color: var(--text-3); margin-top: 4px; font-family: var(--font-en); }

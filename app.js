@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = '2.1.0';
+  const APP_VERSION = '2.1.1';
   const KEY_PROGRESS = 'kotoba.progress.v1';
   const KEY_SETTINGS = 'kotoba.settings.v1';
   const SEP = '\u001f';                       // deck name + SEP + jp text = progress key
@@ -34,7 +34,7 @@
     lesson: null, build: null, speak: null, rp: null,
     cardsVersion: null,
     progress: loadJSON(KEY_PROGRESS, { cards: {}, streak: { count: 0, lastDay: null }, sessions: 0, lastVersion: null, kana: { rows: {}, tiers: {} }, lessons: {}, plan: { day: null, done: {} } }),
-    settings: loadJSON(KEY_SETTINGS, { theme: 'auto', reverse: false, shuffle: false, size: 20, name: 'Elan', autoSpeak: false, quiz: { ...QUIZ_DEFAULTS } }),
+    settings: loadJSON(KEY_SETTINGS, { theme: 'auto', reverse: false, shuffle: false, size: 20, name: 'Elan', autoSpeak: false, romajiHelp: true, quiz: { ...QUIZ_DEFAULTS } }),
     selected: new Set(),
     session: null, quiz: null, learn: null, lastResult: null,
     screen: 'home', tab: 'home', kanaTier: null,
@@ -43,6 +43,7 @@
   state.progress.lessons = state.progress.lessons || {};
   state.progress.plan = { day: null, done: {}, ...(state.progress.plan || {}) };
   state.settings.quiz = { ...QUIZ_DEFAULTS, ...(state.settings.quiz || {}) };
+  if (state.settings.romajiHelp === undefined) state.settings.romajiHelp = true;
   const saveProgress = () => saveJSON(KEY_PROGRESS, state.progress);
   const saveSettings = () => saveJSON(KEY_SETTINGS, state.settings);
 
@@ -91,6 +92,67 @@
   const SPEAK_SVG = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a9 9 0 0 1 0 14"/></svg>';
   const CHECK_SVG = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
   const LOCK_SVG = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+
+  // ---------------------------------------------------------------- romaji helper (kana → romaji, Hepburn, matching the lesson sheets)
+  const KANA_MAP = { あ:'a', い:'i', う:'u', え:'e', お:'o', か:'ka', き:'ki', く:'ku', け:'ke', こ:'ko', さ:'sa', し:'shi', す:'su', せ:'se', そ:'so', た:'ta', ち:'chi', つ:'tsu', て:'te', と:'to', な:'na', に:'ni', ぬ:'nu', ね:'ne', の:'no', は:'ha', ひ:'hi', ふ:'fu', へ:'he', ほ:'ho', ま:'ma', み:'mi', む:'mu', め:'me', も:'mo', や:'ya', ゆ:'yu', よ:'yo', ら:'ra', り:'ri', る:'ru', れ:'re', ろ:'ro', わ:'wa', を:'o', ん:'n', が:'ga', ぎ:'gi', ぐ:'gu', げ:'ge', ご:'go', ざ:'za', じ:'ji', ず:'zu', ぜ:'ze', ぞ:'zo', だ:'da', ぢ:'ji', づ:'zu', で:'de', ど:'do', ば:'ba', び:'bi', ぶ:'bu', べ:'be', ぼ:'bo', ぱ:'pa', ぴ:'pi', ぷ:'pu', ぺ:'pe', ぽ:'po', ぁ:'a', ぃ:'i', ぅ:'u', ぇ:'e', ぉ:'o', ゔ:'vu' };
+  const SMALL_Y = { ゃ:'ya', ゅ:'yu', ょ:'yo' };
+  const PUNCT = { '。': '.', '、': ',', '？': '?', '！': '!', '「': '"', '」': '"', '・': ' · ' };
+  // word spacing the way the lesson sheets write romaji: before です/ます-type endings and end-of-word particles
+  const SPLIT_BEFORE = ['じゃないです', 'じゃない', 'でしたか', 'ですか', 'でした', 'です', 'ございます', 'ください', 'します', 'しました'];
+  const NO_SPLIT = /^(こんにちは|こんばんは)[、。！？]*$/;
+  function spaceKana(s) {
+    if (NO_SPLIT.test(s.trim())) return s;
+    let out = s;
+    for (const w of SPLIT_BEFORE) out = out.replace(new RegExp(`([ぁ-ゖァ-ヺー○▲])(${w})`, 'g'), '$1 $2');
+    out = out.replace(/([ぁ-ゖァ-ヺー○▲])([はがをへ])(?=[\s、。！？」]|$)/g, (m, a, p) => (p === 'が' && /えい$/.test(m.slice(0, -1)) ? m : `${a} ${p}`));
+    out = out.replace(/([ぁ-ゖァ-ヺー○▲])(に)(?=[\s、。！？」]|$)/g, (m, a) => (a === 'な' ? m : `${a} に`));
+    out = out.replace(/(です|ます|でした|ました)か/g, '$1 か');
+    out = out.replace(/、/g, '、 ');
+    return out;
+  }
+  function romanize(text) {
+    const s = spaceKana(text).replace(/[ァ-ヶ]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
+    const chars = [...s]; let out = '', lastVowel = '';
+    for (let i = 0; i < chars.length; i++) {
+      const ch = chars[i], next = chars[i + 1];
+      const endOfWord = !next || /[\s、。！？」]/.test(next);
+      if (ch === 'っ') { const nr = next && KANA_MAP[next]; if (nr) out += nr.startsWith('ch') ? 't' : nr[0]; continue; }
+      if (ch === 'ー') { out += lastVowel; continue; }
+      if (ch === 'は' && endOfWord && out.trim()) { out += 'wa'; lastVowel = 'a'; continue; }
+      if (ch === 'へ' && endOfWord && out.trim()) { out += 'e'; lastVowel = 'e'; continue; }
+      let r = KANA_MAP[ch];
+      if (r !== undefined) {
+        if (next && SMALL_Y[next]) { const base = r.slice(0, -1); r = base + (['sh', 'ch', 'j'].includes(base) ? SMALL_Y[next].slice(1) : SMALL_Y[next]); i++; }
+        if (/[○▲]$/.test(out)) out += ' ';
+        out += r; lastVowel = r.slice(-1); continue;
+      }
+      if (PUNCT[ch]) { out += PUNCT[ch]; continue; }
+      out += ch;
+    }
+    return out.replace(/\s+/g, ' ').replace(/\s+([.,?!])/g, '$1').trim();
+  }
+  const KANA_RUN = /[ぁ-ゖァ-ヺー○▲「」]+(?:[ 　]+[ぁ-ゖァ-ヺー○▲「」]+)*[、。！？]*/g;
+  const NO_ANNOTATE = '.jp, .ro-inline, .card-jp, .pv-jp, .g-ex, .g-word, .rp-jp, .sp-jp, .b-sentence, .b-tile, .q-opt, .m-tile, .g-pattern, .g-pattern-ro, .kana-tile, .learn-kana, .kana-sheet-char, .m-jp, .card-hinted, .lesson-name, .ref-row-title, .tab';
+  // Adds "(romaji)" after every run of kana inside explanatory text, so the guide is readable before you can read kana.
+  function annotateKana(root) {
+    if (!root || !state.settings.romajiHelp) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const nodes = []; let n; while ((n = walker.nextNode())) nodes.push(n);
+    for (const node of nodes) {
+      if (node.parentElement.closest(NO_ANNOTATE)) continue;
+      const text = node.nodeValue; if (!/[ぁ-ゖァ-ヺ]/.test(text)) continue;
+      const frag = document.createDocumentFragment(); let last = 0;
+      text.replace(KANA_RUN, (m, off) => {
+        if (!/[ぁ-ゖァ-ヺ]/.test(m)) return m;
+        frag.append(text.slice(last, off), m);
+        const sp = document.createElement('span'); sp.className = 'ro-inline'; sp.textContent = `(${romanize(m)})`;
+        frag.append(sp); last = off + m.length; return m;
+      });
+      frag.append(text.slice(last)); node.replaceWith(frag);
+    }
+    // rule patterns get a romaji line underneath instead of inline brackets
+    $$('.g-pattern', root).forEach(p => { if (p.nextElementSibling?.classList.contains('g-pattern-ro')) return; const ro = document.createElement('div'); ro.className = 'g-pattern-ro'; ro.textContent = romanize(p.textContent); p.after(ro); });
+  }
 
   // ---------------------------------------------------------------- theme
   const metaTheme = $('#meta-theme-color');
@@ -600,7 +662,7 @@
       : r.pct >= 50 ? ['おつかれさま', 'Good effort. The misses will come back sooner.']
       : ['がんばって', 'Keep at it. Repetition does the work.'];
     $('#summary-jp').textContent = jp;
-    $('#summary-sub').textContent = r.subOverride || sub;
+    $('#summary-sub').textContent = r.subOverride || sub; annotateKana($('#summary-sub'));
     $('#score-sub').textContent = r.scoreSub;
     $('#sum-good').textContent = r.good; $('#sum-good-label').textContent = r.goodLabel;
     $('#sum-again').textContent = r.again; $('#sum-again-label').textContent = r.againLabel;
@@ -735,7 +797,7 @@
     $('#ks-char').textContent = k[0];
     $('#ks-romaji').textContent = k[1];
     $('#ks-sounds').textContent = `“${k[2]}”`;
-    $('#ks-note').textContent = k[3] || '';
+    $('#ks-note').textContent = k[3] || ''; annotateKana($('#ks-note'));
     $('#kana-modal').hidden = false;
     haptic();
     speak(k[0], $('#ks-speak'));
@@ -1236,7 +1298,7 @@
     state.lesson = l;
     $('#lesson-eyebrow').textContent = `Lesson ${l.num}${l.date ? ` · ${l.date}` : ''} · ${l.jp || ''}`;
     $('#lesson-title').textContent = l.title;
-    $('#lesson-goal').textContent = l.goal || '';
+    $('#lesson-goal').textContent = l.goal || ''; annotateKana($('#lesson-goal'));
     $('#lesson-ring').innerHTML = ringHTML(lessonProgress(l), 60);
     const parts = $('#lesson-parts'); parts.innerHTML = '';
     let i = 0;
@@ -1322,6 +1384,7 @@
     cta.innerHTML = `<button class="btn btn-primary">Start the Build drills</button>`;
     cta.querySelector('button').addEventListener('click', () => startBuild(l));
     body.appendChild(cta);
+    annotateKana(body);
     showScreen('guide');
   }
 
@@ -1362,7 +1425,7 @@
   function showWhy(container, ok, it, extra = '') {
     const d = document.createElement('div'); d.className = `b-why ${ok ? 'ok' : 'bad'}`;
     d.innerHTML = `${ok ? '✓ ' : '✕ '}${extra}${escapeHTML(it.why || '')}`;
-    container.appendChild(d);
+    container.appendChild(d); annotateKana(d);
     const foot = document.createElement('div'); foot.className = 'b-foot';
     foot.innerHTML = `<button class="btn ${ok ? 'btn-good' : 'btn-reveal'}" id="btn-build-next">${ok ? 'Next' : 'Got it, next'}</button>`;
     container.appendChild(foot);
@@ -1630,6 +1693,7 @@
       f.innerHTML = `<h3>Free further reading</h3><div class="ref-list">${g.further.map(x => `<a href="${escapeHTML(x.url)}" target="_blank" rel="noopener"><span class="f-title">${escapeHTML(x.title)}</span><span class="f-note">${escapeHTML(x.note || '')}</span></a>`).join('')}</div>`;
       body.appendChild(f);
     }
+    annotateKana(body);
   }
   function openRefEntry(id, from = 'ref') {
     const e = state.grammar.entries.find(x => x.id === id); if (!e) return;
@@ -1645,6 +1709,7 @@
         ${e.examples?.length ? `<div class="g-ex-list">${e.examples.map(x => `<div class="g-ex"><div class="g-ex-text"><span class="jp">${escapeHTML(x.jp)}</span><span class="ro">${escapeHTML(x.romaji || '')}</span><span class="en">${escapeHTML(x.en)}</span></div><button class="speak-btn" data-jp="${escapeHTML(x.jp)}" aria-label="Read aloud">${SPEAK_SVG}</button></div>`).join('')}</div>` : ''}
       </div>`;
     $$('.speak-btn', body).forEach(b => b.addEventListener('click', () => speak(b.dataset.jp, b)));
+    annotateKana(body);
     $('#btn-refentry-back').onclick = () => { if (from === 'guide' && state.lesson) openGuide(state.lesson); else { renderRef(); showScreen('ref'); } };
     showScreen('refentry');
   }
@@ -1714,6 +1779,7 @@
   function renderSettings() {
     $('#opt-name').value = state.settings.name || '';
     $('#opt-autospeak').checked = !!state.settings.autoSpeak;
+    $('#opt-romaji').checked = !!state.settings.romajiHelp;
     $('#app-version').textContent = `v${APP_VERSION}`;
     applyTheme();
   }
@@ -1811,6 +1877,7 @@
     $$('#opt-theme .seg').forEach(b => b.addEventListener('click', () => { state.settings.theme = b.dataset.theme; saveSettings(); haptic(); applyTheme(); }));
     $('#opt-name').addEventListener('input', e => { state.settings.name = e.target.value.trim(); saveSettings(); });
     $('#opt-autospeak').addEventListener('change', e => { state.settings.autoSpeak = e.target.checked; saveSettings(); });
+    $('#opt-romaji').addEventListener('change', e => { state.settings.romajiHelp = e.target.checked; saveSettings(); });
     $('#btn-test-voice').addEventListener('click', e => speak('こんにちは、エランさん', e.currentTarget));
     $('#btn-refresh-cards').addEventListener('click', async () => { const ok = await loadCards(); if (ok) renderHome(); });
     $('#btn-reset').addEventListener('click', resetProgress);
