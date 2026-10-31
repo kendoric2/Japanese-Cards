@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = '2.1.1';
+  const APP_VERSION = '2.2.0';
   const KEY_PROGRESS = 'kotoba.progress.v1';
   const KEY_SETTINGS = 'kotoba.settings.v1';
   const SEP = '\u001f';                       // deck name + SEP + jp text = progress key
@@ -1665,7 +1665,7 @@
       title: `Lesson ${l.num} · Check`, mode: 'mc', direction: 'en-jp', items: qs, pool: qs, returnTo: 'lesson', eyebrow: 'Checkpoint', custom: true,
       onDone: res => {
         const r = lp(l); r.check.attempts++; r.check.best = Math.max(r.check.best, res.pct);
-        if (res.pct >= 80) { r.check.passed = true; markPlan('part'); res.subOverride = `Lesson ${l.num} passed. You can do this at a shop in Asakusa.`; }
+        if (res.pct >= 80) { r.check.passed = true; markPlan('part'); res.subOverride = `Lesson ${l.num} passed. ${l.goal || ''}`; }
         else res.subOverride = 'Score 80% or more to pass. Reread the guide sections you missed.';
         saveProgress();
       },
