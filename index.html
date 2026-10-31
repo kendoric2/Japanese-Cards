@@ -24,40 +24,15 @@
 <div id="app">
 
   <!-- ============ HOME ============ -->
-  <section class="screen screen-tab is-active" id="screen-home" data-screen="home">
+  <section class="screen screen-tab" id="screen-review" data-screen="review">
     <div class="home-wrap">
-      <header class="home-header">
+      <header class="page-header">
         <div>
-          <p class="eyebrow" id="home-date"></p>
-          <h1 class="greeting"><span class="jp">おかえり</span>, <span id="home-name">Elan</span></h1>
-          <p class="greeting-sub">Welcome back. Let's keep going.</p>
+          <p class="eyebrow">ふくしゅう</p>
+          <h1 class="page-title">Review</h1>
+          <p class="greeting-sub">Flashcards with spaced repetition.</p>
         </div>
-        <button class="icon-btn" id="btn-settings" aria-label="Settings">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-        </button>
       </header>
-
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-icon stat-icon-flame">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M13.5 2.5c.3 3.2-1.6 4.6-3 6.2-1.5 1.7-2.9 3.4-2.6 6 .1 1.1.6 2 1.3 2.7-.1-1.8.8-3.1 2.1-4.1.1 2.3 1.6 3 2.6 4.4.5.7.6 1.5.5 2.2 2.9-1 5-3.6 5-6.7 0-3.9-2.9-5.8-3.8-9.1-.2-.8-.2-1.3-.1-1.6-.8.1-1.6.4-2 0z"/></svg>
-          </div>
-          <div>
-            <div class="stat-value"><span id="stat-streak">0</span><span class="stat-unit">day streak</span></div>
-            <div class="stat-label" id="stat-streak-sub">Study today to start one</div>
-          </div>
-        </div>
-        <div class="stat">
-          <div class="stat-icon stat-icon-seal">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-          </div>
-          <div>
-            <div class="stat-value"><span id="stat-mastered">0</span><span class="stat-unit">mastered</span></div>
-            <div class="stat-label" id="stat-mastered-sub">of 0 cards</div>
-          </div>
-        </div>
-      </div>
-
       <button class="hero-btn" id="btn-study-due">
         <span class="hero-main">
           <span class="hero-title">Study due cards</span>
@@ -82,15 +57,6 @@
         </div>
       </div>
 
-      <button class="kana-card" id="home-kana-card">
-        <span class="kana-card-glyph jp">あ</span>
-        <span class="kana-card-body">
-          <span class="kana-card-title">Hiragana</span>
-          <span class="kana-card-sub" id="home-kana-sub">0 of 46 learned</span>
-        </span>
-        <span class="kana-card-arrow"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
-      </button>
-
       <div class="section-head">
         <h2>Decks</h2>
         <button class="text-btn" id="btn-all-decks">All decks</button>
@@ -107,6 +73,158 @@
       </div>
       <button class="text-btn" id="btn-mix-clear">Clear</button>
       <button class="btn btn-primary btn-small" id="btn-mix-study">Study mix</button>
+    </div>
+  </section>
+
+  <!-- ============ HOME (lesson path) ============ -->
+  <section class="screen screen-tab is-active" id="screen-home" data-screen="home">
+    <div class="page-wrap">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow" id="home-date"></p>
+          <h1 class="greeting"><span class="jp">おかえり</span>, <span id="home-name">Elan</span></h1>
+          <p class="greeting-sub" id="home-sub">Welcome back. Let's keep going.</p>
+        </div>
+        <button class="icon-btn" id="btn-settings" aria-label="Settings">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        </button>
+      </header>
+
+      <div class="stats stats-home">
+        <div class="stat">
+          <div class="stat-icon stat-icon-flame">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M13.5 2.5c.3 3.2-1.6 4.6-3 6.2-1.5 1.7-2.9 3.4-2.6 6 .1 1.1.6 2 1.3 2.7-.1-1.8.8-3.1 2.1-4.1.1 2.3 1.6 3 2.6 4.4.5.7.6 1.5.5 2.2 2.9-1 5-3.6 5-6.7 0-3.9-2.9-5.8-3.8-9.1-.2-.8-.2-1.3-.1-1.6-.8.1-1.6.4-2 0z"/></svg>
+          </div>
+          <div>
+            <div class="stat-value"><span id="stat-streak">0</span><span class="stat-unit">day streak</span></div>
+            <div class="stat-label" id="stat-streak-sub">Study today to start one</div>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="stat-icon stat-icon-seal">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <div>
+            <div class="stat-value"><span id="stat-mastered">0</span><span class="stat-unit">mastered</span></div>
+            <div class="stat-label" id="stat-mastered-sub">of 0 cards</div>
+          </div>
+        </div>
+      </div>
+
+      <section class="plan" id="plan">
+        <div class="plan-head">
+          <div><p class="eyebrow">きょうの べんきょう</p><h2>Today's 10 minutes</h2></div>
+          <span class="plan-count" id="plan-count">0 / 3</span>
+        </div>
+        <div class="plan-steps" id="plan-steps"></div>
+      </section>
+
+      <div class="section-head"><h2>Lessons</h2><span class="section-sub" id="lessons-sub"></span></div>
+      <div class="path" id="lesson-path"></div>
+
+      <button class="kana-card" id="home-ref-card">
+        <span class="kana-card-glyph jp ref-glyph">文</span>
+        <span class="kana-card-body">
+          <span class="kana-card-title">Japanese reference</span>
+          <span class="kana-card-sub" id="home-ref-sub">Sentence structure, particles, verbs, adjectives</span>
+        </span>
+        <span class="kana-card-arrow"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
+      <button class="kana-card" id="home-kana-card">
+        <span class="kana-card-glyph jp">あ</span>
+        <span class="kana-card-body">
+          <span class="kana-card-title">Hiragana</span>
+          <span class="kana-card-sub" id="home-kana-sub">0 of 46 learned</span>
+        </span>
+        <span class="kana-card-arrow"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
+      <div class="tab-bottom-space"></div>
+    </div>
+  </section>
+
+  <!-- ============ LESSON OVERVIEW ============ -->
+  <section class="screen screen-tab" id="screen-lesson" data-screen="lesson">
+    <div class="page-wrap">
+      <header class="sub-header">
+        <button class="icon-btn" id="btn-lesson-back" aria-label="Back"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="sub-header-text"><p class="eyebrow" id="lesson-eyebrow">Lesson 5</p><h1 id="lesson-title">Title</h1></div>
+      </header>
+      <div class="goal-card">
+        <div class="goal-ring" id="lesson-ring"></div>
+        <div class="goal-body"><p class="eyebrow">Can-do goal</p><p class="goal-text" id="lesson-goal"></p></div>
+      </div>
+      <div class="parts" id="lesson-parts"></div>
+      <div class="tab-bottom-space"></div>
+    </div>
+  </section>
+
+  <!-- ============ STUDY GUIDE ============ -->
+  <section class="screen screen-tab" id="screen-guide" data-screen="guide">
+    <div class="page-wrap guide-wrap">
+      <header class="sub-header">
+        <button class="icon-btn" id="btn-guide-back" aria-label="Back"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="sub-header-text"><p class="eyebrow" id="guide-eyebrow">Study guide</p><h1 id="guide-title">Title</h1></div>
+      </header>
+      <div id="guide-body"></div>
+      <div class="tab-bottom-space"></div>
+    </div>
+  </section>
+
+  <!-- ============ BUILD (drills) ============ -->
+  <section class="screen screen-study" id="screen-build" data-screen="build">
+    <header class="study-header">
+      <button class="icon-btn" id="btn-build-close" aria-label="Close"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="progress" aria-hidden="true"><div class="progress-fill" id="build-progress"></div></div>
+      <span class="counter" id="build-counter">1 / 10</span>
+    </header>
+    <div class="study-title" id="build-title">Build</div>
+    <div class="quiz-body" id="build-body"></div>
+  </section>
+
+  <!-- ============ SPEAK ============ -->
+  <section class="screen screen-study" id="screen-speak" data-screen="speak">
+    <header class="study-header">
+      <button class="icon-btn" id="btn-speak-close" aria-label="Close"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="progress" aria-hidden="true"><div class="progress-fill" id="speak-progress"></div></div>
+      <span class="counter" id="speak-counter">1 / 10</span>
+    </header>
+    <div class="study-title" id="speak-title">Speak</div>
+    <div class="card-stage" id="speak-stage"></div>
+    <div class="study-actions" id="speak-actions"></div>
+  </section>
+
+  <!-- ============ ROLE-PLAY ============ -->
+  <section class="screen screen-study" id="screen-roleplay" data-screen="roleplay">
+    <header class="study-header">
+      <button class="icon-btn" id="btn-rp-close" aria-label="Close"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="progress" aria-hidden="true"><div class="progress-fill" id="rp-progress"></div></div>
+      <span class="counter" id="rp-counter"></span>
+    </header>
+    <div class="study-title" id="rp-title">Role-play</div>
+    <div class="rp-log" id="rp-log"></div>
+    <div class="study-actions rp-actions" id="rp-actions"></div>
+  </section>
+
+  <!-- ============ REFERENCE ============ -->
+  <section class="screen screen-tab" id="screen-ref" data-screen="ref">
+    <div class="page-wrap">
+      <header class="sub-header">
+        <button class="icon-btn" id="btn-ref-back" aria-label="Back"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="sub-header-text"><p class="eyebrow">にほんごの きそ</p><h1>Japanese reference</h1></div>
+      </header>
+      <p class="hint ref-hint">How the language works, in the order your lessons introduce it. Your teacher's lessons decide what comes next; this explains the why.</p>
+      <div id="ref-body"></div>
+      <div class="tab-bottom-space"></div>
+    </div>
+  </section>
+  <section class="screen screen-tab" id="screen-ref-entry" data-screen="refentry">
+    <div class="page-wrap guide-wrap">
+      <header class="sub-header">
+        <button class="icon-btn" id="btn-refentry-back" aria-label="Back"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="sub-header-text"><p class="eyebrow" id="refentry-eyebrow"></p><h1 id="refentry-title"></h1></div>
+      </header>
+      <div id="refentry-body"></div>
+      <div class="tab-bottom-space"></div>
     </div>
   </section>
 
@@ -250,6 +368,10 @@
         <button class="btn btn-primary" id="btn-kana-continue">Learn あ row</button>
         <button class="btn btn-secondary" id="btn-kana-practice">Practice</button>
       </div>
+      <div class="kana-extra">
+        <button class="chip" id="btn-kana-lookalike">Look-alike drill</button>
+        <button class="chip" id="btn-kana-readwords">Read lesson words</button>
+      </div>
       <div class="kana-rows" id="kana-rows"></div>
       <div class="tab-bottom-space"></div>
     </div>
@@ -364,8 +486,12 @@
 <!-- Tab bar -->
 <nav class="tabbar" id="tabbar">
   <button class="tab is-on" data-tab="home">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>
+    <span>Home</span>
+  </button>
+  <button class="tab" data-tab="review">
     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18"/></svg>
-    <span>Decks</span>
+    <span>Review</span>
   </button>
   <button class="tab" data-tab="kana">
     <span class="tab-jp jp">あ</span>

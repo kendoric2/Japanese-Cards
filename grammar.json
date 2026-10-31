@@ -1,0 +1,216 @@
+{
+  "version": "ref-v1",
+  "further": [
+    { "title": "Tae Kim's Guide to Learning Japanese", "url": "https://guidetojapanese.org/learn/grammar", "note": "Free, Creative Commons. The best plain-English explanation of how Japanese grammar actually works. Start with \"Basic Grammar\"." },
+    { "title": "Wikibooks: Japanese", "url": "https://en.wikibooks.org/wiki/Japanese", "note": "Free, open textbook. Good for the writing system and a second explanation of particles." },
+    { "title": "Tofugu: Learn Hiragana", "url": "https://www.tofugu.com/japanese/learn-hiragana/", "note": "Free guide with a mnemonic picture for every kana, including the look-alikes." },
+    { "title": "NHK World: Easy Japanese", "url": "https://www3.nhk.or.jp/nhkworld/en/learnjapanese/", "note": "Free audio lessons from NHK with native speakers, built around travel situations." }
+  ],
+  "groups": ["Writing & sound", "Sentence structure", "Particles", "Verbs", "Adjectives", "Questions & pointing", "Numbers & prices", "Politeness & tone"],
+  "entries": [
+    {
+      "id": "kana", "group": "Writing & sound", "title": "Three scripts", "jp": "ひらがな・カタカナ・かんじ", "lesson": "l1",
+      "summary": "Hiragana for Japanese words and grammar, katakana for foreign words, kanji for meaning.",
+      "body": "<p>Japanese mixes three scripts in one sentence. <b>Hiragana</b> (あいうえお) spells native words and all the grammar bits: particles, verb endings, です. <b>Katakana</b> (アイウエオ) spells words borrowed from other languages: コーヒー (coffee), ジム (gym), ロック (rock). <b>Kanji</b> are the Chinese characters that carry meaning; your lessons avoid them for now.</p><p>Each kana is one syllable, so you can't misspell a sound once you know the chart. Your Kana tab teaches all 104 hiragana in order.</p>",
+      "examples": [
+        { "jp": "コーヒーを ください。", "romaji": "koohii o kudasai", "en": "Coffee, please. (katakana word + hiragana grammar)" }
+      ]
+    },
+    {
+      "id": "mora", "group": "Writing & sound", "title": "Rhythm: every beat the same length", "jp": "はく", "lesson": "l5",
+      "summary": "Japanese is counted in equal beats (mora), not stressed syllables. Long vowels and small っ take a full beat.",
+      "body": "<p>English squashes some syllables and stretches others. Japanese gives every kana the same length, like a metronome. きょうは どうでしたか is nine beats: きょ・う・は・ど・う・で・し・た・か.</p><p>Three things that take a full beat but are easy to miss: a <b>long vowel</b> (おう in きょう, the ー in コーヒー), the <b>small っ</b> (a silent pause in ちょっと, ゆっくり), and <b>ん</b> on its own (にほん is three beats).</p><p>Pitch comes later. Rhythm first: copy the beat of short native lines before you worry about anything else.</p>",
+      "examples": [
+        { "jp": "ゆっくり", "romaji": "yukkuri", "en": "slowly: ゆ・っ・く・り, four beats, with a pause on っ" },
+        { "jp": "おはようございます", "romaji": "ohayou gozaimasu", "en": "nine beats, the う in よう held" }
+      ]
+    },
+    {
+      "id": "quiet-u", "group": "Writing & sound", "title": "The quiet う and い", "jp": "です・ます", "lesson": "l1",
+      "summary": "The u in です, ます and すき is almost silent: dess, mahss, skee.",
+      "body": "<p>Between two voiceless consonants, or at the end of a sentence, the vowels う and い get swallowed. That's why です sounds like \"dess\" and すき like \"skee\". The beat is still there; the vowel just goes quiet. Your sounds-like column already writes it this way.</p>",
+      "examples": [
+        { "jp": "げんきです。", "romaji": "genki desu", "en": "gehn-kee dess" },
+        { "jp": "すきです。", "romaji": "suki desu", "en": "skee dess" }
+      ]
+    },
+    {
+      "id": "sov", "group": "Sentence structure", "title": "Word order: the verb goes last", "jp": "ごじゅん", "lesson": "l2",
+      "summary": "Subject, then everything else, then the verb or です at the very end.",
+      "body": "<p>English is Subject–Verb–Object: <i>I go to the gym</i>. Japanese is Subject–Object–Verb: <i>(I) gym-to go</i>, ジムに いきます. The verb, or です, always closes the sentence. Everything before it is marked by a particle that says what job it does, so the order of those pieces is flexible, but the ending is not.</p><p>Time words like きょう, あした, しゅうまつ go at the front.</p>",
+      "examples": [
+        { "jp": "しゅうまつ、ジムに いきます。", "romaji": "shuumatsu, jimu ni ikimasu", "en": "This weekend (I) go to the gym." },
+        { "jp": "ぼくは まぐろが すきです。", "romaji": "boku wa maguro ga suki desu", "en": "I like tuna. (I-topic tuna-subject like-is)" }
+      ]
+    },
+    {
+      "id": "drop-subject", "group": "Sentence structure", "title": "Leaving out the subject", "jp": "しゅごの しょうりゃく", "lesson": "l1",
+      "summary": "If it's obvious who you mean, don't say it. げんきです means \"I'm fine\" without a word for I.",
+      "body": "<p>Japanese drops anything the listener can work out. There's no \"I\" in いそがしかったです and no \"you\" in げんきですか. Context does it. Adding ぼくは or わたしは every time sounds like you're insisting.</p><p>This is also why answers echo questions: しごとですか？ → しごとです。 The topic (きょうは) was set by the question and doesn't need repeating.</p>",
+      "examples": [
+        { "jp": "いそがしかったです。", "romaji": "isogashikatta desu", "en": "(I) was busy." },
+        { "jp": "おみやげですか？ はい、おみやげです。", "romaji": "omiyage desu ka? hai, omiyage desu", "en": "Is (it) a souvenir? Yes, (it) is." }
+      ]
+    },
+    {
+      "id": "xwaydesu", "group": "Sentence structure", "title": "X は Y です: the core sentence", "jp": "○○は ▲▲です", "lesson": "l3",
+      "summary": "\"As for X, it is Y.\" Negate with じゃないです, ask with か.",
+      "body": "<p>Almost every sentence you know is this frame. X is the topic (marked by は), Y is what you're saying about it, です is a polite \"is\".</p><ul><li>is: ○○は ▲▲<b>です</b></li><li>is not: ○○は ▲▲<b>じゃないです</b></li><li>is it?: ○○は ▲▲<b>ですか</b></li><li>was: ○○は ▲▲<b>でした</b></li></ul><p>Question words drop straight into the Y slot: なん (what), どれ (which one), いくら (how much), どんな (what kind).</p>",
+      "examples": [
+        { "jp": "きょうは しごとじゃないです。", "romaji": "kyou wa shigoto janai desu", "en": "Today isn't a work day." },
+        { "jp": "しゅみは なんですか？", "romaji": "shumi wa nan desu ka?", "en": "What's your hobby?" }
+      ]
+    },
+    {
+      "id": "wa", "group": "Particles", "title": "は: the topic", "jp": "は (wa)", "lesson": "l1",
+      "summary": "Marks what the sentence is about. Written は, read \"wa\".",
+      "body": "<p>は points at the topic: \"as for ___\". It's not quite the subject; it's the thing you're talking about. きょうは どうでしたか = \"as for today, how was it?\"</p><p>Spelling trap: the particle is written with the kana は (ha) but pronounced \"wa\". That's why こんにちは ends in は: it was originally \"as for today...\".</p>",
+      "examples": [
+        { "jp": "ひだりは はっぴゃくえんです。", "romaji": "hidari wa happyaku en desu", "en": "As for the left one, it's 800 yen." },
+        { "jp": "ゆうやさんは？", "romaji": "Yuuya-san wa?", "en": "And as for Yuya? (how about you?)" }
+      ]
+    },
+    {
+      "id": "ga", "group": "Particles", "title": "が: the subject", "jp": "が", "lesson": "l3",
+      "summary": "Marks the subject, the thing doing or being. Used with すき and with new information.",
+      "body": "<p>が marks the grammatical subject. You meet it most with すき: ○○<b>が</b> すきです, \"○○ is liked\" (by me). It also introduces something new or specific: しごと<b>が</b> いそがしかったです, \"it was work that was busy\".</p><p>は vs が is the classic hard part of Japanese. For now: は for the topic you're talking about, が for the thing with すき and for pointing out which thing. Both are often fine.</p>",
+      "examples": [
+        { "jp": "なっとうが すきじゃないです。", "romaji": "nattou ga suki janai desu", "en": "I don't like natto." },
+        { "jp": "しごとが いそがしかったです。", "romaji": "shigoto ga isogashikatta desu", "en": "Work was busy." }
+      ]
+    },
+    {
+      "id": "o", "group": "Particles", "title": "を: the object", "jp": "を (o)", "lesson": "l5",
+      "summary": "Marks the thing an action is done to. Written を, read \"o\".",
+      "body": "<p>を marks the direct object: what you drink, buy, do, ask for. Only used as a particle, never inside a word. なに<b>を</b> しますか (what will you do), これ<b>を</b> ください (give me this), おちゃ<b>を</b> おねがいします.</p>",
+      "examples": [
+        { "jp": "これを ください。", "romaji": "kore o kudasai", "en": "This one, please." },
+        { "jp": "しゅうまつ、なにを しますか？", "romaji": "shuumatsu, nani o shimasu ka?", "en": "What will you do this weekend?" }
+      ]
+    },
+    {
+      "id": "ni", "group": "Particles", "title": "に: destination and time", "jp": "に", "lesson": "l5",
+      "summary": "Marks where you go (ジムに) and when something happens.",
+      "body": "<p>With a movement verb like いきます (go), に marks the destination: ジム<b>に</b> いきます, しごと<b>に</b> いきます. Later you'll see it mark times (にじに = at 2 o'clock) and locations of existence. へ (read \"e\") can replace it for \"toward\".</p>",
+      "examples": [
+        { "jp": "あした、しごとに いきます。", "romaji": "ashita, shigoto ni ikimasu", "en": "I'll go to work tomorrow." }
+      ]
+    },
+    {
+      "id": "no", "group": "Particles", "title": "の: belongs to / of", "jp": "の", "lesson": "l3",
+      "summary": "A の B = B of A, A's B. Links two nouns.",
+      "body": "<p>の joins nouns, with the owner or category first: にほん<b>の</b> れきし (Japan's history), きょう<b>の</b> レッスン (today's lesson). Think of it as an apostrophe-s that always goes between the two words.</p>",
+      "examples": [
+        { "jp": "にほんの れきしが すきです。", "romaji": "nihon no rekishi ga suki desu", "en": "I like Japanese history." },
+        { "jp": "きょうの レッスンは よかったです。", "romaji": "kyou no ressun wa yokatta desu", "en": "Today's lesson was good." }
+      ]
+    },
+    {
+      "id": "to-mo", "group": "Particles", "title": "と and も: and, also", "jp": "と・も", "lesson": "l3",
+      "summary": "と joins two nouns (A and B). も replaces は to mean \"also\".",
+      "body": "<p><b>と</b> is \"and\" between nouns only: ヒップホップ<b>と</b> ロック. It can't join sentences.</p><p><b>も</b> means \"too\" and takes the place of は or が: ぼく<b>も</b> ロックが すきです (I like rock too). Don't say ぼくはも.</p>",
+      "examples": [
+        { "jp": "チーズバーガーと コーラを おねがいします。", "romaji": "chiizubaagaa to koora o onegaishimasu", "en": "A cheeseburger and a cola, please." },
+        { "jp": "ぼくも ロックが すきです。", "romaji": "boku mo rokku ga suki desu", "en": "I like rock, too." }
+      ]
+    },
+    {
+      "id": "ka-ne", "group": "Particles", "title": "か and ね: question and agreement", "jp": "か・ね", "lesson": "l1",
+      "summary": "か at the end makes a question. ね asks for agreement, like \"isn't it?\".",
+      "body": "<p>No word order change, no rising tone needed: add <b>か</b> and it's a question. げんきです → げんきです<b>か</b>.</p><p><b>ね</b> softens a statement and invites the listener to agree: いいです<b>ね</b> (nice, isn't it), きれいです<b>ね</b>. Use it a lot; it sounds friendly. (よ, which you'll meet later, does the opposite: it asserts.)</p>",
+      "examples": [
+        { "jp": "おいしいですね。", "romaji": "oishii desu ne", "en": "It's delicious, isn't it?" },
+        { "jp": "これは なんですか？", "romaji": "kore wa nan desu ka?", "en": "What is this?" }
+      ]
+    },
+    {
+      "id": "masu", "group": "Verbs", "title": "Verbs: the ます form", "jp": "ます", "lesson": "l5",
+      "summary": "Polite verbs end in ます. Present and future are the same form.",
+      "body": "<p>Your verbs so far all end in ます: いきます (go), します (do), きました (came), あります (there is). ます is the polite present, and it also means the future: ジムに いきます is \"I go\" or \"I will go\". Japanese doesn't separate them.</p><ul><li>present/future: いき<b>ます</b></li><li>past: いき<b>ました</b></li><li>negative: いき<b>ません</b></li><li>past negative: いき<b>ませんでした</b></li></ul><p>Only the ending changes. The stem (いき) stays put.</p>",
+      "examples": [
+        { "jp": "ジムに いきました。", "romaji": "jimu ni ikimashita", "en": "I went to the gym." },
+        { "jp": "なにか しつもんは ありますか？", "romaji": "nanika shitsumon wa arimasu ka?", "en": "Do you have any questions?" }
+      ]
+    },
+    {
+      "id": "kudasai", "group": "Verbs", "title": "ください and おねがいします", "jp": "ください・おねがいします", "lesson": "l5",
+      "summary": "ITEM を ください = please give me ITEM. おねがいします is softer.",
+      "body": "<p>ください is \"please give me\" and takes を on the item: これ<b>を ください</b>. It's the normal way to order or buy. おねがいします is a touch more polite and also works on its own as \"please\" when you hand something over or ask a favour.</p>",
+      "examples": [
+        { "jp": "あかい おちゃを ください。", "romaji": "akai ocha o kudasai", "en": "The red tea, please." },
+        { "jp": "おちゃを おねがいします。", "romaji": "ocha o onegaishimasu", "en": "Tea, please. (softer)" }
+      ]
+    },
+    {
+      "id": "i-adj", "group": "Adjectives", "title": "い-adjectives and their past tense", "jp": "いけいようし", "lesson": "l5",
+      "summary": "Adjectives ending in い conjugate themselves: いそがしい → いそがしかった.",
+      "body": "<p>Adjectives that end in い (いそがしい, たのしい, やすい, おいしい, あかい, あおい) carry tense on their own, like verbs. です just adds politeness and never changes.</p><ul><li>is busy: いそがし<b>い</b>です</li><li>was busy: いそがし<b>かった</b>です</li><li>is not busy: いそがし<b>くない</b>です</li></ul><p>Never いそがしいでした. The adjective changes, not です. You already know one: よかったです (it was good) comes from いい/よい.</p><p>In front of a noun, no particle: あかい おちゃ, あおい せんす.</p>",
+      "examples": [
+        { "jp": "ジムは たのしかったです。", "romaji": "jimu wa tanoshikatta desu", "en": "The gym was fun." },
+        { "jp": "やすいですね！", "romaji": "yasui desu ne!", "en": "That's cheap!" }
+      ]
+    },
+    {
+      "id": "na-adj", "group": "Adjectives", "title": "な-adjectives: きれい, げんき, すき", "jp": "なけいようし", "lesson": "l5",
+      "summary": "A second family that behaves like nouns. Past tense goes on です: きれいでした.",
+      "body": "<p>Some adjectives don't end in い (げんき, すき) or only look like they do (きれい ends in い but is a な-adjective). These behave like nouns: the tense goes on です, exactly like the X は Y です sentence.</p><ul><li>is beautiful: きれい<b>です</b></li><li>was beautiful: きれい<b>でした</b></li><li>not beautiful: きれい<b>じゃないです</b></li></ul><p>Before a noun they take な: きれい<b>な</b> せんす (a beautiful fan), すき<b>な</b> たべもの (favourite food). You've seen that one already.</p>",
+      "examples": [
+        { "jp": "とても きれいですね。", "romaji": "totemo kirei desu ne", "en": "It's very beautiful." },
+        { "jp": "すきな たべものは なんですか？", "romaji": "suki na tabemono wa nan desu ka?", "en": "What's your favourite food?" }
+      ]
+    },
+    {
+      "id": "kosoado", "group": "Questions & pointing", "title": "これ・それ・あれ・どれ", "jp": "こそあど", "lesson": "l4",
+      "summary": "this (near me), that (near you), that (over there), which one. The こ・そ・あ・ど system.",
+      "body": "<p>Japanese splits \"that\" by who it's near. <b>これ</b> near the speaker, <b>それ</b> near the listener, <b>あれ</b> away from both, <b>どれ</b> which one (of three or more). The same four starts work for places (ここ・そこ・あそこ・どこ) and for \"this ___\" before a noun (この・その・あの・どの), which you'll meet soon.</p><p>In a shop, これ + pointing solves almost everything.</p>",
+      "examples": [
+        { "jp": "それは いくらですか？", "romaji": "sore wa ikura desu ka?", "en": "How much is that (near you)?" },
+        { "jp": "あおい せんすは どれですか？", "romaji": "aoi sensu wa dore desu ka?", "en": "Which one is the blue fan?" }
+      ]
+    },
+    {
+      "id": "qwords", "group": "Questions & pointing", "title": "Question words", "jp": "ぎもんし", "lesson": "l2",
+      "summary": "なん what, どれ which, いくら how much, どんな what kind, どこ where. They sit where the answer would.",
+      "body": "<p>A question word takes the place of the answer; nothing else moves. これは <b>おちゃ</b>です → これは <b>なん</b>ですか. Then add か.</p><ul><li>なん／なに: what</li><li>どれ: which one</li><li>いくら: how much</li><li>どんな: what kind of (どんな おんがく)</li><li>どこ: where</li><li>どう: how (どうでしたか = how was it)</li></ul>",
+      "examples": [
+        { "jp": "これは どういう いみですか？", "romaji": "kore wa douiu imi desu ka?", "en": "What does this mean?" },
+        { "jp": "どんな おんがくが すきですか？", "romaji": "donna ongaku ga suki desu ka?", "en": "What kind of music do you like?" }
+      ]
+    },
+    {
+      "id": "numbers", "group": "Numbers & prices", "title": "Counting and the まん system", "jp": "すうじ", "lesson": "l4",
+      "summary": "1–10, then stack: 21 = に・じゅう・いち. Big numbers group by 10,000 (まん), not 1,000.",
+      "body": "<p>After ten, you build numbers by stacking: じゅういち (10+1), にじゅう (2×10), にじゅういち. Use <b>よん</b> for 4, <b>なな</b> for 7 and <b>きゅう</b> for 9 (し sounds like \"death\").</p><p>The big difference from English: Japanese groups by <b>10,000</b>, called まん. 10,000 is いちまん (one まん), never じゅうせん. 20,000 is にまん, 15,000 is いちまん ごせん.</p>",
+      "examples": [
+        { "jp": "きゅうじゅうきゅう", "romaji": "kyuu-juu-kyuu", "en": "99" },
+        { "jp": "いちまん ごせん", "romaji": "ichiman gosen", "en": "15,000" }
+      ]
+    },
+    {
+      "id": "sound-change", "group": "Numbers & prices", "title": "Sound changes in hundreds and thousands", "jp": "おんびん", "lesson": "l4",
+      "summary": "ひゃく becomes びゃく or ぴゃく after some numbers; せん becomes ぜん after さん.",
+      "body": "<p>Some combinations are hard to say fast, so the sound shifts. Memorise these five and the rest are regular:</p><ul><li>300: さん<b>びゃく</b> (h → b)</li><li>600: ろっ<b>ぴゃく</b> (h → pp)</li><li>800: はっ<b>ぴゃく</b> (h → pp)</li><li>3,000: さん<b>ぜん</b> (s → z)</li><li>8,000: はっ<b>せん</b></li></ul><p>Then えん for yen: さんびゃくえん, はっぴゃくえん.</p>",
+      "examples": [
+        { "jp": "ひだりは はっぴゃく えんです。", "romaji": "hidari wa happyaku en desu", "en": "The left one is 800 yen." }
+      ]
+    },
+    {
+      "id": "polite", "group": "Politeness & tone", "title": "Polite form is your default", "jp": "ていねいご", "lesson": "l1",
+      "summary": "です and ます are the polite register. Use them with everyone you don't know well.",
+      "body": "<p>Japanese has levels of politeness. Your lessons teach the <b>です／ます</b> level, which is right for shops, teachers, strangers and most adults. Casual forms (おはよう instead of おはようございます, じゃあね) are for friends. When unsure, be polite; nobody is offended by です.</p><p>さん after a name is the polite default too: ゆうやさん, アオイさん. Never put さん on your own name.</p>",
+      "examples": [
+        { "jp": "おはようございます。", "romaji": "ohayou gozaimasu", "en": "Good morning. (polite)" },
+        { "jp": "おはよう。", "romaji": "ohayou", "en": "Morning. (casual, friends)" }
+      ]
+    },
+    {
+      "id": "set-phrases", "group": "Politeness & tone", "title": "Set phrases that aren't literal", "jp": "あいさつ", "lesson": "l2",
+      "summary": "よろしく おねがいします, いらっしゃいませ, おつかれさま: fixed phrases you say at fixed moments.",
+      "body": "<p>Some phrases don't translate word for word; you learn when to say them. <b>はじめまして。よろしく おねがいします</b> opens any introduction. <b>いらっしゃいませ</b> is what staff say to you; you never say it back. <b>すみません</b> gets attention, apologises and thanks, all at once. <b>どうぞ</b> hands something over or invites someone to go ahead.</p>",
+      "examples": [
+        { "jp": "よろしく おねがいします。", "romaji": "yoroshiku onegaishimasu", "en": "Nice to meet you. / Please treat me well." },
+        { "jp": "もういちど おねがいします。", "romaji": "mou ichido onegaishimasu", "en": "Please say that again." }
+      ]
+    }
+  ]
+}

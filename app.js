@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = '1.2.0';
+  const APP_VERSION = '2.0.0';
   const KEY_PROGRESS = 'kotoba.progress.v1';
   const KEY_SETTINGS = 'kotoba.settings.v1';
   const SEP = '\u001f';                       // deck name + SEP + jp text = progress key
@@ -30,14 +30,18 @@
 
   const state = {
     decks: [],            // [{ name, cards: [{ deck, jp, romaji, sounds, en, key }] }]
+    lessons: [], grammar: { entries: [], groups: [], further: [] },
+    lesson: null, build: null, speak: null, rp: null,
     cardsVersion: null,
-    progress: loadJSON(KEY_PROGRESS, { cards: {}, streak: { count: 0, lastDay: null }, sessions: 0, lastVersion: null, kana: { rows: {}, tiers: {} } }),
+    progress: loadJSON(KEY_PROGRESS, { cards: {}, streak: { count: 0, lastDay: null }, sessions: 0, lastVersion: null, kana: { rows: {}, tiers: {} }, lessons: {}, plan: { day: null, done: {} } }),
     settings: loadJSON(KEY_SETTINGS, { theme: 'auto', reverse: false, shuffle: false, size: 20, name: 'Elan', autoSpeak: false, quiz: { ...QUIZ_DEFAULTS } }),
     selected: new Set(),
     session: null, quiz: null, learn: null, lastResult: null,
     screen: 'home', tab: 'home', kanaTier: null,
   };
   state.progress.kana = { rows: {}, tiers: {}, ...(state.progress.kana || {}) };
+  state.progress.lessons = state.progress.lessons || {};
+  state.progress.plan = { day: null, done: {}, ...(state.progress.plan || {}) };
   state.settings.quiz = { ...QUIZ_DEFAULTS, ...(state.settings.quiz || {}) };
   const saveProgress = () => saveJSON(KEY_PROGRESS, state.progress);
   const saveSettings = () => saveJSON(KEY_SETTINGS, state.settings);
@@ -143,18 +147,19 @@
   }
 
   // ---------------------------------------------------------------- screens & tabs
-  const TAB_SCREENS = ['home', 'kana', 'quiz'];
+  const TAB_SCREENS = ['home', 'review', 'kana', 'quiz', 'lesson', 'guide', 'ref', 'refentry'];
   function showScreen(name) {
     state.screen = name;
     $$('.screen').forEach(s => s.classList.toggle('is-active', s.dataset.screen === name));
     $('#tabbar').hidden = !TAB_SCREENS.includes(name);
     const active = $(`.screen[data-screen="${name}"]`);
-    if (active && !['study', 'learn', 'quizrun'].includes(name)) { const sc = active.querySelector('.home-wrap, .page-wrap, .settings-wrap, .summary-wrap'); if (sc) sc.scrollTop = 0; }
+    if (active && !['study', 'learn', 'quizrun', 'build', 'speak', 'roleplay'].includes(name)) { const sc = active.querySelector('.home-wrap, .page-wrap, .settings-wrap, .summary-wrap'); if (sc) sc.scrollTop = 0; }
   }
   function showTab(name) {
     state.tab = name;
     $$('.tab').forEach(t => t.classList.toggle('is-on', t.dataset.tab === name));
     if (name === 'home') renderHome();
+    if (name === 'review') renderReview();
     if (name === 'kana') renderKana();
     if (name === 'quiz') renderQuizSetup();
     showScreen(name);
@@ -288,27 +293,15 @@
   }
 
   // ---------------------------------------------------------------- home
-  function renderHome() {
-    $('#home-name').textContent = state.settings.name || 'Elan';
-    $('#home-date').textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' });
-
-    const streak = currentStreak();
-    $('#stat-streak').textContent = streak;
-    $('#stat-streak-sub').textContent = streak === 0 ? 'Study today to start one'
-      : state.progress.streak.lastDay === todayKey() ? 'Studied today · keep it up' : 'Study today to keep it';
-
+  function renderReview() {
     const all = state.decks.flatMap(d => d.cards);
-    const mastered = all.filter(isMastered).length;
     const due = all.filter(isDue).length;
     const newCount = all.filter(isNew).length;
-    $('#stat-mastered').textContent = mastered;
-    $('#stat-mastered-sub').textContent = `of ${all.length} cards`;
     $('#hero-count').textContent = due;
     $('#hero-sub').textContent = all.length === 0 ? 'No cards yet'
       : due === 0 ? 'All caught up · review anyway'
       : newCount === due ? `${due} new cards waiting` : `${due - newCount} to review · ${newCount} new`;
     $('.hero-title').textContent = due === 0 && all.length ? 'Review all cards' : 'Study due cards';
-    $('#home-kana-sub').textContent = kanaStatusLine();
 
     $('#opt-reverse').setAttribute('aria-pressed', String(!!state.settings.reverse));
     $('#opt-shuffle').setAttribute('aria-pressed', String(!!state.settings.shuffle));
@@ -360,7 +353,7 @@
   }
 
   // ---------------------------------------------------------------- flashcard session
-  function startSession({ decks, title, dueOnly = false, cards = null, redo = false }) {
+  function startSession({ decks, title, dueOnly = false, cards = null, redo = false, limit = null, returnTo = null, onDone = null }) {
     let pool = cards || decks.flatMap(d => d.cards);
     if (!pool.length) { toast('This deck has no cards'); return; }
     let label = title;
@@ -372,7 +365,7 @@
     if (state.settings.shuffle || dueOnly) pool = shuffle(pool);
     if (!state.settings.shuffle && !dueOnly) pool = pool.slice().sort((a, b) => Number(isDue(b)) - Number(isDue(a)));
     if (dueOnly) pool.sort((a, b) => Number(isNew(a)) - Number(isNew(b)));
-    const size = Number(state.settings.size);
+    const size = limit != null ? limit : Number(state.settings.size);
     if (size > 0 && !redo) pool = pool.slice(0, size);
 
     state.session = {
@@ -380,6 +373,7 @@
       results: new Map(), missed: [], startedAt: Date.now(), current: null, flipped: false, busy: false,
       reverse: !!state.settings.reverse,
       multiDeck: new Set(pool.map(c => c.deck)).size > 1,
+      returnTo, onDone,
     };
     $('#study-title').textContent = label;
     showScreen('study');
@@ -556,7 +550,7 @@
 
   function endSessionEarly() {
     const s = state.session; if (!s) return;
-    if (s.done === 0 && s.missed.length === 0) { state.session = null; showTab('home'); return; }
+    if (s.done === 0 && s.missed.length === 0) { state.session = null; showTab(s.returnTo || 'review'); return; }
     finishSession({ early: true });
   }
 
@@ -574,14 +568,16 @@
       eyebrow: early ? 'Session ended' : 'Session complete', pct,
       scoreSub: `${firstTry} of ${attempted} first try`,
       good: s.done, again: againCount, goodLabel: 'Got it', againLabel: 'Again',
-      elapsed: Date.now() - s.startedAt, missed, returnTo: 'home',
-      redo: missed.length ? () => startSession({ title: 'Missed cards', cards: missed, redo: true }) : null,
+      elapsed: Date.now() - s.startedAt, missed, returnTo: s.returnTo || 'review',
+      redo: missed.length ? () => startSession({ title: 'Missed cards', cards: missed, redo: true, returnTo: s.returnTo }) : null,
+      onDone: s.onDone,
     });
   }
 
   // ---------------------------------------------------------------- results screen (shared)
   function showResults(r) {
     state.lastResult = r;
+    if (r.onDone) { try { r.onDone(r); } catch (e) { console.warn(e); } }
     $('#summary-eyebrow').textContent = r.eyebrow;
     const [jp, sub] = r.pct >= 90 ? ['すばらしい', 'Outstanding. That was nearly perfect.']
       : r.pct >= 75 ? ['よくできました', 'Well done. Solid recall.']
@@ -868,9 +864,9 @@
   }
 
   // ---------------------------------------------------------------- quiz engine
-  function startQuiz({ title, mode, direction, items, pool, returnTo, onDone, eyebrow }) {
+  function startQuiz({ title, mode, direction, items, pool, returnTo, onDone, eyebrow, groups = null, custom = null }) {
     if (state.quiz?.timer) clearInterval(state.quiz.timer);
-    state.quiz = { title, mode, direction, items, pool: pool || items, index: 0, results: new Map(), startedAt: Date.now(), busy: false, returnTo, onDone, eyebrow, matchPos: 0, matchMistakes: 0, matchDone: 0, timer: null };
+    state.quiz = { title, mode, direction, items, pool: pool || items, index: 0, results: new Map(), startedAt: Date.now(), busy: false, returnTo, onDone, eyebrow, matchPos: 0, matchMistakes: 0, matchDone: 0, timer: null, groups, custom };
     $('#quiz-title').textContent = title;
     showScreen('quizrun');
     if (mode === 'match') state.quiz.timer = setInterval(updateQuizHeader, 1000);
@@ -899,6 +895,7 @@
     if (q.index >= q.items.length) { finishQuiz(); return; }
     updateQuizHeader();
     const item = q.items[q.index];
+    if (q.custom) { renderSituation(item); return; }
     let mode = q.mode; if (mode === 'mixed') mode = pick(['mc', 'mc', 'listen']);
     let dir = q.direction; if (dir === 'both' || !dir) dir = Math.random() < 0.5 ? 'jp-en' : 'en-jp';
     if (mode === 'listen') renderListen(item); else renderMC(item, dir);
@@ -907,7 +904,15 @@
   function buildOptions(item, field) {
     const q = state.quiz;
     const seen = new Set([item[field]]);
-    const cands = q.pool.filter(x => x.id !== item.id && !seen.has(x[field]) && seen.add(x[field]));
+    const take = x => x.id !== item.id && !seen.has(x[field]) && seen.add(x[field]);
+    if (q.groups && q.groups[item.id]) {
+      // confusable set first, then fill from the whole pool
+      const picks = shuffle(q.groups[item.id].filter(take)).slice(0, 3);
+      const fill = shuffle(q.pool.filter(take));
+      while (picks.length < 3 && fill.length) picks.push(fill.shift());
+      return shuffle([item, ...picks]);
+    }
+    const cands = q.pool.filter(take);
     const sameGroup = shuffle(cands.filter(x => x.group === item.group)), others = shuffle(cands.filter(x => x.group !== item.group));
     const picks = [...sameGroup.slice(0, 2), ...others.slice(0, 1)];
     const rest = [...sameGroup.slice(2), ...others.slice(1)];
@@ -933,6 +938,34 @@
       <div class="q-options">${options.map((o, i) => `<button class="${promptJP ? 'q-opt' : jpOptClass(o.jp)}" data-i="${i}">${escapeHTML(o[field])}</button>`).join('')}</div>`;
     body.querySelector('.speak-btn')?.addEventListener('click', e => speak(item.jp, e.currentTarget));
     $$('.q-opt', body).forEach(b => b.addEventListener('click', () => answerChoice(item, options[Number(b.dataset.i)], b, field)));
+  }
+
+  function renderSituation(item) {
+    const body = $('#quiz-body');
+    const options = item.options.map((text, i) => ({ text, ok: i === item.answer }));
+    const shuffled = shuffle(options);
+    body.innerHTML = `
+      <div class="q-prompt">
+        <div class="card-top"><span class="card-deck">${escapeHTML(item.group || 'Situation')}</span><span></span></div>
+        <div class="q-prompt-main"><div class="q-en ${item.prompt.length > 48 ? 'long' : ''}">${escapeHTML(item.prompt)}</div></div>
+        <div class="card-hint">What do you say?</div>
+      </div>
+      <div class="q-options">${shuffled.map((o, i) => `<button class="${jpOptClass(o.text)}" data-i="${i}">${escapeHTML(o.text)}</button>`).join('')}</div>`;
+    $$('.q-opt', body).forEach(b => b.addEventListener('click', () => {
+      const q = state.quiz; if (!q || q.busy) return;
+      q.busy = true;
+      const o = shuffled[Number(b.dataset.i)];
+      const opts = $$('#quiz-body .q-opt'); opts.forEach(x => { x.disabled = true; });
+      b.classList.add(o.ok ? 'is-right' : 'is-wrong');
+      opts.forEach((x, i) => { if (shuffled[i].ok && x !== b) x.classList.add('is-right'); else if (x !== b) x.classList.add('is-dim'); });
+      const right = item.options[item.answer];
+      if (!o.ok && item.why) toast(item.why, { duration: 2200 });
+      speak(right);
+      record({ id: item.id, kind: 'situation', jp: right, en: item.prompt, romaji: '', sounds: '', meaning: item.prompt }, o.ok);
+      haptic(o.ok ? 12 : 25);
+      q.index++;
+      setTimeout(nextQuestion, o.ok ? 700 : 1700);
+    }));
   }
 
   function renderListen(item) {
@@ -1040,6 +1073,565 @@
     });
   }
 
+
+  // ================================================================ lessons
+  async function loadLessons() {
+    try {
+      const res = await fetch('./lessons.json', { cache: 'no-cache' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      state.lessons = (data.lessons || []).filter(l => l && l.id);
+    } catch (e) { console.warn('lessons.json load failed', e); }
+  }
+  async function loadGrammar() {
+    try {
+      const res = await fetch('./grammar.json', { cache: 'no-cache' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      state.grammar = { entries: data.entries || [], groups: data.groups || [], further: data.further || [] };
+    } catch (e) { console.warn('grammar.json load failed', e); }
+  }
+  const lessonById = id => state.lessons.find(l => l.id === id);
+  function lp(l) { // lesson progress record
+    const p = state.progress.lessons;
+    if (!p[l.id]) p[l.id] = { read: {}, build: { best: 0, attempts: 0 }, speak: { best: 0, attempts: 0 }, roleplay: { runs: 0 }, check: { best: 0, passed: false, attempts: 0 } };
+    const r = p[l.id];
+    r.read = r.read || {}; r.build = r.build || { best: 0, attempts: 0 }; r.speak = r.speak || { best: 0, attempts: 0 }; r.roleplay = r.roleplay || { runs: 0 }; r.check = r.check || { best: 0, passed: false, attempts: 0 };
+    return r;
+  }
+  const lessonCards = l => state.decks.filter(d => (l.decks || []).includes(d.name)).flatMap(d => d.cards);
+  const lessonDecks = l => state.decks.filter(d => (l.decks || []).includes(d.name));
+  function lessonParts(l) {
+    if (l.status !== 'full') return [];
+    const r = lp(l);
+    const readN = (l.learn || []).filter(s => r.read[s.id]).length;
+    return [
+      { key: 'learn', name: 'Learn', glyph: '学', sub: `${(l.learn || []).length} sections · study guide`, status: readN === (l.learn || []).length ? 'Read' : `${readN}/${(l.learn || []).length} read`, done: readN === (l.learn || []).length, frac: (l.learn || []).length ? readN / l.learn.length : 0, go: () => openGuide(l) },
+      { key: 'build', name: 'Build', glyph: '組', sub: `${(l.build || []).length} drills · particles, slots, word order`, status: r.build.attempts ? `best ${r.build.best}%` : 'Not started', done: r.build.best >= 80, frac: Math.min(1, r.build.best / 100), go: () => startBuild(l) },
+      { key: 'speak', name: 'Speak', glyph: '話', sub: `${(l.speak || []).length} phrases · say it, then check`, status: r.speak.attempts ? `best ${r.speak.best}%` : 'Not started', done: r.speak.best >= 80, frac: Math.min(1, r.speak.best / 100), go: () => startSpeak(l, {}) },
+      { key: 'roleplay', name: 'Role-play', glyph: '店', sub: l.roleplay ? l.roleplay.title : '', status: r.roleplay.runs ? `${r.roleplay.runs} run${r.roleplay.runs === 1 ? '' : 's'}` : 'Not started', done: r.roleplay.runs > 0, frac: Math.min(1, r.roleplay.runs), go: () => startRoleplay(l) },
+      { key: 'check', name: 'Check', glyph: '済', sub: `${(l.check || []).length} questions · pass at 80%`, status: r.check.passed ? 'Passed' : r.check.attempts ? `best ${r.check.best}%` : 'Locked until the rest is done', done: r.check.passed, frac: r.check.passed ? 1 : r.check.best / 100, go: () => startCheck(l) },
+    ];
+  }
+  function lessonProgress(l) {
+    const cards = lessonCards(l);
+    const cardFrac = cards.length ? cards.filter(isMastered).length / cards.length : 0;
+    if (l.status !== 'full') return cardFrac;
+    const parts = lessonParts(l);
+    return (parts.reduce((n, p) => n + p.frac, 0) + cardFrac) / (parts.length + 1);
+  }
+  const lessonDone = l => l.status === 'full' ? lp(l).check.passed : (lessonCards(l).length > 0 && lessonCards(l).every(isMastered));
+  function currentLesson() {
+    const full = state.lessons.filter(l => l.status === 'full');
+    return full.find(l => !lessonDone(l)) || full[full.length - 1] || state.lessons[state.lessons.length - 1] || null;
+  }
+  function ringHTML(frac, size = 52) {
+    const pct = Math.round(frac * 100);
+    return `<div class="ring" style="width:${size}px;height:${size}px"><svg viewBox="0 0 52 52"><circle class="track" cx="26" cy="26" r="22"/><circle class="fill" cx="26" cy="26" r="22" style="stroke-dashoffset:${(138.2 * (1 - frac)).toFixed(1)}"/></svg><div class="pct">${pct}%</div></div>`;
+  }
+
+  // ---------------------------------------------------------------- home (lesson path + plan)
+  function renderHome() {
+    $('#home-name').textContent = state.settings.name || 'Elan';
+    $('#home-date').textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' });
+    const streak = currentStreak();
+    $('#stat-streak').textContent = streak;
+    $('#stat-streak-sub').textContent = streak === 0 ? 'Study today to start one'
+      : state.progress.streak.lastDay === todayKey() ? 'Studied today · keep it up' : 'Study today to keep it';
+    const all = state.decks.flatMap(d => d.cards);
+    $('#stat-mastered').textContent = all.filter(isMastered).length;
+    $('#stat-mastered-sub').textContent = `of ${all.length} cards`;
+    $('#home-kana-sub').textContent = kanaStatusLine();
+    $('#home-ref-sub').textContent = state.grammar.entries.length ? `${state.grammar.entries.length} rules · particles, verbs, adjectives, numbers` : 'Sentence structure, particles, verbs, adjectives';
+    const cur = currentLesson();
+    $('#home-sub').textContent = cur ? `Working on Lesson ${cur.num}: ${cur.title}.` : 'Welcome back.';
+    renderPlan();
+
+    const path = $('#lesson-path'); path.innerHTML = '';
+    const doneCount = state.lessons.filter(lessonDone).length;
+    $('#lessons-sub').textContent = state.lessons.length ? `${doneCount} of ${state.lessons.length} complete` : '';
+    if (!state.lessons.length) { path.innerHTML = '<div class="empty">No lessons yet.</div>'; return; }
+    state.lessons.forEach((l, i) => {
+      const el = document.createElement('button');
+      const isCur = cur && cur.id === l.id, done = lessonDone(l);
+      el.className = 'lesson-row' + (isCur ? ' is-current' : '');
+      el.style.setProperty('--i', i);
+      const cards = lessonCards(l), due = cards.filter(isDue).length;
+      const pill = done ? '<span class="lesson-pill done">済</span>' : isCur ? '<span class="lesson-pill cur">Current</span>' : l.status !== 'full' ? '<span class="lesson-pill">Cards</span>' : '';
+      el.innerHTML = `
+        <div class="lesson-num">${l.num}</div>
+        <div class="lesson-body">
+          <div class="lesson-name">${escapeHTML(l.title)} <span class="jp">${escapeHTML(l.jp || '')}</span></div>
+          <div class="lesson-meta">${l.status === 'full' ? `${(l.learn || []).length} sections · ${(l.build || []).length} drills · ` : ''}${cards.length} cards${due ? ` · <span class="due">${due} due</span>` : ''}</div>
+        </div>
+        ${pill}
+        ${ringHTML(lessonProgress(l), 44)}`;
+      el.addEventListener('click', () => openLesson(l.id));
+      path.appendChild(el);
+    });
+  }
+
+  // ---------------------------------------------------------------- today's plan
+  function planToday() {
+    const p = state.progress.plan;
+    if (p.day !== todayKey()) { p.day = todayKey(); p.done = {}; saveProgress(); }
+    return p;
+  }
+  function markPlan(step) { const p = planToday(); p.done[step] = true; saveProgress(); }
+  function planSteps() {
+    const p = planToday();
+    const all = state.decks.flatMap(d => d.cards);
+    const due = all.filter(isDue).length;
+    const cur = currentLesson();
+    const steps = [];
+    steps.push({ key: 'review', title: due ? `Review ${Math.min(due, 10)} due cards` : 'Review: nothing due', sub: due ? 'Flashcards from every lesson, misses come back sooner' : 'All caught up. Come back tomorrow.', done: !!p.done.review || due === 0,
+      go: () => startSession({ decks: state.decks, title: "Today's review", dueOnly: true, limit: 10, returnTo: 'home', onDone: () => markPlan('review') }) });
+    if (cur && cur.status === 'full') {
+      const parts = lessonParts(cur);
+      const next = parts.find(pt => !pt.done && pt.key !== 'check') || parts.find(pt => !pt.done) || null;
+      if (next) steps.push({ key: 'part', title: `Lesson ${cur.num}: ${next.name}`, sub: next.sub, done: !!p.done.part, go: next.go });
+      else steps.push({ key: 'part', title: `Lesson ${cur.num} complete`, sub: 'Everything passed. Review keeps it fresh.', done: true, go: () => openLesson(cur.id) });
+      steps.push({ key: 'speak', title: `Speak: ${Math.min(8, (cur.speak || []).length)} phrases out loud`, sub: `From Lesson ${cur.num}. Say it, reveal, grade yourself.`, done: !!p.done.speak, go: () => startSpeak(cur, { count: 8, plan: true }) });
+    } else if (cur) {
+      steps.push({ key: 'part', title: `Lesson ${cur.num}: flashcards`, sub: 'Study guide and drills coming after Lesson 5 is approved.', done: !!p.done.part, go: () => startSession({ decks: lessonDecks(cur), title: cur.title, returnTo: 'home', onDone: () => markPlan('part') }) });
+    }
+    return steps;
+  }
+  function renderPlan() {
+    const steps = planSteps();
+    const wrap = $('#plan-steps'); wrap.innerHTML = '';
+    const doneN = steps.filter(s => s.done).length;
+    $('#plan-count').textContent = `${doneN} / ${steps.length}`;
+    steps.forEach((s, i) => {
+      const b = document.createElement('button');
+      b.className = 'plan-step' + (s.done ? ' is-done' : '');
+      b.innerHTML = `<span class="plan-num">${s.done ? CHECK_SVG : i + 1}</span><span class="plan-body"><span class="plan-title">${escapeHTML(s.title)}</span><span class="plan-sub">${escapeHTML(s.sub)}</span></span><span class="plan-go">${s.done ? 'Again' : 'Start'}</span>`;
+      b.addEventListener('click', () => { haptic(); s.go(); });
+      wrap.appendChild(b);
+    });
+  }
+
+  // ---------------------------------------------------------------- lesson overview
+  function openLesson(id) {
+    const l = lessonById(id) || currentLesson(); if (!l) { showTab('home'); return; }
+    state.lesson = l;
+    $('#lesson-eyebrow').textContent = `Lesson ${l.num}${l.date ? ` · ${l.date}` : ''} · ${l.jp || ''}`;
+    $('#lesson-title').textContent = l.title;
+    $('#lesson-goal').textContent = l.goal || '';
+    $('#lesson-ring').innerHTML = ringHTML(lessonProgress(l), 60);
+    const parts = $('#lesson-parts'); parts.innerHTML = '';
+    let i = 0;
+    const r = lp(l);
+    const partsList = lessonParts(l);
+    partsList.forEach(p => {
+      const b = document.createElement('button');
+      b.className = 'part-row' + (p.done ? ' is-done' : '');
+      b.style.setProperty('--i', i++);
+      const locked = p.key === 'check' && !partsList.filter(x => x.key !== 'check').every(x => x.done || (x.key === 'learn' ? x.frac >= 1 : x.frac > 0));
+      if (locked && !r.check.passed) b.disabled = true;
+      b.innerHTML = `<span class="part-icon jp">${p.glyph}</span><span class="part-body"><span class="part-name">${p.name}</span><span class="part-sub">${escapeHTML(p.sub)}</span></span><span class="part-status">${escapeHTML(p.done ? (p.key === 'check' ? 'Passed' : p.status) : locked ? 'Locked' : p.status)}</span>`;
+      b.addEventListener('click', () => { haptic(); p.go(); });
+      parts.appendChild(b);
+    });
+    // flashcards row
+    const cards = lessonCards(l), due = cards.filter(isDue).length;
+    const fc = document.createElement('button');
+    fc.className = 'part-row'; fc.style.setProperty('--i', i++);
+    fc.innerHTML = `<span class="part-icon jp">札</span><span class="part-body"><span class="part-name">Flashcards</span><span class="part-sub">${lessonDecks(l).map(d => d.name).join(' · ') || 'No decks'}</span></span><span class="part-status">${due ? `${due} due` : `${cards.length} cards`}</span>`;
+    fc.addEventListener('click', () => startSession({ decks: lessonDecks(l), title: l.title, dueOnly: due > 0, returnTo: 'lesson' }));
+    parts.appendChild(fc);
+    if (l.status !== 'full') {
+      const note = document.createElement('p'); note.className = 'hint'; note.style.padding = '12px 6px 0';
+      note.textContent = 'Study guide, drills, speaking and role-play for this lesson come after Lesson 5 is approved.';
+      parts.appendChild(note);
+    }
+    showScreen('lesson');
+  }
+
+  // ---------------------------------------------------------------- study guide
+  function openGuide(l) {
+    state.lesson = l;
+    const r = lp(l);
+    $('#guide-eyebrow').textContent = `Lesson ${l.num} · Study guide`;
+    $('#guide-title').textContent = l.title;
+    const body = $('#guide-body'); body.innerHTML = '';
+    const goal = document.createElement('div'); goal.className = 'goal-card'; goal.style.marginTop = '8px';
+    goal.innerHTML = `<div class="goal-body"><p class="eyebrow">Can-do goal</p><p class="goal-text">${escapeHTML(l.goal || '')}</p></div>`;
+    body.appendChild(goal);
+    const refByLesson = state.grammar.entries.filter(e => e.lesson === l.id);
+    (l.learn || []).forEach((s, i) => {
+      const sec = document.createElement('section'); sec.className = 'g-section'; sec.style.setProperty('--i', i);
+      sec.innerHTML = `
+        <h2>${escapeHTML(s.title)}</h2>${s.jp ? `<div class="g-jp jp">${escapeHTML(s.jp)}</div>` : ''}
+        ${s.intro ? `<p class="g-intro">${escapeHTML(s.intro)}</p>` : ''}
+        ${s.rule ? `<div class="g-rule"><div class="g-label">${escapeHTML(s.rule.label || 'Rule')}</div><div class="g-pattern">${s.rule.pattern}</div>${s.rule.note ? `<div class="g-note">${escapeHTML(s.rule.note)}</div>` : ''}</div>` : ''}
+        ${s.when ? `<p class="g-when"><b>When to use it:</b> ${escapeHTML(s.when)}</p>` : ''}
+        ${s.examples?.length ? `<div class="g-ex-list">${s.examples.map((e, j) => `<div class="g-ex"><div class="g-ex-text"><span class="jp">${escapeHTML(e.jp)}</span><span class="ro">${escapeHTML(e.romaji || '')}</span><span class="en">${escapeHTML(e.en)}</span></div><button class="speak-btn" data-jp="${escapeHTML(e.jp)}" aria-label="Read aloud">${SPEAK_SVG}</button></div>`).join('')}</div>` : ''}
+        ${s.tips?.length ? `<div class="g-tips">${s.tips.map(t => `<div class="g-tip">${escapeHTML(t)}</div>`).join('')}</div>` : ''}
+        <div class="g-read"><button class="pill ${r.read[s.id] ? 'pill-ghost is-on' : 'pill-accent'}" data-sec="${s.id}">${r.read[s.id] ? `${CHECK_SVG} Read` : 'Got it'}</button></div>`;
+      $$('.speak-btn', sec).forEach(b => b.addEventListener('click', () => speak(b.dataset.jp, b)));
+      sec.querySelector('[data-sec]').addEventListener('click', e => {
+        const btn = e.currentTarget; r.read[s.id] = !r.read[s.id]; saveProgress(); haptic();
+        btn.className = `pill ${r.read[s.id] ? 'pill-ghost is-on' : 'pill-accent'}`; btn.innerHTML = r.read[s.id] ? `${CHECK_SVG} Read` : 'Got it';
+        if ((l.learn || []).every(x => r.read[x.id])) markPlan('part');
+      });
+      body.appendChild(sec);
+    });
+    // word bank
+    const words = (l.vocab || []).map(jp => state.decks.flatMap(d => d.cards).find(c => c.jp === jp)).filter(Boolean);
+    if (words.length) {
+      const sec = document.createElement('section'); sec.className = 'g-section'; sec.style.setProperty('--i', (l.learn || []).length);
+      sec.innerHTML = `<h2>Word bank</h2><div class="g-jp jp">たんご</div><div class="g-vocab">${words.map(w => `<button class="g-word" data-jp="${escapeHTML(w.jp)}"><span><span class="jp">${escapeHTML(w.jp)}</span><small>${escapeHTML(w.romaji)} · ${escapeHTML(w.en)}</small></span><span class="speak-btn">${SPEAK_SVG}</span></button>`).join('')}</div>`;
+      $$('.g-word', sec).forEach(b => b.addEventListener('click', () => speak(b.dataset.jp, b.querySelector('.speak-btn'))));
+      body.appendChild(sec);
+    }
+    if (refByLesson.length) {
+      const sec = document.createElement('section'); sec.className = 'g-section'; sec.style.setProperty('--i', (l.learn || []).length + 1);
+      sec.innerHTML = `<h2>The grammar behind it</h2><div class="g-jp jp">ぶんぽう</div><p class="g-intro">Rules this lesson introduces, in the Japanese reference.</p><div class="g-ref-links">${refByLesson.map(e => `<button class="g-ref-link" data-ref="${e.id}">${escapeHTML(e.title)}</button>`).join('')}</div>`;
+      $$('[data-ref]', sec).forEach(b => b.addEventListener('click', () => openRefEntry(b.dataset.ref, 'guide')));
+      body.appendChild(sec);
+    }
+    const cta = document.createElement('div'); cta.className = 'g-cta';
+    cta.innerHTML = `<button class="btn btn-primary">Start the Build drills</button>`;
+    cta.querySelector('button').addEventListener('click', () => startBuild(l));
+    body.appendChild(cta);
+    showScreen('guide');
+  }
+
+  // ---------------------------------------------------------------- build drills
+  function startBuild(l) {
+    state.lesson = l;
+    const items = shuffle((l.build || []).map((b, i) => ({ ...b, id: `b${i}` })));
+    if (!items.length) { toast('No drills in this lesson yet'); return; }
+    state.build = { l, queue: items, total: items.length, index: 0, results: new Map(), startedAt: Date.now(), current: null, busy: false, first: new Set(items.map(i => i.id)) };
+    $('#build-title').textContent = `Lesson ${l.num} · Build`;
+    showScreen('build');
+    nextBuild();
+  }
+  function buildHeader() {
+    const b = state.build; if (!b) return;
+    const done = b.total - b.queue.length - (b.current ? 1 : 0);
+    $('#build-progress').style.width = `${(Math.max(0, done) / b.total) * 100}%`;
+    $('#build-counter').textContent = `${Math.min(done + 1, b.total)} / ${b.total}${b.queue.length + (b.current ? 1 : 0) > b.total - done ? '' : ''}`;
+  }
+  function nextBuild() {
+    const b = state.build; if (!b) return;
+    b.busy = false;
+    if (!b.queue.length) { finishBuild(); return; }
+    b.current = b.queue.shift();
+    buildHeader();
+    const it = b.current;
+    if (it.type === 'order') renderOrder(it); else renderSlot(it);
+  }
+  const KIND = { slot: 'Fill the slot', particle: 'Pick the particle', order: 'Build the sentence' };
+  function recordBuild(it, ok) {
+    const b = state.build;
+    const r = b.results.get(it.id) || { item: it, right: 0, wrong: 0, firstTry: null };
+    if (ok) r.right++; else r.wrong++;
+    if (r.firstTry === null) r.firstTry = ok;
+    b.results.set(it.id, r);
+    if (!ok) b.queue.splice(Math.min(b.queue.length, 2), 0, it); // comes back soon
+  }
+  function showWhy(container, ok, it, extra = '') {
+    const d = document.createElement('div'); d.className = `b-why ${ok ? 'ok' : 'bad'}`;
+    d.innerHTML = `${ok ? '✓ ' : '✕ '}${extra}${escapeHTML(it.why || '')}`;
+    container.appendChild(d);
+    const foot = document.createElement('div'); foot.className = 'b-foot';
+    foot.innerHTML = `<button class="btn ${ok ? 'btn-good' : 'btn-reveal'}" id="btn-build-next">${ok ? 'Next' : 'Got it, next'}</button>`;
+    container.appendChild(foot);
+    foot.querySelector('button').addEventListener('click', () => { haptic(); nextBuild(); });
+    const body = $('#build-body'); body.scrollTop = body.scrollHeight;
+  }
+  function renderSlot(it) {
+    const body = $('#build-body');
+    const parts = it.jp.split('___');
+    const options = shuffle(it.options);
+    const narrow = options.every(o => jpLen(o) <= 1);
+    body.innerHTML = `
+      <div class="b-prompt">
+        <div class="b-kind">${KIND[it.type] || 'Drill'}</div>
+        <div class="b-en">${escapeHTML(it.en)}</div>
+        <div class="b-sentence">${escapeHTML(parts[0] || '')}<span class="b-blank" id="b-blank">&nbsp;</span>${escapeHTML(parts[1] || '')}</div>
+      </div>
+      <div class="b-options ${narrow ? 'narrow' : ''}">${options.map((o, i) => `<button class="${jpOptClass(o)}" data-i="${i}">${escapeHTML(o)}</button>`).join('')}</div>`;
+    const blank = $('#b-blank');
+    $$('.q-opt', body).forEach(btn => btn.addEventListener('click', () => {
+      const b = state.build; if (!b || b.busy) return; b.busy = true;
+      const chosen = options[Number(btn.dataset.i)], ok = chosen === it.answer;
+      $$('.q-opt', body).forEach(x => { x.disabled = true; if (x.textContent === it.answer) x.classList.add('is-right'); else if (x !== btn) x.classList.add('is-dim'); });
+      if (!ok) btn.classList.add('is-wrong');
+      blank.textContent = chosen; blank.className = `b-blank filled ${ok ? 'ok' : 'bad'}`;
+      recordBuild(it, ok); haptic(ok ? 12 : 25);
+      speak(it.jp.replace('___', it.answer));
+      showWhy(body, ok, it, ok ? '' : `The answer is <b class="jp">${escapeHTML(it.answer)}</b>. `);
+    }));
+  }
+  function renderOrder(it) {
+    const body = $('#build-body');
+    const tiles = shuffle(it.tiles.map((t, i) => ({ t, i })));
+    body.innerHTML = `
+      <div class="b-prompt">
+        <div class="b-kind">${KIND.order}</div>
+        <div class="b-en">${escapeHTML(it.en)}</div>
+        <div class="b-answer" id="b-answer"></div>
+      </div>
+      <div class="b-bank" id="b-bank">${tiles.map((x, k) => `<button class="b-tile jp" data-k="${k}">${escapeHTML(x.t)}</button>`).join('')}</div>
+      <div class="b-foot"><button class="btn btn-reveal" id="btn-order-check" disabled>Check</button></div>`;
+    const answer = $('#b-answer'), check = $('#btn-order-check');
+    let placed = [];
+    const sync = () => { check.disabled = placed.length !== it.tiles.length; };
+    $$('#b-bank .b-tile', body).forEach(btn => btn.addEventListener('click', () => {
+      if (state.build?.busy || btn.classList.contains('is-used')) return;
+      btn.classList.add('is-used'); haptic(6);
+      const k = Number(btn.dataset.k);
+      const chip = document.createElement('button'); chip.className = 'b-tile jp'; chip.textContent = tiles[k].t; chip.dataset.k = k;
+      chip.addEventListener('click', () => { if (state.build?.busy) return; chip.remove(); btn.classList.remove('is-used'); placed = placed.filter(p => p !== k); sync(); });
+      answer.appendChild(chip); placed.push(k); sync();
+    }));
+    check.addEventListener('click', () => {
+      const b = state.build; if (!b || b.busy) return; b.busy = true;
+      const ok = placed.every((k, idx) => tiles[k].i === idx);
+      answer.classList.add(ok ? 'ok' : 'bad');
+      $$('.b-tile', body).forEach(x => { x.disabled = true; });
+      check.closest('.b-foot').remove();
+      recordBuild(it, ok); haptic(ok ? 12 : 25);
+      speak(it.tiles.join(''));
+      showWhy(body, ok, it, ok ? '' : `Correct order: <b class="jp">${escapeHTML(it.tiles.join(' '))}</b>. `);
+    });
+  }
+  function endBuildEarly() {
+    const b = state.build; if (!b) return;
+    if (b.results.size === 0) { state.build = null; $('#build-body').innerHTML = ''; openLesson(b.l.id); return; }
+    finishBuild({ early: true });
+  }
+  function finishBuild({ early = false } = {}) {
+    const b = state.build; if (!b) return;
+    const rs = [...b.results.values()];
+    const first = rs.filter(r => r.firstTry).length;
+    const attempted = rs.length;
+    const pct = attempted ? Math.round((first / attempted) * 100) : 0;
+    const wrong = rs.reduce((n, r) => n + r.wrong, 0);
+    const missed = rs.filter(r => r.wrong > 0).map(r => ({ jp: r.item.type === 'order' ? r.item.tiles.join(' ') : r.item.jp.replace('___', r.item.answer), en: r.item.en, kind: 'drill' }));
+    const r = lp(b.l);
+    if (!early) { r.build.attempts++; r.build.best = Math.max(r.build.best, pct); if (pct >= 80) markPlan('part'); }
+    touchStreak(); saveProgress();
+    const l = b.l; state.build = null; $('#build-body').innerHTML = '';
+    showResults({
+      eyebrow: early ? 'Drills ended' : 'Drills complete', pct, scoreSub: `${first} of ${attempted} right first time`,
+      good: first, again: wrong, goodLabel: 'First try', againLabel: 'Retried', elapsed: Date.now() - b.startedAt, missed, returnTo: 'lesson',
+      subOverride: !early ? (pct >= 80 ? `Build passed. ${missed.length ? 'Retried items are listed below.' : 'Clean run.'}` : 'Score 80% or more to pass. The explanations tell you why.') : undefined,
+      redo: () => startBuild(l),
+    });
+    $('#btn-redo-missed').textContent = 'Run the drills again';
+    $('#btn-redo-missed').hidden = false;
+  }
+
+  // ---------------------------------------------------------------- speak (say it, then reveal)
+  function startSpeak(l, { count = 0, plan = false } = {}) {
+    state.lesson = l;
+    let items = shuffle((l.speak || []).map((s, i) => ({ ...s, id: `s${i}` })));
+    if (count > 0) items = items.slice(0, count);
+    if (!items.length) { toast('No speaking prompts yet'); return; }
+    state.speak = { l, queue: items, total: items.length, results: new Map(), startedAt: Date.now(), current: null, revealed: false, plan };
+    $('#speak-title').textContent = `Lesson ${l.num} · Speak`;
+    showScreen('speak');
+    nextSpeak();
+  }
+  function nextSpeak() {
+    const s = state.speak; if (!s) return;
+    if (!s.queue.length) { finishSpeak(); return; }
+    s.current = s.queue.shift(); s.revealed = false;
+    const done = s.total - s.queue.length - 1;
+    $('#speak-progress').style.width = `${(done / s.total) * 100}%`;
+    $('#speak-counter').textContent = `${Math.min(done + 1, s.total)} / ${s.total}`;
+    const it = s.current;
+    const stage = $('#speak-stage'); stage.innerHTML = '';
+    const card = document.createElement('div'); card.className = 'speak-card';
+    card.innerHTML = `
+      <div class="card-top"><span class="card-deck">Say it in Japanese</span><span></span></div>
+      <div class="card-main" style="align-items:flex-start;text-align:left">
+        <div class="sp-en ${it.en.length > 26 ? 'long' : ''}">${escapeHTML(it.en)}</div>
+        <div class="sp-hint" id="sp-hint"><span class="dot"></span> Say it out loud, then reveal</div>
+        <div id="sp-answer"></div>
+      </div>
+      <div class="card-hint">Grade yourself honestly. Misses come back.</div>`;
+    stage.appendChild(card);
+    $('#speak-actions').innerHTML = `<button class="btn btn-reveal" id="btn-sp-reveal">Reveal</button>`;
+    $('#btn-sp-reveal').addEventListener('click', revealSpeak);
+  }
+  function revealSpeak() {
+    const s = state.speak; if (!s || s.revealed) return;
+    s.revealed = true; haptic(8);
+    const it = s.current;
+    $('#sp-hint').remove();
+    $('#sp-answer').innerHTML = `<div class="sp-jp">${escapeHTML(it.jp)}</div><div class="sp-ro">${escapeHTML(it.romaji || '')}</div>`;
+    $('#speak-actions').innerHTML = `<div class="sp-grade"><button class="btn btn-again" id="btn-sp-bad">Not yet</button><button class="btn btn-good" id="btn-sp-good">Got it</button></div>`;
+    $('#btn-sp-bad').addEventListener('click', () => gradeSpeak(false));
+    $('#btn-sp-good').addEventListener('click', () => gradeSpeak(true));
+    speak(it.jp);
+  }
+  function gradeSpeak(ok) {
+    const s = state.speak; if (!s || !s.revealed) return;
+    const it = s.current;
+    const r = s.results.get(it.id) || { item: it, right: 0, wrong: 0, firstTry: null };
+    if (ok) r.right++; else r.wrong++;
+    if (r.firstTry === null) r.firstTry = ok;
+    s.results.set(it.id, r);
+    if (!ok) s.queue.splice(Math.min(s.queue.length, 2), 0, it);
+    haptic(ok ? 12 : 20);
+    nextSpeak();
+  }
+  function endSpeakEarly() {
+    const s = state.speak; if (!s) return;
+    if (s.results.size === 0) { state.speak = null; openLesson(s.l.id); return; }
+    finishSpeak({ early: true });
+  }
+  function finishSpeak({ early = false } = {}) {
+    const s = state.speak; if (!s) return;
+    const rs = [...s.results.values()];
+    const first = rs.filter(r => r.firstTry).length, attempted = rs.length;
+    const pct = attempted ? Math.round((first / attempted) * 100) : 0;
+    const missed = rs.filter(r => r.wrong > 0).map(r => ({ jp: r.item.jp, en: r.item.en, kind: 'speak' }));
+    const r = lp(s.l);
+    if (!early) { r.speak.attempts++; r.speak.best = Math.max(r.speak.best, pct); if (s.plan) markPlan('speak'); else if (pct >= 80) markPlan('part'); }
+    touchStreak(); saveProgress();
+    const l = s.l, plan = s.plan; state.speak = null; $('#speak-stage').innerHTML = ''; $('#speak-actions').innerHTML = '';
+    showResults({
+      eyebrow: early ? 'Speaking ended' : 'Speaking complete', pct, scoreSub: `${first} of ${attempted} on the first try`,
+      good: first, again: rs.reduce((n, x) => n + x.wrong, 0), goodLabel: 'Got it', againLabel: 'Not yet', elapsed: Date.now() - s.startedAt, missed,
+      returnTo: plan ? 'home' : 'lesson', redo: missed.length ? () => startSpeak(l, {}) : null,
+    });
+  }
+
+  // ---------------------------------------------------------------- role-play
+  function startRoleplay(l) {
+    const rp = l.roleplay; if (!rp) { toast('No role-play in this lesson'); return; }
+    state.lesson = l;
+    const v = {}; for (const k of Object.keys(rp.variants || {})) v[k] = pick(rp.variants[k]);
+    const fill = s => (s || '').replace(/\{(\w+)(?:\.(\w+))?\}/g, (m, k, f) => {
+      const key = k.toLowerCase(), cap = k[0] === k[0].toUpperCase();
+      const val = v[key]; if (!val) return m;
+      let out = f === 'r' ? val[1] : f === 'en' ? val[2] : f === 'a' ? (val[3] || val[2]) : val[0];
+      if (cap) out = out.charAt(0).toUpperCase() + out.slice(1);
+      return out;
+    });
+    const lines = rp.lines.map(ln => ({ ...ln, jp: fill(ln.jp), romaji: fill(ln.romaji), en: fill(ln.en), cue: fill(ln.cue) }));
+    state.rp = { l, lines, i: 0, v, revealed: false, startedAt: Date.now() };
+    $('#rp-title').textContent = rp.title;
+    const log = $('#rp-log'); log.innerHTML = `<p class="rp-intro">${escapeHTML(rp.intro || '')}</p>`;
+    showScreen('roleplay');
+    stepRoleplay();
+  }
+  function rpBubble(ln, { reveal = true } = {}) {
+    const d = document.createElement('div'); d.className = `rp-msg ${ln.who}`;
+    d.innerHTML = `<div class="rp-who">${ln.who === 'staff' ? 'Staff' : 'You'}</div><div class="rp-jp">${escapeHTML(ln.jp)}</div><div class="rp-ro">${escapeHTML(ln.romaji || '')}</div><div class="rp-en">${escapeHTML(ln.en || '')}</div><button class="speak-btn" aria-label="Read aloud">${SPEAK_SVG}</button>`;
+    d.querySelector('.speak-btn').addEventListener('click', e => { e.stopPropagation(); speak(ln.jp, e.currentTarget); });
+    return d;
+  }
+  function stepRoleplay() {
+    const r = state.rp; if (!r) return;
+    const log = $('#rp-log'), actions = $('#rp-actions');
+    $$('.rp-cue', log).forEach(c => c.remove());
+    $('#rp-progress').style.width = `${(r.i / r.lines.length) * 100}%`;
+    $('#rp-counter').textContent = `${Math.min(r.i + 1, r.lines.length)} / ${r.lines.length}`;
+    if (r.i >= r.lines.length) {
+      const p = lp(r.l); p.roleplay.runs++; saveProgress(); markPlan('part'); touchStreak();
+      const end = document.createElement('div'); end.className = 'rp-end';
+      end.innerHTML = `<div class="jp">おつかれさま</div><p>Done: ${escapeHTML(r.v.item ? r.v.item[2] : 'item')}, ${escapeHTML(r.v.price ? r.v.price[2] : '')}. Run it again with a different item and price.</p>`;
+      log.appendChild(end); log.scrollTop = log.scrollHeight;
+      actions.innerHTML = `<button class="btn btn-primary" id="btn-rp-again">Run again</button><button class="btn btn-secondary" id="btn-rp-done">Done</button>`;
+      $('#btn-rp-again').addEventListener('click', () => startRoleplay(r.l));
+      $('#btn-rp-done').addEventListener('click', () => { const l = r.l; state.rp = null; openLesson(l.id); });
+      return;
+    }
+    const ln = r.lines[r.i];
+    if (ln.who === 'staff') {
+      log.appendChild(rpBubble(ln)); log.scrollTop = log.scrollHeight;
+      speak(ln.jp);
+      actions.innerHTML = `<button class="btn btn-reveal" id="btn-rp-next">Next</button>`;
+      $('#btn-rp-next').addEventListener('click', () => { r.i++; stepRoleplay(); });
+    } else {
+      r.revealed = false;
+      const cue = document.createElement('div'); cue.className = 'rp-cue';
+      cue.innerHTML = `<div class="rp-who">Your turn</div><div class="rp-cue-text">${escapeHTML(ln.cue || ln.en)}</div><div class="rp-cue-hint">Say it out loud, then reveal.</div>`;
+      log.appendChild(cue); log.scrollTop = log.scrollHeight;
+      actions.innerHTML = `<button class="btn btn-reveal" id="btn-rp-reveal">Reveal my line</button>`;
+      $('#btn-rp-reveal').addEventListener('click', () => {
+        cue.remove();
+        log.appendChild(rpBubble(ln)); log.scrollTop = log.scrollHeight;
+        speak(ln.jp); haptic(8);
+        actions.innerHTML = `<button class="btn btn-good" id="btn-rp-next">Next</button>`;
+        $('#btn-rp-next').addEventListener('click', () => { r.i++; stepRoleplay(); });
+      });
+    }
+  }
+
+  // ---------------------------------------------------------------- check (lesson checkpoint)
+  function startCheck(l) {
+    state.lesson = l;
+    const qs = shuffle((l.check || []).map((c, i) => ({ ...c, id: `c${i}`, group: `Lesson ${l.num} check` })));
+    if (!qs.length) { toast('No checkpoint yet'); return; }
+    startQuiz({
+      title: `Lesson ${l.num} · Check`, mode: 'mc', direction: 'en-jp', items: qs, pool: qs, returnTo: 'lesson', eyebrow: 'Checkpoint', custom: true,
+      onDone: res => {
+        const r = lp(l); r.check.attempts++; r.check.best = Math.max(r.check.best, res.pct);
+        if (res.pct >= 80) { r.check.passed = true; markPlan('part'); res.subOverride = `Lesson ${l.num} passed. You can do this at a shop in Asakusa.`; }
+        else res.subOverride = 'Score 80% or more to pass. Reread the guide sections you missed.';
+        saveProgress();
+      },
+    });
+  }
+
+  // ---------------------------------------------------------------- reference
+  function renderRef() {
+    const g = state.grammar; const body = $('#ref-body'); body.innerHTML = '';
+    if (!g.entries.length) { body.innerHTML = '<div class="empty">Reference not loaded yet.</div>'; return; }
+    const cur = currentLesson(); const curNum = cur ? cur.num : 99;
+    const numOf = id => lessonById(id)?.num ?? 0;
+    g.groups.forEach(grp => {
+      const entries = g.entries.filter(e => e.group === grp); if (!entries.length) return;
+      const sec = document.createElement('div'); sec.className = 'ref-group';
+      sec.innerHTML = `<h3>${escapeHTML(grp)}</h3><div class="ref-list">${entries.map(e => {
+        const n = numOf(e.lesson), ahead = n > curNum;
+        return `<button class="ref-row" data-ref="${e.id}"><span class="ref-row-body"><span class="ref-row-title">${escapeHTML(e.title)} <span class="jp">${escapeHTML(e.jp || '')}</span></span><span class="ref-row-sum">${escapeHTML(e.summary || '')}</span></span><span class="ref-tag ${ahead ? 'ahead' : ''}">${ahead ? 'Ahead' : n ? `L${n}` : ''}</span></button>`;
+      }).join('')}</div>`;
+      $$('[data-ref]', sec).forEach(b => b.addEventListener('click', () => openRefEntry(b.dataset.ref, 'ref')));
+      body.appendChild(sec);
+    });
+    if (g.further.length) {
+      const f = document.createElement('div'); f.className = 'ref-group further';
+      f.innerHTML = `<h3>Free further reading</h3><div class="ref-list">${g.further.map(x => `<a href="${escapeHTML(x.url)}" target="_blank" rel="noopener"><span class="f-title">${escapeHTML(x.title)}</span><span class="f-note">${escapeHTML(x.note || '')}</span></a>`).join('')}</div>`;
+      body.appendChild(f);
+    }
+  }
+  function openRefEntry(id, from = 'ref') {
+    const e = state.grammar.entries.find(x => x.id === id); if (!e) return;
+    const l = lessonById(e.lesson);
+    $('#refentry-eyebrow').textContent = `${e.group}${l ? ` · introduced in Lesson ${l.num}` : ''}`;
+    $('#refentry-title').textContent = e.title;
+    const body = $('#refentry-body');
+    body.innerHTML = `
+      <div class="g-section" style="margin-top:8px">
+        <div class="g-jp jp" style="margin-top:0">${escapeHTML(e.jp || '')}</div>
+        <p class="g-intro"><b>${escapeHTML(e.summary || '')}</b></p>
+        <div class="ref-body">${e.body || ''}</div>
+        ${e.examples?.length ? `<div class="g-ex-list">${e.examples.map(x => `<div class="g-ex"><div class="g-ex-text"><span class="jp">${escapeHTML(x.jp)}</span><span class="ro">${escapeHTML(x.romaji || '')}</span><span class="en">${escapeHTML(x.en)}</span></div><button class="speak-btn" data-jp="${escapeHTML(x.jp)}" aria-label="Read aloud">${SPEAK_SVG}</button></div>`).join('')}</div>` : ''}
+      </div>`;
+    $$('.speak-btn', body).forEach(b => b.addEventListener('click', () => speak(b.dataset.jp, b)));
+    $('#btn-refentry-back').onclick = () => { if (from === 'guide' && state.lesson) openGuide(state.lesson); else { renderRef(); showScreen('ref'); } };
+    showScreen('refentry');
+  }
+
+  // ---------------------------------------------------------------- kana: look-alike drill
+  const LOOKALIKE_GROUPS = [['あ', 'お', 'め', 'ぬ'], ['き', 'さ', 'ち'], ['ね', 'れ', 'わ'], ['は', 'ほ', 'ま'], ['る', 'ろ'], ['い', 'り'], ['く', 'へ'], ['し', 'つ'], ['た', 'な'], ['ふ', 'ぶ', 'ぷ']];
+  function startLookalikeDrill() {
+    const all = KANA.tiers.flatMap(t => tierItems(t));
+    const byChar = Object.fromEntries(all.map(it => [it.jp, it]));
+    const groups = {}; const items = [];
+    LOOKALIKE_GROUPS.forEach(g => { const its = g.map(c => byChar[c]).filter(Boolean); its.forEach(it => { groups[it.id] = its; items.push(it); }); });
+    startQuiz({ title: 'Look-alike kana', mode: 'mc', direction: 'jp-en', items: shuffle(items).slice(0, 16), pool: all, groups, returnTo: 'kana', eyebrow: 'Drill complete' });
+  }
+
   // ---------------------------------------------------------------- settings
   function renderSettings() {
     $('#opt-name').value = state.settings.name || '';
@@ -1085,7 +1677,16 @@
     $('#home-kana-card').addEventListener('click', () => showTab('kana'));
     $('#btn-settings').addEventListener('click', () => { renderSettings(); showScreen('settings'); });
     $('#btn-settings-back').addEventListener('click', () => showTab('home'));
+    $('#home-ref-card').addEventListener('click', () => { renderRef(); showScreen('ref'); });
+    $('#btn-ref-back').addEventListener('click', () => showTab('home'));
+    $('#btn-refentry-back').addEventListener('click', () => { renderRef(); showScreen('ref'); });
+    $('#btn-lesson-back').addEventListener('click', () => showTab('home'));
+    $('#btn-guide-back').addEventListener('click', () => openLesson(state.lesson?.id));
+    $('#btn-build-close').addEventListener('click', () => endBuildEarly());
+    $('#btn-speak-close').addEventListener('click', () => endSpeakEarly());
+    $('#btn-rp-close').addEventListener('click', () => { state.rp = null; openLesson(state.lesson?.id); });
     $('#btn-study-due').addEventListener('click', () => startSession({ decks: state.decks, title: 'Due cards', dueOnly: true }));
+    document.addEventListener('keydown', e => { if (state.screen === 'speak' && state.speak) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); $('#speak-actions .btn-reveal')?.click(); } else if (e.key === 'ArrowRight') $('#btn-sp-good')?.click(); else if (e.key === 'ArrowLeft') $('#btn-sp-bad')?.click(); } });
     $('#btn-all-decks').addEventListener('click', () => startSession({ decks: state.decks, title: 'All decks' }));
     $('#btn-mix-study').addEventListener('click', () => {
       const decks = state.decks.filter(d => state.selected.has(d.name));
@@ -1101,11 +1702,16 @@
     $('#btn-reveal').addEventListener('click', flipCard);
     $('#btn-again').addEventListener('click', () => grade(false));
     $('#btn-good').addEventListener('click', () => grade(true));
-    $('#btn-summary-done').addEventListener('click', () => showTab(state.lastResult?.returnTo || 'home'));
+    $('#btn-summary-done').addEventListener('click', () => { const r = state.lastResult?.returnTo || 'home'; if (r === 'lesson') openLesson(state.lesson?.id); else showTab(r); });
     $('#btn-redo-missed').addEventListener('click', () => state.lastResult?.redo?.());
 
     // kana
     $('#btn-kana-practice').addEventListener('click', () => { state.settings.quiz.source = 'kana'; saveSettings(); showTab('quiz'); });
+    $('#btn-kana-lookalike').addEventListener('click', startLookalikeDrill);
+    $('#btn-kana-readwords').addEventListener('click', () => {
+      const q = state.settings.quiz; q.source = 'decks'; q.decks = ['Words']; q.mode = 'mc'; q.direction = 'jp-en'; q.answer = 'romaji'; q.count = 10; saveSettings();
+      startQuizFromSetup();
+    });
     $('#btn-learn-close').addEventListener('click', () => { state.learn = null; showTab('kana'); });
     $('#btn-learn-next').addEventListener('click', learnNext);
 
@@ -1142,7 +1748,7 @@
     document.addEventListener('gesturestart', e => e.preventDefault());
     document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
     document.addEventListener('visibilitychange', async () => {
-      if (document.visibilityState === 'visible' && state.screen === 'home') { await loadCards({ silent: true }); renderHome(); }
+      if (document.visibilityState === 'visible' && state.screen === 'home') { await loadCards({ silent: true }); await loadLessons(); renderHome(); }
     });
   }
 
@@ -1151,7 +1757,7 @@
     applyTheme();
     bind();
     registerSW();
-    await loadCards({ silent: true });
+    await Promise.all([loadCards({ silent: true }), loadLessons(), loadGrammar()]);
     showTab('home');
   }
   init();

@@ -3,7 +3,7 @@
    - cards.json: network-first, so a replaced file shows up on the next open; cached copy used offline.
    - Google Fonts: cache-first with background refresh.
 */
-const CACHE_VERSION = 'kotoba-v6';
+const CACHE_VERSION = 'kotoba-v8';
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 const FONT_CACHE = 'kotoba-fonts';
@@ -28,7 +28,10 @@ self.addEventListener('install', event => {
     // cache: 'reload' bypasses the browser's HTTP cache so a fresh deploy is never precached stale
     await cache.addAll(SHELL.map(u => new Request(u, { cache: 'reload' })));
     // warm the data cache so the very first offline launch still has cards
-    try { const r = await fetch('./cards.json', { cache: 'no-store' }); if (r.ok) await (await caches.open(DATA_CACHE)).put('./cards.json', r); } catch {}
+    const data = await caches.open(DATA_CACHE);
+    for (const f of ['./cards.json', './lessons.json', './grammar.json']) {
+      try { const r = await fetch(f, { cache: 'no-store' }); if (r.ok) await data.put(f, r); } catch {}
+    }
   })());
 });
 
@@ -49,17 +52,19 @@ self.addEventListener('fetch', event => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
-  // cards.json → network first
-  if (url.origin === location.origin && url.pathname.endsWith('/cards.json')) {
+  // data files (cards, lessons, grammar) → network first, cached copy offline
+  const dataFile = ['/cards.json', '/lessons.json', '/grammar.json'].find(f => url.pathname.endsWith(f));
+  if (url.origin === location.origin && dataFile) {
     event.respondWith((async () => {
       const cache = await caches.open(DATA_CACHE);
+      const key = '.' + dataFile;
       try {
         const fresh = await fetch(req, { cache: 'no-store' });
-        if (fresh.ok) cache.put('./cards.json', fresh.clone());
+        if (fresh.ok) cache.put(key, fresh.clone());
         return fresh;
       } catch {
-        const cached = await cache.match('./cards.json');
-        return cached || new Response('{"version":"offline","decks":[]}', { headers: { 'Content-Type': 'application/json' } });
+        const cached = await cache.match(key);
+        return cached || new Response('{"version":"offline","decks":[],"lessons":[],"entries":[]}', { headers: { 'Content-Type': 'application/json' } });
       }
     })());
     return;

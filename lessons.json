@@ -1,0 +1,890 @@
+{
+  "version": "lessons-v1",
+  "lessons": [
+    {
+      "id": "l1",
+      "num": 1,
+      "title": "Greetings & how are you",
+      "jp": "あいさつ",
+      "goal": "I can greet someone, ask how they are and say how I am.",
+      "decks": [
+        "How are you?",
+        "Greetings & everyday phrases"
+      ],
+      "status": "cards"
+    },
+    {
+      "id": "l2",
+      "num": 2,
+      "title": "Introducing yourself",
+      "jp": "じこしょうかい",
+      "goal": "I can introduce myself and ask simple questions with なんですか.",
+      "decks": [
+        "Self-introduction",
+        "Asking & answering"
+      ],
+      "status": "cards"
+    },
+    {
+      "id": "l3",
+      "num": 3,
+      "title": "Likes, dislikes & is not",
+      "jp": "すき・じゃない",
+      "goal": "I can say what I like and don't like, and say what something is not.",
+      "decks": [
+        "Likes & dislikes",
+        "Saying “is not” · じゃないです"
+      ],
+      "status": "cards"
+    },
+    {
+      "id": "l4",
+      "num": 4,
+      "title": "This one, which one & prices",
+      "jp": "これ・どれ・いくら",
+      "goal": "I can point at things, ask which one, and understand prices.",
+      "decks": [
+        "This one, which one & where",
+        "Numbers",
+        "Prices & big numbers"
+      ],
+      "status": "cards"
+    },
+    {
+      "id": "l5",
+      "num": 5,
+      "title": "Shopping in Asakusa",
+      "jp": "かいもの",
+      "date": "2026-10-29",
+      "goal": "I can ask what something is and how much it costs at a shop in Asakusa, and buy it with ～を ください.",
+      "decks": [
+        "My day & weekend",
+        "At a shop · Asakusa",
+        "Look-alike hiragana"
+      ],
+      "status": "full",
+      "learn": [
+        {
+          "id": "day",
+          "title": "How was your day?",
+          "jp": "きょうは どうでしたか？",
+          "intro": "Your teacher opens every lesson with this. The trick is to have one short answer ready, and the answer uses a new idea: adjectives in Japanese carry their own past tense.",
+          "rule": {
+            "label": "Past tense of い-adjectives",
+            "pattern": "いそがし<b>い</b> → いそがし<b>かった</b>です",
+            "note": "Drop the final い, add かった. Then です just makes it polite. Never say いそがしいでした."
+          },
+          "when": "Any time someone asks how your day, weekend or lesson was. One sentence is enough.",
+          "examples": [
+            {
+              "jp": "きょうは どうでしたか？",
+              "romaji": "kyou wa dou deshita ka?",
+              "en": "How was your day?"
+            },
+            {
+              "jp": "いそがしかったです。",
+              "romaji": "isogashikatta desu",
+              "en": "I was busy."
+            },
+            {
+              "jp": "たのしかったです。",
+              "romaji": "tanoshikatta desu",
+              "en": "It was fun."
+            },
+            {
+              "jp": "しごとが いそがしかったです。",
+              "romaji": "shigoto ga isogashikatta desu",
+              "en": "Work was busy."
+            },
+            {
+              "jp": "ジムは たのしかったです。",
+              "romaji": "jimu wa tanoshikatta desu",
+              "en": "The gym was fun."
+            }
+          ],
+          "tips": [
+            "You already know よかったです (it was good). Same rule: よい → よかった.",
+            "Rhythm: きょ・う・は・ど・う・で・し・た・か is nine beats. Give every beat the same length, and keep the す in です quiet."
+          ]
+        },
+        {
+          "id": "weekend",
+          "title": "What will you do this weekend?",
+          "jp": "しゅうまつ、なにを しますか？",
+          "intro": "Japanese has no separate future tense. ます covers both \"I do\" and \"I will do\", so ジムに いきます is \"I'll go to the gym\" when you're talking about the weekend.",
+          "rule": {
+            "label": "Going somewhere",
+            "pattern": "PLACE <b>に</b> いきます",
+            "note": "に marks the place you go to. を marks the thing you do something to, as in なにを しますか."
+          },
+          "when": "Plans. Add a time word at the front: しゅうまつ (weekend), あした (tomorrow), きょう (today).",
+          "examples": [
+            {
+              "jp": "しゅうまつ、なにを しますか？",
+              "romaji": "shuumatsu, nani o shimasu ka?",
+              "en": "What will you do this weekend?"
+            },
+            {
+              "jp": "ジムに いきます。",
+              "romaji": "jimu ni ikimasu",
+              "en": "I'll go to the gym."
+            },
+            {
+              "jp": "しゅうまつ、ジムに いきます。",
+              "romaji": "shuumatsu, jimu ni ikimasu",
+              "en": "I'll go to the gym this weekend."
+            },
+            {
+              "jp": "あした、しごとに いきます。",
+              "romaji": "ashita, shigoto ni ikimasu",
+              "en": "I'll go to work tomorrow."
+            },
+            {
+              "jp": "ゆっくりします。",
+              "romaji": "yukkuri shimasu",
+              "en": "I'll relax."
+            }
+          ],
+          "tips": [
+            "いきました (I went) is the past. You used ジムに いきました last lesson: ます → ました."
+          ]
+        },
+        {
+          "id": "desu",
+          "title": "The core sentence: X は Y です",
+          "jp": "○○は ▲▲です",
+          "intro": "This is the most basic sentence in Japanese, and you already use it constantly: げんきです, しごとです, おちゃです. Everything in this lesson is one of three versions of it.",
+          "rule": {
+            "label": "Three versions",
+            "pattern": "○○は ▲▲<b>です</b>。 ／ ○○は ▲▲<b>じゃないです</b>。 ／ ○○は ▲▲<b>ですか</b>？",
+            "note": "is / is not / is it? To make a question, just add か at the end. は as a particle is read \"wa\"."
+          },
+          "when": "Saying what something is, denying it, or asking. Answer a ですか question with はい + です or いいえ + じゃないです.",
+          "examples": [
+            {
+              "jp": "きょうは しごとですか？",
+              "romaji": "kyou wa shigoto desu ka?",
+              "en": "Do you work today?"
+            },
+            {
+              "jp": "はい、しごとです。",
+              "romaji": "hai, shigoto desu",
+              "en": "Yes, I work."
+            },
+            {
+              "jp": "あしたは しごとですか？",
+              "romaji": "ashita wa shigoto desu ka?",
+              "en": "Do you work tomorrow?"
+            },
+            {
+              "jp": "いいえ、しごとじゃないです。",
+              "romaji": "iie, shigoto janai desu",
+              "en": "No, I don't."
+            },
+            {
+              "jp": "これは おちゃじゃないです。コーヒーです。",
+              "romaji": "kore wa ocha janai desu. koohii desu",
+              "en": "This isn't tea. It's coffee."
+            }
+          ],
+          "tips": [
+            "The answer echoes the question. しごとですか？ → しごとです。 You don't need a word for \"yes I do\"; the pattern does it.",
+            "Ask back with Name + さんは？ to keep a conversation going: はい、げんきです。ゆうやさんは？ Avoid あなたは; it sounds blunt."
+          ]
+        },
+        {
+          "id": "which",
+          "title": "What is it? Which one is it?",
+          "jp": "なんですか・どれですか",
+          "intro": "Two questions you'll use in every shop in Japan. Both are the X は ▲▲ですか pattern with a question word in the ▲▲ slot.",
+          "rule": {
+            "label": "Question words in the slot",
+            "pattern": "○○は <b>なん</b>ですか？ ／ ○○は <b>どれ</b>ですか？ ／ ○○は <b>いくら</b>ですか？",
+            "note": "What is ○○? / Which one is ○○? / How much is ○○? Just swap the question word."
+          },
+          "when": "どれ when there are three or more things to choose from. Point and use これ when you don't know the item's name.",
+          "examples": [
+            {
+              "jp": "しゅみは なんですか？",
+              "romaji": "shumi wa nan desu ka?",
+              "en": "What is your hobby?"
+            },
+            {
+              "jp": "おちゃは どれですか？",
+              "romaji": "ocha wa dore desu ka?",
+              "en": "Which one is the tea?"
+            },
+            {
+              "jp": "おみやげは どれですか？",
+              "romaji": "omiyage wa dore desu ka?",
+              "en": "Which one is the souvenir?"
+            },
+            {
+              "jp": "これは なんですか？……これは いくらですか？",
+              "romaji": "kore wa nan desu ka? ... kore wa ikura desu ka?",
+              "en": "What is this? ... How much is this?"
+            }
+          ],
+          "tips": [
+            "Challenge from your teacher: ask two in a row. What is it, then how much. That's a full shop interaction."
+          ]
+        },
+        {
+          "id": "shop",
+          "title": "At a shop",
+          "jp": "おみせで",
+          "intro": "The December goal: walk into a shop in Asakusa, ask what something is and how much, and buy it. Here are the four lines you need, plus what the staff will say to you.",
+          "rule": {
+            "label": "Buying something",
+            "pattern": "ITEM <b>を ください</b>。",
+            "note": "\"ITEM, please\" or \"I'll take ITEM\". を marks what you're asking for. ITEM を おねがいします is the softer, more polite version."
+          },
+          "when": "いらっしゃいませ is what staff say when you walk in. You don't answer it; a nod or こんにちは is fine. Then ask, then buy.",
+          "examples": [
+            {
+              "jp": "いらっしゃいませ。",
+              "romaji": "irasshaimase",
+              "en": "Welcome. (staff only)"
+            },
+            {
+              "jp": "これを ください。",
+              "romaji": "kore o kudasai",
+              "en": "This one, please."
+            },
+            {
+              "jp": "あかい おちゃを ください。",
+              "romaji": "akai ocha o kudasai",
+              "en": "The red tea, please."
+            },
+            {
+              "jp": "おちゃを おねがいします。",
+              "romaji": "ocha o onegaishimasu",
+              "en": "Tea, please. (polite)"
+            },
+            {
+              "jp": "とても きれいですね。",
+              "romaji": "totemo kirei desu ne",
+              "en": "It's very beautiful."
+            },
+            {
+              "jp": "せんえんです。",
+              "romaji": "sen en desu",
+              "en": "It's 1,000 yen. (staff)"
+            }
+          ],
+          "tips": [
+            "ね at the end invites agreement: きれいですね is \"it's beautiful, isn't it?\". Staff will love it.",
+            "Adjective before the noun, no particle: あかい おちゃ (red tea), あおい せんす (blue fan).",
+            "Prices you'll hear: せんえん 1,000, にせんえん 2,000, さんびゃくえん 300, はっぴゃくえん 800."
+          ]
+        },
+        {
+          "id": "lookalike",
+          "title": "Hiragana that look alike",
+          "jp": "にている ひらがな",
+          "intro": "Your teacher noticed you mixing up あ, お and め. Everyone does at first. The fix is to know exactly where to look.",
+          "rule": {
+            "label": "Look at the top first",
+            "pattern": "あ = cross + big loop ／ お = cross + loop + <b>dot</b> ／ め = <b>no cross</b> ／ ぬ = め + <b>curl</b>",
+            "note": "Is there a cross (十) at the top? Then look for the dot on the right."
+          },
+          "when": "Reading menus and shop signs. あと means \"after\"; あとめ is not a word.",
+          "examples": [
+            {
+              "jp": "あかい",
+              "romaji": "akai",
+              "en": "red (not めかい: あ has the cross)"
+            },
+            {
+              "jp": "おみやげ",
+              "romaji": "omiyage",
+              "en": "souvenir (not あみやげ: お has the dot)"
+            },
+            {
+              "jp": "すし",
+              "romaji": "sushi",
+              "en": "sushi (not すじ: the two small marks change し to じ)"
+            }
+          ],
+          "tips": [
+            "き has two lines at the top, さ has one.",
+            "ね curls at the end, れ kicks out, わ is round."
+          ]
+        }
+      ],
+      "vocab": [
+        "しごと",
+        "あした",
+        "しゅみ",
+        "おちゃ",
+        "おみやげ",
+        "あかい",
+        "とても",
+        "きれい",
+        "いそがしい",
+        "たのしい",
+        "ジム",
+        "きょう",
+        "あと"
+      ],
+      "build": [
+        {
+          "type": "slot",
+          "en": "I was busy.",
+          "jp": "___です。",
+          "answer": "いそがしかった",
+          "options": [
+            "いそがしかった",
+            "いそがしい",
+            "たのしかった",
+            "いそがしいでした"
+          ],
+          "why": "Past tense of an い-adjective: drop い, add かった. いそがしいでした doesn't exist."
+        },
+        {
+          "type": "slot",
+          "en": "It was fun.",
+          "jp": "___です。",
+          "answer": "たのしかった",
+          "options": [
+            "たのしかった",
+            "たのしい",
+            "たのしいでした",
+            "たのしかったか"
+          ],
+          "why": "たのしい → たのしかった. です stays the same."
+        },
+        {
+          "type": "particle",
+          "en": "I'll go to the gym.",
+          "jp": "ジム___いきます。",
+          "answer": "に",
+          "options": [
+            "に",
+            "を",
+            "は",
+            "と"
+          ],
+          "why": "に marks the place you go to."
+        },
+        {
+          "type": "particle",
+          "en": "What will you do this weekend?",
+          "jp": "しゅうまつ、なに___しますか？",
+          "answer": "を",
+          "options": [
+            "を",
+            "に",
+            "は",
+            "が"
+          ],
+          "why": "を marks the thing you do. なにを しますか = what will you do."
+        },
+        {
+          "type": "particle",
+          "en": "Work was busy.",
+          "jp": "しごと___いそがしかったです。",
+          "answer": "が",
+          "options": [
+            "が",
+            "を",
+            "に",
+            "と"
+          ],
+          "why": "が marks the subject: it's work that was busy. (は would also work here.)"
+        },
+        {
+          "type": "order",
+          "en": "I'll go to the gym this weekend.",
+          "tiles": [
+            "しゅうまつ、",
+            "ジムに",
+            "いきます。"
+          ],
+          "why": "Time word first, then the place with に, then the verb at the end."
+        },
+        {
+          "type": "order",
+          "en": "Do you work tomorrow?",
+          "tiles": [
+            "あしたは",
+            "しごと",
+            "ですか？"
+          ],
+          "why": "○○は ▲▲ですか. The verb-like part (です) always comes last."
+        },
+        {
+          "type": "slot",
+          "en": "No, I don't work.",
+          "jp": "いいえ、しごと___。",
+          "answer": "じゃないです",
+          "options": [
+            "じゃないです",
+            "です",
+            "でした",
+            "ですか"
+          ],
+          "why": "Deny with じゃないです. The answer echoes the question."
+        },
+        {
+          "type": "slot",
+          "en": "Make it a question: This is tea.",
+          "jp": "これは おちゃ___",
+          "answer": "ですか？",
+          "options": [
+            "ですか？",
+            "です。",
+            "じゃないです。",
+            "でしたか？"
+          ],
+          "why": "Add か to です and the sentence becomes a question."
+        },
+        {
+          "type": "slot",
+          "en": "This isn't tea. It's coffee.",
+          "jp": "これは おちゃじゃないです。___です。",
+          "answer": "コーヒー",
+          "options": [
+            "コーヒー",
+            "おちゃ",
+            "おみやげ",
+            "ジム"
+          ],
+          "why": "Deny, then state what it is with the plain です sentence."
+        },
+        {
+          "type": "order",
+          "en": "Which one is the red tea?",
+          "tiles": [
+            "あかい",
+            "おちゃは",
+            "どれですか？"
+          ],
+          "why": "Adjective before the noun, no particle between them. Then は, then the question word + ですか."
+        },
+        {
+          "type": "order",
+          "en": "The red tea, please.",
+          "tiles": [
+            "あかい",
+            "おちゃを",
+            "ください。"
+          ],
+          "why": "ITEM を ください. を marks what you're asking for."
+        },
+        {
+          "type": "slot",
+          "en": "It's very beautiful.",
+          "jp": "とても ___ですね。",
+          "answer": "きれい",
+          "options": [
+            "きれい",
+            "あかい",
+            "いそがしい",
+            "やすい"
+          ],
+          "why": "とても (very) + きれい (beautiful). ね invites agreement."
+        },
+        {
+          "type": "slot",
+          "en": "The staff say いらっしゃいませ. You say…",
+          "jp": "___",
+          "answer": "こんにちは。",
+          "options": [
+            "こんにちは。",
+            "いらっしゃいませ。",
+            "ください。",
+            "はい、です。"
+          ],
+          "why": "いらっしゃいませ is staff-only. A nod or こんにちは is the natural reply."
+        },
+        {
+          "type": "slot",
+          "en": "Ask back: Yes, I'm good. How about you, Yuya?",
+          "jp": "はい、げんきです。___？",
+          "answer": "ゆうやさんは",
+          "options": [
+            "ゆうやさんは",
+            "あなたは",
+            "ゆうやさんです",
+            "ゆうやさんを"
+          ],
+          "why": "Name + さんは？ asks the same question back. あなたは is rarely used."
+        },
+        {
+          "type": "order",
+          "en": "How much is that (near you)?",
+          "tiles": [
+            "それは",
+            "いくら",
+            "ですか？"
+          ],
+          "why": "それ = that, near the listener. いくら goes in the ▲▲ slot."
+        },
+        {
+          "type": "slot",
+          "en": "This one, please.",
+          "jp": "これ___ ください。",
+          "answer": "を",
+          "options": [
+            "を",
+            "は",
+            "に",
+            "が"
+          ],
+          "why": "を marks the item you're asking for."
+        }
+      ],
+      "speak": [
+        {
+          "en": "How was your day?",
+          "jp": "きょうは どうでしたか？",
+          "romaji": "kyou wa dou deshita ka?"
+        },
+        {
+          "en": "I was busy.",
+          "jp": "いそがしかったです。",
+          "romaji": "isogashikatta desu"
+        },
+        {
+          "en": "It was fun.",
+          "jp": "たのしかったです。",
+          "romaji": "tanoshikatta desu"
+        },
+        {
+          "en": "What will you do this weekend?",
+          "jp": "しゅうまつ、なにを しますか？",
+          "romaji": "shuumatsu, nani o shimasu ka?"
+        },
+        {
+          "en": "I'll go to the gym.",
+          "jp": "ジムに いきます。",
+          "romaji": "jimu ni ikimasu"
+        },
+        {
+          "en": "I'll go to work tomorrow.",
+          "jp": "あした、しごとに いきます。",
+          "romaji": "ashita, shigoto ni ikimasu"
+        },
+        {
+          "en": "Do you work today?",
+          "jp": "きょうは しごとですか？",
+          "romaji": "kyou wa shigoto desu ka?"
+        },
+        {
+          "en": "No, I don't work.",
+          "jp": "いいえ、しごとじゃないです。",
+          "romaji": "iie, shigoto janai desu"
+        },
+        {
+          "en": "This isn't tea. It's coffee.",
+          "jp": "これは おちゃじゃないです。コーヒーです。",
+          "romaji": "kore wa ocha janai desu. koohii desu"
+        },
+        {
+          "en": "How about you, Yuya?",
+          "jp": "ゆうやさんは？",
+          "romaji": "Yuuya-san wa?"
+        },
+        {
+          "en": "What is this?",
+          "jp": "これは なんですか？",
+          "romaji": "kore wa nan desu ka?"
+        },
+        {
+          "en": "How much is this?",
+          "jp": "これは いくらですか？",
+          "romaji": "kore wa ikura desu ka?"
+        },
+        {
+          "en": "Which one is the tea?",
+          "jp": "おちゃは どれですか？",
+          "romaji": "ocha wa dore desu ka?"
+        },
+        {
+          "en": "The red tea, please.",
+          "jp": "あかい おちゃを ください。",
+          "romaji": "akai ocha o kudasai"
+        },
+        {
+          "en": "It's very beautiful.",
+          "jp": "とても きれいですね。",
+          "romaji": "totemo kirei desu ne"
+        },
+        {
+          "en": "This one, please.",
+          "jp": "これを ください。",
+          "romaji": "kore o kudasai"
+        }
+      ],
+      "roleplay": {
+        "title": "A souvenir shop in Asakusa",
+        "intro": "You're buying souvenirs for your family. The app plays the staff. Read each cue, say your line out loud, then tap to check. The item, colour and price change every run.",
+        "variants": {
+          "item": [
+            [
+              "おちゃ",
+              "ocha",
+              "tea",
+              "tea"
+            ],
+            [
+              "コーヒー",
+              "koohii",
+              "coffee",
+              "coffee"
+            ],
+            [
+              "せんす",
+              "sensu",
+              "folding fan",
+              "a folding fan"
+            ]
+          ],
+          "price": [
+            [
+              "せんえん",
+              "sen en",
+              "1,000 yen"
+            ],
+            [
+              "にせんえん",
+              "nisen en",
+              "2,000 yen"
+            ],
+            [
+              "さんびゃくえん",
+              "sanbyaku en",
+              "300 yen"
+            ],
+            [
+              "はっぴゃくえん",
+              "happyaku en",
+              "800 yen"
+            ],
+            [
+              "にまんえん",
+              "niman en",
+              "20,000 yen"
+            ]
+          ],
+          "adj": [
+            [
+              "あかい",
+              "akai",
+              "red"
+            ],
+            [
+              "あおい",
+              "aoi",
+              "blue"
+            ]
+          ]
+        },
+        "lines": [
+          {
+            "who": "staff",
+            "jp": "いらっしゃいませ。",
+            "romaji": "irasshaimase",
+            "en": "Welcome."
+          },
+          {
+            "who": "you",
+            "cue": "Say hello.",
+            "jp": "こんにちは。",
+            "romaji": "konnichiwa",
+            "en": "Hello."
+          },
+          {
+            "who": "you",
+            "cue": "Ask what this is.",
+            "jp": "これは なんですか？",
+            "romaji": "kore wa nan desu ka?",
+            "en": "What is this?"
+          },
+          {
+            "who": "staff",
+            "jp": "{item}です。",
+            "romaji": "{item.r} desu",
+            "en": "It's {item.a}."
+          },
+          {
+            "who": "you",
+            "cue": "React: \"{Item.a}? Nice.\"",
+            "jp": "{item}ですか。いいですね。",
+            "romaji": "{item.r} desu ka. ii desu ne",
+            "en": "{Item.a}? Nice."
+          },
+          {
+            "who": "you",
+            "cue": "Ask how much it is.",
+            "jp": "これは いくらですか？",
+            "romaji": "kore wa ikura desu ka?",
+            "en": "How much is this?"
+          },
+          {
+            "who": "staff",
+            "jp": "{price}です。",
+            "romaji": "{price.r} desu",
+            "en": "It's {price.en}."
+          },
+          {
+            "who": "you",
+            "cue": "Ask which one is the {adj.en} {item.en}.",
+            "jp": "{adj} {item}は どれですか？",
+            "romaji": "{adj.r} {item.r} wa dore desu ka?",
+            "en": "Which one is the {adj.en} {item.en}?"
+          },
+          {
+            "who": "staff",
+            "jp": "これです。",
+            "romaji": "kore desu",
+            "en": "This one."
+          },
+          {
+            "who": "you",
+            "cue": "Say it's very beautiful.",
+            "jp": "とても きれいですね。",
+            "romaji": "totemo kirei desu ne",
+            "en": "It's very beautiful."
+          },
+          {
+            "who": "staff",
+            "jp": "おみやげですか？",
+            "romaji": "omiyage desu ka?",
+            "en": "Is it a souvenir?"
+          },
+          {
+            "who": "you",
+            "cue": "Say yes, it's a souvenir.",
+            "jp": "はい、おみやげです。",
+            "romaji": "hai, omiyage desu",
+            "en": "Yes, it's a souvenir."
+          },
+          {
+            "who": "you",
+            "cue": "Buy it: \"This one, please.\"",
+            "jp": "これを ください。",
+            "romaji": "kore o kudasai",
+            "en": "This one, please."
+          },
+          {
+            "who": "staff",
+            "jp": "ありがとうございます。",
+            "romaji": "arigatou gozaimasu",
+            "en": "Thank you."
+          },
+          {
+            "who": "you",
+            "cue": "Say thank you.",
+            "jp": "ありがとうございます。",
+            "romaji": "arigatou gozaimasu",
+            "en": "Thank you."
+          }
+        ]
+      },
+      "check": [
+        {
+          "prompt": "You want to know the price of a fan.",
+          "options": [
+            "これは いくらですか？",
+            "これは なんですか？",
+            "これは どれですか？"
+          ],
+          "answer": 0,
+          "why": "いくら = how much."
+        },
+        {
+          "prompt": "You don't know what something is.",
+          "options": [
+            "これは なんですか？",
+            "げんきですか？",
+            "いらっしゃいませ。"
+          ],
+          "answer": 0,
+          "why": "なん = what."
+        },
+        {
+          "prompt": "You want to buy the red tea.",
+          "options": [
+            "あかい おちゃを ください。",
+            "あかい おちゃは いくらですか？",
+            "あかい おちゃじゃないです。"
+          ],
+          "answer": 0,
+          "why": "ITEM を ください = I'll take ITEM."
+        },
+        {
+          "prompt": "Your teacher asks きょうは どうでしたか？ You were busy.",
+          "options": [
+            "いそがしかったです。",
+            "しごとです。",
+            "ジムに いきます。"
+          ],
+          "answer": 0,
+          "why": "Past tense: いそがしかったです."
+        },
+        {
+          "prompt": "Is it work tomorrow? Answer no.",
+          "options": [
+            "いいえ、しごとじゃないです。",
+            "はい、しごとです。",
+            "いいえ、しごとです。"
+          ],
+          "answer": 0,
+          "why": "いいえ + じゃないです."
+        },
+        {
+          "prompt": "You answered げんきです. Now ask Yuya back.",
+          "options": [
+            "ゆうやさんは？",
+            "ゆうやさんです。",
+            "ゆうやさんを ください。"
+          ],
+          "answer": 0,
+          "why": "Name + さんは？"
+        },
+        {
+          "prompt": "You want to know which one is the souvenir.",
+          "options": [
+            "おみやげは どれですか？",
+            "おみやげは なんですか？",
+            "おみやげを ください。"
+          ],
+          "answer": 0,
+          "why": "どれ = which one."
+        },
+        {
+          "prompt": "The kimono is very beautiful.",
+          "options": [
+            "とても きれいですね。",
+            "とても あかいですね。",
+            "とても いそがしいですね。"
+          ],
+          "answer": 0,
+          "why": "きれい = beautiful."
+        },
+        {
+          "prompt": "What will you do this weekend? Say you'll go to the gym.",
+          "options": [
+            "ジムに いきます。",
+            "ジムを します。",
+            "ジムは たのしかったです。"
+          ],
+          "answer": 0,
+          "why": "PLACE に いきます."
+        },
+        {
+          "prompt": "Which is \"red\"?",
+          "options": [
+            "あかい",
+            "めかい",
+            "おかい"
+          ],
+          "answer": 0,
+          "why": "あ has the cross at the top; め doesn't."
+        }
+      ]
+    }
+  ]
+}
