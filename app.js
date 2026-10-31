@@ -131,7 +131,7 @@
     }
     return out.replace(/\s+/g, ' ').replace(/\s+([.,?!])/g, '$1').trim();
   }
-  const KANA_RUN = /[ぁ-ゖァ-ヺー○▲「」]+(?:[ 　]+[ぁ-ゖァ-ヺー○▲「」]+)*[、。！？]*/g;
+  const KANA_RUN = /[ぁ-ゖァ-ヺー・○▲「」]+(?:[ 　]+[ぁ-ゖァ-ヺー・○▲「」]+)*[、。！？]*/g;
   const NO_ANNOTATE = '.jp, .ro-inline, .card-jp, .pv-jp, .g-ex, .g-word, .rp-jp, .sp-jp, .b-sentence, .b-tile, .q-opt, .m-tile, .g-pattern, .g-pattern-ro, .kana-tile, .learn-kana, .kana-sheet-char, .m-jp, .card-hinted, .lesson-name, .ref-row-title, .tab';
   // Adds "(romaji)" after every run of kana inside explanatory text, so the guide is readable before you can read kana.
   function annotateKana(root) {
