@@ -3,7 +3,7 @@
    - cards.json: network-first, so a replaced file shows up on the next open; cached copy used offline.
    - Google Fonts: cache-first with background refresh.
 */
-const CACHE_VERSION = 'kotoba-v8';
+const CACHE_VERSION = 'kotoba-v9';
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 const FONT_CACHE = 'kotoba-fonts';

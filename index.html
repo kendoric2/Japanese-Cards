@@ -41,6 +41,11 @@
         <span class="hero-count" id="hero-count">0</span>
       </button>
 
+      <button class="meet-btn" id="btn-meet-new" hidden>
+        <span class="meet-glyph jp">新</span>
+        <span class="meet-body"><span class="meet-title">Meet new cards</span><span class="meet-sub" id="meet-sub">8 new · see everything first, then test</span></span>
+        <span class="kana-card-arrow"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
       <div class="options">
         <button class="chip" id="opt-reverse" aria-pressed="false">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4-4 4"/><path d="M3 7h18"/><path d="M7 21l-4-4 4-4"/><path d="M21 17H3"/></svg>
@@ -225,6 +230,21 @@
       </header>
       <div id="refentry-body"></div>
       <div class="tab-bottom-space"></div>
+    </div>
+  </section>
+
+  <!-- ============ PREVIEW (meet the cards) ============ -->
+  <section class="screen screen-study" id="screen-preview" data-screen="preview">
+    <header class="study-header">
+      <button class="icon-btn" id="btn-preview-close" aria-label="Close"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="progress" aria-hidden="true"><div class="progress-fill" id="preview-progress"></div></div>
+      <span class="counter" id="preview-counter">1 / 8</span>
+    </header>
+    <div class="study-title" id="preview-title">Meet the cards</div>
+    <div class="card-stage" id="preview-stage"></div>
+    <div class="study-actions">
+      <div class="sp-grade"><button class="btn btn-secondary" id="btn-preview-hear">Hear again</button><button class="btn btn-primary" id="btn-preview-next">Next</button></div>
+      <p class="swipe-hint">Look, listen, say it. No grading here.</p>
     </div>
   </section>
 

@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = '2.0.0';
+  const APP_VERSION = '2.1.0';
   const KEY_PROGRESS = 'kotoba.progress.v1';
   const KEY_SETTINGS = 'kotoba.settings.v1';
   const SEP = '\u001f';                       // deck name + SEP + jp text = progress key
@@ -53,7 +53,9 @@
 
   function cardRecord(card) { return state.progress.cards[card.key]; }
   function isDue(card) { const r = cardRecord(card); return !r || r.due <= endOfToday(); }
-  function isNew(card) { return !cardRecord(card); }
+  function isNew(card) { const r = cardRecord(card); return !r || r.reps === 0; }   // not yet answered
+  function isUnseen(card) { return !cardRecord(card); }                               // never shown at all
+  function markSeen(card) { if (!cardRecord(card)) state.progress.cards[card.key] = { box: 0, due: Date.now(), reps: 0, lapses: 0, last: Date.now(), seen: 1 }; }
   function isMastered(card) { const r = cardRecord(card); return !!r && r.box >= MASTERED_BOX; }
 
   function deckStats(deck) {
@@ -153,7 +155,7 @@
     $$('.screen').forEach(s => s.classList.toggle('is-active', s.dataset.screen === name));
     $('#tabbar').hidden = !TAB_SCREENS.includes(name);
     const active = $(`.screen[data-screen="${name}"]`);
-    if (active && !['study', 'learn', 'quizrun', 'build', 'speak', 'roleplay'].includes(name)) { const sc = active.querySelector('.home-wrap, .page-wrap, .settings-wrap, .summary-wrap'); if (sc) sc.scrollTop = 0; }
+    if (active && !['study', 'learn', 'quizrun', 'build', 'speak', 'roleplay', 'preview'].includes(name)) { const sc = active.querySelector('.home-wrap, .page-wrap, .settings-wrap, .summary-wrap'); if (sc) sc.scrollTop = 0; }
   }
   function showTab(name) {
     state.tab = name;
@@ -297,6 +299,9 @@
     const all = state.decks.flatMap(d => d.cards);
     const due = all.filter(isDue).length;
     const newCount = all.filter(isNew).length;
+    const unseen = all.filter(isUnseen).length;
+    $('#btn-meet-new').hidden = unseen === 0;
+    $('#meet-sub').textContent = `${unseen} new · see everything first, then test`;
     $('#hero-count').textContent = due;
     $('#hero-sub').textContent = all.length === 0 ? 'No cards yet'
       : due === 0 ? 'All caught up · review anyway'
@@ -409,8 +414,9 @@
     el.className = 'swipe-card';
     const multiDeck = state.session ? state.session.multiDeck : true;
     const speakBtn = `<button class="speak-btn" aria-label="Read aloud">${SPEAK_SVG}</button>`;
-    const top = `<div class="card-top"><span class="card-deck">${multiDeck ? escapeHTML(card.deck) : ''}</span>${speakBtn}</div>`;
-    const jpFront = `<div class="card-jp ${jpSizeClass(card.jp)}">${escapeHTML(card.jp)}</div>`;
+    const fresh = isNew(card);
+    const top = `<div class="card-top"><span class="card-deck">${multiDeck ? escapeHTML(card.deck) : ''}${fresh ? `${multiDeck ? ' · ' : ''}<span class="card-learning">Learning</span>` : ''}</span>${speakBtn}</div>`;
+    const jpFront = `<div class="card-jp ${jpSizeClass(card.jp)}">${escapeHTML(card.jp)}</div>${fresh ? `<button class="card-hintbtn" type="button">Hint</button><div class="card-hinted" hidden>${escapeHTML(card.romaji)}${card.sounds ? ` · <span class="s">“${escapeHTML(card.sounds)}”</span>` : ''}</div>` : ''}`;
     const enFront = `<div class="card-en-front ${card.en.length > 28 ? 'long' : ''}">${escapeHTML(card.en)}</div>`;
     const backDetails = `
       ${card.romaji ? `<div class="card-romaji">${escapeHTML(card.romaji)}</div>` : ''}
@@ -432,6 +438,8 @@
       b.addEventListener('pointerdown', e => e.stopPropagation());
       b.addEventListener('click', e => { e.stopPropagation(); haptic(); speak(card.jp, b); });
     });
+    const hb = el.querySelector('.card-hintbtn');
+    if (hb) { hb.addEventListener('pointerdown', e => e.stopPropagation()); hb.addEventListener('click', e => { e.stopPropagation(); hb.remove(); el.querySelector('.card-hinted').hidden = false; speak(card.jp); }); }
     return el;
   }
 
@@ -468,8 +476,16 @@
     s.busy = true;
     const card = s.current;
     const el = $('#card-stage .swipe-card');
-    recordAnswer(card, good);
     const res = s.results.get(card.key) || { again: 0 };
+    if (good && isNew(card) && !res.passOnce && s.queue.length) {
+      // first-ever correct answer: come back once more later in this session before it graduates
+      res.passOnce = true; s.results.set(card.key, res);
+      s.queue.splice(Math.min(s.queue.length, 4), 0, card);
+      haptic(12); renderProgress();
+      flyOff(el, 1, viaSwipe).then(nextCard);
+      return;
+    }
+    recordAnswer(card, good);
     if (good) {
       s.done++;
       if (res.again === 0) res.firstTry = true;
@@ -1184,6 +1200,9 @@
     const due = all.filter(isDue).length;
     const cur = currentLesson();
     const steps = [];
+    const unseenPool = cur ? (unseenCards(lessonDecks(cur)).length ? unseenCards(lessonDecks(cur)) : unseenCards()) : unseenCards();
+    if (unseenPool.length) steps.push({ key: 'meet', title: `Meet ${Math.min(8, unseenPool.length)} new cards`, sub: 'See each one whole, with audio, before it\'s tested', done: !!p.done.meet,
+      go: () => startPreview({ cards: unseenPool, title: 'Meet new cards', returnTo: 'home', onDone: () => markPlan('meet') }) });
     steps.push({ key: 'review', title: due ? `Review ${Math.min(due, 10)} due cards` : 'Review: nothing due', sub: due ? 'Flashcards from every lesson, misses come back sooner' : 'All caught up. Come back tomorrow.', done: !!p.done.review || due === 0,
       go: () => startSession({ decks: state.decks, title: "Today's review", dueOnly: true, limit: 10, returnTo: 'home', onDone: () => markPlan('review') }) });
     if (cur && cur.status === 'full') {
@@ -1233,8 +1252,16 @@
       b.addEventListener('click', () => { haptic(); p.go(); });
       parts.appendChild(b);
     });
-    // flashcards row
+    // meet-new row, then flashcards
     const cards = lessonCards(l), due = cards.filter(isDue).length;
+    const unseenL = cards.filter(isUnseen);
+    if (unseenL.length) {
+      const mt = document.createElement('button');
+      mt.className = 'part-row'; mt.style.setProperty('--i', i++);
+      mt.innerHTML = `<span class="part-icon jp">新</span><span class="part-body"><span class="part-name">Meet new cards</span><span class="part-sub">See the kana, romaji, sound and meaning together before testing</span></span><span class="part-status">${unseenL.length} new</span>`;
+      mt.addEventListener('click', () => startPreview({ cards: unseenL, title: `Lesson ${l.num} · Meet the cards`, returnTo: 'lesson' }));
+      parts.appendChild(mt);
+    }
     const fc = document.createElement('button');
     fc.className = 'part-row'; fc.style.setProperty('--i', i++);
     fc.innerHTML = `<span class="part-icon jp">札</span><span class="part-body"><span class="part-name">Flashcards</span><span class="part-sub">${lessonDecks(l).map(d => d.name).join(' · ') || 'No decks'}</span></span><span class="part-status">${due ? `${due} due` : `${cards.length} cards`}</span>`;
@@ -1622,6 +1649,57 @@
     showScreen('refentry');
   }
 
+  // ---------------------------------------------------------------- meet the cards (preview before testing)
+  function unseenCards(decks = state.decks) { return decks.flatMap(d => d.cards).filter(isUnseen); }
+  function startPreview({ cards, title = 'Meet the cards', returnTo = 'review', limit = 8, onDone = null }) {
+    const batch = cards.slice(0, limit > 0 ? limit : cards.length);
+    if (!batch.length) { toast('No new cards here'); return; }
+    state.preview = { queue: batch.slice(), total: batch.length, done: [], current: null, title, returnTo, onDone, startedAt: Date.now() };
+    $('#preview-title').textContent = title;
+    showScreen('preview');
+    nextPreview();
+  }
+  function nextPreview() {
+    const p = state.preview; if (!p) return;
+    if (!p.queue.length) { finishPreview(); return; }
+    p.current = p.queue.shift();
+    markSeen(p.current);
+    const i = p.done.length;
+    $('#preview-progress').style.width = `${(i / p.total) * 100}%`;
+    $('#preview-counter').textContent = `${i + 1} / ${p.total}`;
+    const c = p.current;
+    const stage = $('#preview-stage'); stage.innerHTML = '';
+    const el = document.createElement('div'); el.className = 'preview-card';
+    el.innerHTML = `
+      <div class="card-top"><span class="card-deck">${escapeHTML(c.deck)}</span><span class="pv-new">New</span></div>
+      <div class="pv-main">
+        <div class="pv-jp ${jpSizeClass(c.jp)}">${escapeHTML(c.jp)}</div>
+        ${c.romaji ? `<div class="pv-ro">${escapeHTML(c.romaji)}</div>` : ''}
+        ${c.sounds ? `<div class="pv-sounds">“${escapeHTML(c.sounds)}”</div>` : ''}
+        <div class="card-sep"></div>
+        <div class="pv-en">${escapeHTML(c.en)}</div>
+      </div>
+      <div class="card-hint">Say it out loud twice, then Next</div>`;
+    el.addEventListener('click', () => speak(c.jp));
+    stage.appendChild(el);
+    speak(c.jp);
+  }
+  function finishPreview() {
+    const p = state.preview; if (!p) return;
+    saveProgress(); touchStreak();
+    const cards = p.done.slice(); const returnTo = p.returnTo;
+    p.onDone?.();
+    state.preview = null; $('#preview-stage').innerHTML = '';
+    showResults({
+      eyebrow: 'Cards met', pct: 100, scoreSub: `${cards.length} new card${cards.length === 1 ? '' : 's'} seen`, subOverride: 'Now test them while they\'re fresh. The front shows a hint the first time.',
+      good: cards.length, again: 0, goodLabel: 'Met', againLabel: 'Skipped', elapsed: Date.now() - p.startedAt, missed: [], returnTo,
+      redo: () => startSession({ title: 'Fresh cards', cards, redo: true, returnTo }),
+    });
+    $('#btn-redo-missed').textContent = `Flashcards for these ${cards.length}`;
+    $('#btn-redo-missed').hidden = false;
+    $('#summary-jp').textContent = 'はじめまして';
+  }
+
   // ---------------------------------------------------------------- kana: look-alike drill
   const LOOKALIKE_GROUPS = [['あ', 'お', 'め', 'ぬ'], ['き', 'さ', 'ち'], ['ね', 'れ', 'わ'], ['は', 'ほ', 'ま'], ['る', 'ろ'], ['い', 'り'], ['く', 'へ'], ['し', 'つ'], ['た', 'な'], ['ふ', 'ぶ', 'ぷ']];
   function startLookalikeDrill() {
@@ -1686,6 +1764,10 @@
     $('#btn-speak-close').addEventListener('click', () => endSpeakEarly());
     $('#btn-rp-close').addEventListener('click', () => { state.rp = null; openLesson(state.lesson?.id); });
     $('#btn-study-due').addEventListener('click', () => startSession({ decks: state.decks, title: 'Due cards', dueOnly: true }));
+    $('#btn-meet-new').addEventListener('click', () => startPreview({ cards: unseenCards(), title: 'Meet new cards', returnTo: 'review' }));
+    $('#btn-preview-next').addEventListener('click', () => { const p = state.preview; if (!p) return; haptic(); p.done.push(p.current); nextPreview(); });
+    $('#btn-preview-hear').addEventListener('click', e => { if (state.preview?.current) speak(state.preview.current.jp, e.currentTarget); });
+    $('#btn-preview-close').addEventListener('click', () => { const p = state.preview; if (!p) return; if (p.done.length) finishPreview(); else { state.preview = null; showTab(p.returnTo); } });
     document.addEventListener('keydown', e => { if (state.screen === 'speak' && state.speak) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); $('#speak-actions .btn-reveal')?.click(); } else if (e.key === 'ArrowRight') $('#btn-sp-good')?.click(); else if (e.key === 'ArrowLeft') $('#btn-sp-bad')?.click(); } });
     $('#btn-all-decks').addEventListener('click', () => startSession({ decks: state.decks, title: 'All decks' }));
     $('#btn-mix-study').addEventListener('click', () => {
