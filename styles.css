@@ -1073,3 +1073,31 @@ html, body, #app { overflow-x: hidden; }
 .g-tip::before { margin-right: 8px; }
 .g-intro, .g-when, .g-note, .ref-body, .b-why, .plan-sub, .part-sub, .lesson-meta, .ro-inline, .g-pattern-ro, .kana-sheet-note, .learn-note { overflow-wrap: anywhere; }
 .g-section, .ref-list, .g-rule { min-width: 0; max-width: 100%; }
+
+/* numbers */
+.tab { font-size: 10.5px; }
+.num-levels { display: flex; flex-direction: column; gap: 10px; padding-top: 18px; }
+.num-level { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 12px 14px 12px; box-shadow: var(--shadow-sm); animation: deckIn var(--t-slow) var(--ease) both; animation-delay: calc(var(--i, 0) * 40ms); }
+.num-level.is-done { border-color: var(--gold, var(--good)); }
+.num-level-head { display: flex; align-items: center; gap: 12px; }
+.num-level-name { font-size: 16px; font-weight: 600; flex: 1; min-width: 0; }
+.num-level-name small { display: block; font-size: 12.5px; color: var(--text-3); font-weight: 400; margin-top: 2px; }
+.num-level-ex { font-family: var(--font-jp); font-size: 15px; color: var(--accent); }
+.num-modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.num-mode { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 6px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--line); font-size: 13px; font-weight: 600; transition: transform var(--t-fast) var(--ease); }
+.num-mode:active { transform: scale(0.95); }
+.num-mode small { font-size: 11px; color: var(--text-3); font-weight: 500; }
+.num-mode.is-best small { color: var(--good); font-weight: 600; }
+.num-chart-group { margin-top: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow-sm); overflow: hidden; }
+.num-chart-group h3 { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); padding: 12px 14px 4px; }
+.num-grid { display: grid; grid-template-columns: 1fr 1fr; }
+.num-cell { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-top: 1px solid var(--line); text-align: left; }
+.num-cell:nth-child(odd) { border-right: 1px solid var(--line); }
+.num-cell .d { font-size: 13px; font-weight: 700; color: var(--text-2); min-width: 46px; font-variant-numeric: tabular-nums; }
+.num-cell .k { font-family: var(--font-jp); font-size: 16px; font-weight: 500; flex: 1; min-width: 0; }
+.num-cell .k b { color: var(--accent); font-weight: 700; }
+.num-cell .r { display: block; font-family: var(--font-en); font-size: 11px; color: var(--text-3); }
+.n-prompt-num { font-size: 64px; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; font-family: var(--font-display, var(--font-en)); }
+.n-prompt-num.small { font-size: 48px; }
+.n-opt-kana { font-family: var(--font-jp); font-size: 20px; }
+.n-opt-num { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }

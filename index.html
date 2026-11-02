@@ -135,6 +135,14 @@
         </span>
         <span class="kana-card-arrow"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
       </button>
+      <button class="kana-card" id="home-num-card">
+        <span class="kana-card-glyph jp" style="background:var(--text);color:var(--bg)">百</span>
+        <span class="kana-card-body">
+          <span class="kana-card-title">Numbers</span>
+          <span class="kana-card-sub" id="home-num-sub">Read, hear and build numbers and prices</span>
+        </span>
+        <span class="kana-card-arrow"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
       <button class="kana-card" id="home-kana-card">
         <span class="kana-card-glyph jp">あ</span>
         <span class="kana-card-body">
@@ -208,6 +216,33 @@
     <div class="study-title" id="rp-title">Role-play</div>
     <div class="rp-log" id="rp-log"></div>
     <div class="study-actions rp-actions" id="rp-actions"></div>
+  </section>
+
+  <!-- ============ NUMBERS ============ -->
+  <section class="screen screen-tab" id="screen-numbers" data-screen="numbers">
+    <div class="page-wrap">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">すうじ</p>
+          <h1 class="page-title">Numbers</h1>
+          <p class="greeting-sub" id="num-sub">Count, hear prices, say them back.</p>
+        </div>
+        <div class="kana-badge jp">百</div>
+      </header>
+      <div class="num-levels" id="num-levels"></div>
+      <div class="section-head"><h2>Chart</h2><span class="section-sub">Red = sound change</span></div>
+      <div id="num-chart"></div>
+      <div class="tab-bottom-space"></div>
+    </div>
+  </section>
+  <section class="screen screen-study" id="screen-numrun" data-screen="numrun">
+    <header class="study-header">
+      <button class="icon-btn" id="btn-num-close" aria-label="Close"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="progress" aria-hidden="true"><div class="progress-fill" id="num-progress"></div></div>
+      <span class="counter" id="num-counter">1 / 10</span>
+    </header>
+    <div class="study-title" id="num-title">Numbers</div>
+    <div class="quiz-body" id="num-body"></div>
   </section>
 
   <!-- ============ REFERENCE ============ -->
@@ -527,6 +562,10 @@
   <button class="tab" data-tab="kana">
     <span class="tab-jp jp">あ</span>
     <span>Kana</span>
+  </button>
+  <button class="tab" data-tab="numbers">
+    <span class="tab-jp jp">百</span>
+    <span>Numbers</span>
   </button>
   <button class="tab" data-tab="quiz">
     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>

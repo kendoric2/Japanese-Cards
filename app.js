@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = '2.4.1';
+  const APP_VERSION = '2.5.0';
   const KEY_PROGRESS = 'kotoba.progress.v1';
   const KEY_SETTINGS = 'kotoba.settings.v1';
   const SEP = '\u001f';                       // deck name + SEP + jp text = progress key
@@ -42,6 +42,7 @@
   state.progress.kana = { rows: {}, tiers: {}, ...(state.progress.kana || {}) };
   state.progress.lessons = state.progress.lessons || {};
   state.progress.plan = { day: null, done: {}, ...(state.progress.plan || {}) };
+  state.progress.numbers = state.progress.numbers || {};
   state.settings.quiz = { ...QUIZ_DEFAULTS, ...(state.settings.quiz || {}) };
   if (state.settings.romajiHelp === undefined) state.settings.romajiHelp = true;
   if (!state.settings.style) state.settings.style = 'wabi';
@@ -216,13 +217,13 @@
   }
 
   // ---------------------------------------------------------------- screens & tabs
-  const TAB_SCREENS = ['home', 'review', 'kana', 'quiz', 'lesson', 'guide', 'ref', 'refentry'];
+  const TAB_SCREENS = ['home', 'review', 'kana', 'numbers', 'quiz', 'lesson', 'guide', 'ref', 'refentry'];
   function showScreen(name) {
     state.screen = name;
     $$('.screen').forEach(s => s.classList.toggle('is-active', s.dataset.screen === name));
     $('#tabbar').hidden = !TAB_SCREENS.includes(name);
     const active = $(`.screen[data-screen="${name}"]`);
-    if (active && !['study', 'learn', 'quizrun', 'build', 'speak', 'roleplay', 'preview'].includes(name)) { const sc = active.querySelector('.home-wrap, .page-wrap, .settings-wrap, .summary-wrap'); if (sc) sc.scrollTop = 0; }
+    if (active && !['study', 'learn', 'quizrun', 'build', 'speak', 'roleplay', 'preview', 'numrun'].includes(name)) { const sc = active.querySelector('.home-wrap, .page-wrap, .settings-wrap, .summary-wrap'); if (sc) sc.scrollTop = 0; }
   }
   function showTab(name) {
     state.tab = name;
@@ -230,6 +231,7 @@
     if (name === 'home') renderHome();
     if (name === 'review') renderReview();
     if (name === 'kana') renderKana();
+    if (name === 'numbers') renderNumbers();
     if (name === 'quiz') renderQuizSetup();
     showScreen(name);
   }
@@ -1225,6 +1227,7 @@
     $('#stat-mastered').textContent = all.filter(isMastered).length;
     $('#stat-mastered-sub').textContent = `of ${all.length} cards`;
     $('#home-kana-sub').textContent = kanaStatusLine();
+    $('#home-num-sub').textContent = numbersStatusLine();
     $('#home-ref-sub').textContent = state.grammar.entries.length ? `${state.grammar.entries.length} rules · particles, verbs, adjectives, numbers` : 'Sentence structure, particles, verbs, adjectives';
     const cur = currentLesson();
     $('#home-sub').textContent = cur ? `Working on Lesson ${cur.num}: ${cur.title}.` : 'Welcome back.';
@@ -1780,6 +1783,173 @@
     startQuiz({ title: 'Look-alike kana', mode: 'mc', direction: 'jp-en', items: shuffle(items).slice(0, 16), pool: all, groups, returnTo: 'kana', eyebrow: 'Drill complete' });
   }
 
+
+  // ================================================================ numbers
+  const DIGITS = [['', ''], ['いち', 'ichi'], ['に', 'ni'], ['さん', 'san'], ['よん', 'yon'], ['ご', 'go'], ['ろく', 'roku'], ['なな', 'nana'], ['はち', 'hachi'], ['きゅう', 'kyuu']];
+  const HUNDREDS = [null, ['ひゃく', 'hyaku'], ['にひゃく', 'nihyaku'], ['さんびゃく', 'sanbyaku', 1], ['よんひゃく', 'yonhyaku'], ['ごひゃく', 'gohyaku'], ['ろっぴゃく', 'roppyaku', 1], ['ななひゃく', 'nanahyaku'], ['はっぴゃく', 'happyaku', 1], ['きゅうひゃく', 'kyuuhyaku']];
+  const THOUSANDS = [null, ['せん', 'sen'], ['にせん', 'nisen'], ['さんぜん', 'sanzen', 1], ['よんせん', 'yonsen'], ['ごせん', 'gosen'], ['ろくせん', 'rokusen'], ['ななせん', 'nanasen'], ['はっせん', 'hassen', 1], ['きゅうせん', 'kyuusen']];
+  const WRONG_FORMS = { 300: 'さんひゃく', 600: 'ろくひゃく', 800: 'はちひゃく', 3000: 'さんせん', 8000: 'はちせん', 10000: 'じゅうせん', 4: 'し', 7: 'しち', 9: 'く' };
+  // number → chunks [[kana, romaji, changed?]] e.g. 365 → さんびゃく / ろくじゅう / ご
+  function numChunks(n) {
+    if (n === 0) return [['ゼロ', 'zero']];
+    const out = [];
+    const man = Math.floor(n / 10000); n %= 10000;
+    if (man) out.push([DIGITS[man][0] + 'まん', DIGITS[man][1] + 'man']);
+    const th = Math.floor(n / 1000); n %= 1000;
+    if (th) out.push(THOUSANDS[th]);
+    const hu = Math.floor(n / 100); n %= 100;
+    if (hu) out.push(HUNDREDS[hu]);
+    const te = Math.floor(n / 10); n %= 10;
+    if (te) out.push([(te > 1 ? DIGITS[te][0] : '') + 'じゅう', (te > 1 ? DIGITS[te][1] : '') + 'juu']);
+    if (n) out.push(DIGITS[n]);
+    return out;
+  }
+  const numKana = n => numChunks(n).map(c => c[0]).join(' ');
+  const numRomaji = n => numChunks(n).map(c => c[1]).join(' ');
+  const fmtNum = n => n.toLocaleString('en-US');
+  const NUM_LEVELS = [
+    { id: 'n1', name: '1 to 10', sub: 'いち, に, さん … じゅう', gen: () => 1 + Math.floor(Math.random() * 10) },
+    { id: 'n2', name: '11 to 99', sub: 'stack: にじゅういち = 21', gen: () => 11 + Math.floor(Math.random() * 89) },
+    { id: 'n3', name: 'Hundreds', sub: '100–999 · さんびゃく, ろっぴゃく, はっぴゃく', gen: () => Math.random() < 0.5 ? 100 * (1 + Math.floor(Math.random() * 9)) : 100 + Math.floor(Math.random() * 900) },
+    { id: 'n4', name: 'Thousands', sub: '1,000–9,999 · さんぜん, はっせん', gen: () => Math.random() < 0.5 ? 1000 * (1 + Math.floor(Math.random() * 9)) + (Math.random() < 0.5 ? 0 : 100 * Math.floor(Math.random() * 10)) : 1000 + Math.floor(Math.random() * 9000) },
+    { id: 'n5', name: 'Ten-thousands · まん', sub: '10,000–99,999 · いちまん, not じゅうせん', gen: () => 10000 * (1 + Math.floor(Math.random() * 9)) + (Math.random() < 0.6 ? 1000 * Math.floor(Math.random() * 10) : 100 * Math.floor(Math.random() * 100)) },
+    { id: 'n6', name: 'Prices in yen', sub: '¥100 – ¥50,000 · 〜えんです', price: true, gen: () => pick([() => 100 * (1 + Math.floor(Math.random() * 9)), () => 100 * (1 + Math.floor(Math.random() * 99)), () => 1000 * (1 + Math.floor(Math.random() * 9)) + 500 * Math.floor(Math.random() * 2), () => 10000 * (1 + Math.floor(Math.random() * 5)) + 1000 * Math.floor(Math.random() * 10)])() },
+  ];
+  const NUM_MODES = [['read', 'Read', 'see it, pick the kana'], ['hear', 'Hear', 'listen, pick the digits'], ['build', 'Build', 'assemble from tiles']];
+  function numRec(id) { const p = state.progress.numbers; p[id] = p[id] || { read: 0, hear: 0, build: 0 }; return p[id]; }
+  const numLevelDone = lv => { const r = numRec(lv.id); return r.read >= 80 && r.hear >= 80 && r.build >= 80; };
+  function numbersStatusLine() { const done = NUM_LEVELS.filter(numLevelDone).length; return done ? `${done} of ${NUM_LEVELS.length} levels mastered` : 'Read, hear and build numbers and prices'; }
+
+  function renderNumbers() {
+    $('#num-sub').textContent = numbersStatusLine();
+    const wrap = $('#num-levels'); wrap.innerHTML = '';
+    NUM_LEVELS.forEach((lv, i) => {
+      const r = numRec(lv.id);
+      const el = document.createElement('div'); el.className = 'num-level' + (numLevelDone(lv) ? ' is-done' : ''); el.style.setProperty('--i', i);
+      const exN = lv.gen();
+      el.innerHTML = `<div class="num-level-head"><div class="num-level-name">${escapeHTML(lv.name)}<small>${escapeHTML(lv.sub)}</small></div>${numLevelDone(lv) ? CHECK_SVG : ''}</div>
+        <div class="num-modes">${NUM_MODES.map(([k, name, hint]) => `<button class="num-mode ${r[k] >= 80 ? 'is-best' : ''}" data-mode="${k}">${name}<small>${r[k] ? `best ${r[k]}%` : hint}</small></button>`).join('')}</div>`;
+      $$('.num-mode', el).forEach(b => b.addEventListener('click', () => { haptic(); startNumbers(lv, b.dataset.mode); }));
+      wrap.appendChild(el);
+    });
+    const chart = $('#num-chart'); chart.innerHTML = '';
+    const groups = [
+      ['0 to 10', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
+      ['Tens', [10, 20, 30, 40, 50, 60, 70, 80, 90, 99]],
+      ['Hundreds', [100, 200, 300, 400, 500, 600, 700, 800, 900, 250]],
+      ['Thousands', [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 1500]],
+      ['Ten-thousands (まん)', [10000, 20000, 30000, 50000, 90000, 15000]],
+    ];
+    groups.forEach(([title, nums]) => {
+      const g = document.createElement('div'); g.className = 'num-chart-group';
+      g.innerHTML = `<h3>${title}</h3><div class="num-grid">${nums.map(n => { const ch = numChunks(n); const kana = ch.map(c => c[2] ? `<b>${c[0]}</b>` : c[0]).join(' '); return `<button class="num-cell" data-n="${n}"><span class="d">${fmtNum(n)}</span><span class="k">${kana}<span class="r">${numRomaji(n)}</span></span></button>`; }).join('')}</div>`;
+      $$('.num-cell', g).forEach(b => b.addEventListener('click', () => speak(numKana(Number(b.dataset.n)))));
+      chart.appendChild(g);
+    });
+  }
+
+  function startNumbers(lv, mode) {
+    const qs = []; const seen = new Set();
+    while (qs.length < 10) { const n = lv.gen(); if (seen.has(n) && seen.size < 40) continue; seen.add(n); qs.push(n); }
+    state.num = { lv, mode, queue: qs, total: qs.length, index: 0, right: 0, wrong: 0, missed: [], startedAt: Date.now(), busy: false };
+    $('#num-title').textContent = `${lv.name} · ${NUM_MODES.find(m => m[0] === mode)[1]}`;
+    showScreen('numrun');
+    nextNumber();
+  }
+  const priceKana = (n, lv) => lv.price ? numKana(n) + 'えんです' : numKana(n);
+  const priceLabel = (n, lv) => lv.price ? `¥${fmtNum(n)}` : fmtNum(n);
+  function numDistractors(n, lv, count = 3) {
+    const cands = new Set();
+    const tries = [n * 10, Math.floor(n / 10), n + 1000, n - 1000, n + 100, n - 100, n + 10, n - 10, n + 1, n - 1, n * 2, Math.floor(n / 2) * 2];
+    for (const t of shuffle(tries)) { if (t > 0 && t !== n && t <= 99999 && (lv.id !== 'n1' || t <= 10) && (lv.id !== 'n2' || t <= 99)) cands.add(t); if (cands.size >= count + 2) break; }
+    while (cands.size < count) { const t = lv.gen(); if (t !== n) cands.add(t); }
+    return shuffle([...cands]).slice(0, count);
+  }
+  function nextNumber() {
+    const q = state.num; if (!q) return;
+    q.busy = false;
+    if (q.index >= q.queue.length) { finishNumbers(); return; }
+    $('#num-progress').style.width = `${(q.index / q.total) * 100}%`;
+    $('#num-counter').textContent = `${q.index + 1} / ${q.total}`;
+    const n = q.queue[q.index], lv = q.lv, body = $('#num-body');
+    const ans = priceKana(n, lv);
+    if (q.mode === 'read') {
+      const wrongs = numDistractors(n, lv).map(d => priceKana(d, lv));
+      // swap one distractor for a wrong sound-change form of the right answer, when the number has one
+      const chunks = numChunks(n);
+      const trapKey = Object.keys(WRONG_FORMS).find(k => chunks.some(c => c[0] === numChunks(Number(k))[0][0]));
+      if (trapKey) { const trap = ans.replace(numChunks(Number(trapKey))[0][0], WRONG_FORMS[trapKey]); if (trap !== ans && !wrongs.includes(trap)) wrongs[wrongs.length - 1] = trap; }
+      const opts = shuffle([ans, ...wrongs]);
+      body.innerHTML = `<div class="q-prompt"><div class="card-top"><span class="card-deck">${escapeHTML(lv.name)}</span><span></span></div><div class="q-prompt-main"><div class="n-prompt-num ${String(n).length > 5 ? 'small' : ''}">${priceLabel(n, lv)}</div></div><div class="card-hint">How do you say it?</div></div>
+        <div class="q-options">${opts.map(o => `<button class="q-opt n-opt-kana">${escapeHTML(o)}</button>`).join('')}</div>`;
+      $$('.q-opt', body).forEach(b => b.addEventListener('click', () => answerNumber(b.textContent === ans, b, ans, n)));
+    } else if (q.mode === 'hear') {
+      const opts = shuffle([n, ...numDistractors(n, lv)]);
+      body.innerHTML = `<div class="q-prompt"><div class="card-top"><span class="card-deck">${escapeHTML(lv.name)}</span><span></span></div><div class="q-prompt-main"><button class="q-listen-btn" aria-label="Play"><svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a9 9 0 0 1 0 14"/></svg></button><div class="q-listen-label">Listen, then pick. Tap to replay.</div></div><div class="card-hint">${lv.price ? 'The staff tells you the price. How much?' : 'Which number?'}</div></div>
+        <div class="q-options">${opts.map(o => `<button class="q-opt n-opt-num" data-n="${o}">${priceLabel(o, lv)}</button>`).join('')}</div>`;
+      const said = lv.price ? pick(['それは ', 'これは ', 'あれは ', '']) + numKana(n) + 'えんです。' : ans;
+      const play = body.querySelector('.q-listen-btn'); play.addEventListener('click', () => speak(said, play)); setTimeout(() => speak(said, play), 150);
+      $$('.q-opt', body).forEach(b => b.addEventListener('click', () => answerNumber(Number(b.dataset.n) === n, b, priceLabel(n, lv), n)));
+    } else {
+      const chunks = numChunks(n).map(c => c[0]); if (lv.price) chunks.push('えんです');
+      const traps = []; for (const k of Object.keys(WRONG_FORMS)) { const kc = numChunks(Number(k))[0][0]; if (chunks.includes(kc)) traps.push(WRONG_FORMS[k]); }
+      const extra = numDistractors(n, lv, 2).flatMap(d => numChunks(d).map(c => c[0])).filter(c => !chunks.includes(c));
+      const bank = shuffle([...chunks, ...traps.slice(0, 2), ...shuffle([...new Set(extra)]).slice(0, Math.max(1, 5 - traps.length))]);
+      body.innerHTML = `<div class="b-prompt"><div class="b-kind">Build the number</div><div class="b-en"><span class="n-prompt-num small">${priceLabel(n, lv)}</span></div><div class="b-answer" id="n-answer"></div></div>
+        <div class="b-bank" id="n-bank">${bank.map((t, k) => `<button class="b-tile jp" data-k="${k}">${escapeHTML(t)}</button>`).join('')}</div>
+        <div class="b-foot"><button class="btn btn-reveal" id="btn-num-check" disabled>Check</button></div>`;
+      const answer = $('#n-answer'), check = $('#btn-num-check'); let placed = [];
+      const sync = () => { check.disabled = placed.length === 0; };
+      $$('#n-bank .b-tile', body).forEach(btn => btn.addEventListener('click', () => {
+        if (state.num?.busy || btn.classList.contains('is-used')) return;
+        btn.classList.add('is-used'); haptic(6);
+        const chip = document.createElement('button'); chip.className = 'b-tile jp'; chip.textContent = btn.textContent;
+        chip.addEventListener('click', () => { if (state.num?.busy) return; chip.remove(); btn.classList.remove('is-used'); placed = placed.filter(p => p !== chip); sync(); });
+        answer.appendChild(chip); placed.push(chip); sync();
+      }));
+      check.addEventListener('click', () => {
+        const got = placed.map(c => c.textContent).join(' '); const ok = got === chunks.join(' ');
+        answer.classList.add(ok ? 'ok' : 'bad'); check.closest('.b-foot').remove();
+        answerNumber(ok, null, chunks.join(' '), n, body);
+      });
+    }
+  }
+  function answerNumber(ok, btn, answerText, n, container = null) {
+    const q = state.num; if (!q || q.busy) return; q.busy = true;
+    const body = $('#num-body');
+    if (btn) { $$('.q-opt', body).forEach(x => { x.disabled = true; if (x.textContent === answerText || x.dataset.n === String(n)) x.classList.add('is-right'); else if (x !== btn) x.classList.add('is-dim'); }); if (!ok) btn.classList.add('is-wrong'); }
+    if (ok) q.right++; else { q.wrong++; q.missed.push(n); }
+    haptic(ok ? 12 : 25);
+    speak(priceKana(n, q.lv));
+    if (container) {
+      const d = document.createElement('div'); d.className = `b-why ${ok ? 'ok' : 'bad'}`;
+      d.innerHTML = `${ok ? '✓ ' : '✕ '}${priceLabel(n, q.lv)} = <b class="jp">${escapeHTML(answerText)}</b> · ${escapeHTML(numRomaji(n))}${q.lv.price ? ' en desu' : ''}`;
+      container.appendChild(d);
+      const foot = document.createElement('div'); foot.className = 'b-foot'; foot.innerHTML = `<button class="btn ${ok ? 'btn-good' : 'btn-reveal'}">Next</button>`;
+      foot.querySelector('button').addEventListener('click', () => { q.index++; nextNumber(); }); container.appendChild(foot);
+      return;
+    }
+    if (!ok) toast(`${priceLabel(n, q.lv)} = ${answerText}`, { duration: 2000 });
+    q.index++;
+    setTimeout(nextNumber, ok ? 650 : 1600);
+  }
+  function endNumbersEarly() { const q = state.num; if (!q) return; if (q.right + q.wrong === 0) { state.num = null; showTab('numbers'); return; } finishNumbers({ early: true }); }
+  function finishNumbers({ early = false } = {}) {
+    const q = state.num; if (!q) return;
+    const pct = q.right + q.wrong ? Math.round((q.right / (q.right + q.wrong)) * 100) : 0;
+    const r = numRec(q.lv.id); if (!early) r[q.mode] = Math.max(r[q.mode], pct);
+    touchStreak(); saveProgress();
+    const lv = q.lv, mode = q.mode; state.num = null; $('#num-body').innerHTML = '';
+    const missed = [...new Set(q.missed)].map(n => ({ jp: priceKana(n, lv), en: priceLabel(n, lv), romaji: numRomaji(n), kind: 'number' }));
+    showResults({
+      eyebrow: `${lv.name} · ${NUM_MODES.find(m => m[0] === mode)[1]}`, pct, scoreSub: `${q.right} of ${q.right + q.wrong} correct`,
+      good: q.right, again: q.wrong, goodLabel: 'Correct', againLabel: 'Wrong', elapsed: Date.now() - q.startedAt, missed, returnTo: 'numbers',
+      subOverride: !early ? (numLevelDone(lv) ? `${lv.name} mastered: all three drills at 80% or more.` : pct >= 80 ? `${NUM_MODES.find(m => m[0] === mode)[1]} passed. Try the other two drills to master the level.` : 'Score 80% to pass. The chart below the levels shows every form.') : undefined,
+      redo: () => startNumbers(lv, mode),
+    });
+    $('#btn-redo-missed').textContent = 'Another 10'; $('#btn-redo-missed').hidden = false;
+  }
+
   // ---------------------------------------------------------------- settings
   function renderSettings() {
     $('#opt-name').value = state.settings.name || '';
@@ -1824,6 +1994,8 @@
   function bind() {
     $$('.tab').forEach(t => t.addEventListener('click', () => { haptic(); showTab(t.dataset.tab); }));
     $('#home-kana-card').addEventListener('click', () => showTab('kana'));
+    $('#home-num-card').addEventListener('click', () => showTab('numbers'));
+    $('#btn-num-close').addEventListener('click', endNumbersEarly);
     $('#btn-settings').addEventListener('click', () => { renderSettings(); showScreen('settings'); });
     $('#btn-settings-back').addEventListener('click', () => showTab('home'));
     $('#home-ref-card').addEventListener('click', () => { renderRef(); showScreen('ref'); });
@@ -1906,6 +2078,8 @@
       if (document.visibilityState === 'visible' && state.screen === 'home') { await loadCards({ silent: true }); await loadLessons(); renderHome(); }
     });
   }
+
+  window.KotobaDebug = { numKana, numChunks };
 
   // ---------------------------------------------------------------- init
   async function init() {
