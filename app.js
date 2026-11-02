@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = '2.3.0';
+  const APP_VERSION = '2.4.0';
   const KEY_PROGRESS = 'kotoba.progress.v1';
   const KEY_SETTINGS = 'kotoba.settings.v1';
   const SEP = '\u001f';                       // deck name + SEP + jp text = progress key

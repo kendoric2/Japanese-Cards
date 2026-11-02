@@ -1,5 +1,5 @@
 {
-  "version": "lessons-v2",
+  "version": "lessons-v3",
   "lessons": [
     {
       "id": "l1",
@@ -3921,6 +3921,875 @@
           ],
           "answer": 0,
           "why": "あ has the cross at the top; め doesn't."
+        }
+      ]
+    },
+    {
+      "id": "l6",
+      "num": 6,
+      "title": "Ordering in Tokyo",
+      "jp": "レストランで",
+      "date": "2026-10-31",
+      "status": "full",
+      "goal": "I can tell the staff what I want and how many (これを ひとつ おねがいします) at a restaurant or shop in Tokyo.",
+      "decks": [
+        "At a restaurant · Tokyo"
+      ],
+      "learn": [
+        {
+          "id": "kosoado2",
+          "title": "Pointing in practice",
+          "jp": "これ・それ・あれ",
+          "intro": "Not much new today: this lesson puts これ・それ・あれ to work. The rule of thumb from your teacher: in your hand, これ; in the staff's hand, それ; across the room, あれ.",
+          "rule": {
+            "label": "Who's holding it?",
+            "pattern": "これ → in my hand ／ それ → the staff is holding it ／ あれ → in the showcase, far from both",
+            "note": "The staff answers from their side: you say それは なんですか, they say これは せんすです, because now it's near them."
+          },
+          "when": "Any time you don't know the name of the thing. Point and use the word; you never need the item's name.",
+          "examples": [
+            {
+              "jp": "それは なんですか？",
+              "romaji": "sore wa nan desu ka?",
+              "en": "What is that? (near you)"
+            },
+            {
+              "jp": "それは せんすです。",
+              "romaji": "sore wa sensu desu",
+              "en": "That is a folding fan. (staff)"
+            },
+            {
+              "jp": "あれは いくらですか？",
+              "romaji": "are wa ikura desu ka?",
+              "en": "How much is that one over there?"
+            },
+            {
+              "jp": "あれは なんですか？",
+              "romaji": "are wa nan desu ka?",
+              "en": "What is that over there?"
+            },
+            {
+              "jp": "この さかなは おいしいです。",
+              "romaji": "kono sakana wa oishii desu",
+              "en": "This fish is delicious."
+            }
+          ],
+          "tips": [
+            "この・その・あの go before a noun: この さかな (this fish). これ・それ・あれ stand alone. Same こ・そ・あ system.",
+            "Challenge from your teacher: use それ and あれ at least once each in the role-play, not just これ."
+          ]
+        },
+        {
+          "id": "threeq",
+          "title": "The three shop questions",
+          "jp": "なん・いくら・どれ",
+          "intro": "Your teacher wrote these three down because they look almost the same and are easy to mix up. Same shape, one word different.",
+          "rule": {
+            "label": "Same frame, swap the word",
+            "pattern": "○○は <b>なん</b>ですか？ what it is ／ ○○は <b>いくら</b>ですか？ the price ／ ○○は <b>どれ</b>ですか？ which one, of many",
+            "note": "First decide what you want to know, then choose the word. Questions take は, never を: これは いくらですか, not これを."
+          },
+          "when": "Don't know what it is: なん. Want the price: いくら. Looking for one among many: どれ.",
+          "examples": [
+            {
+              "jp": "これは なんですか？",
+              "romaji": "kore wa nan desu ka?",
+              "en": "What is this?"
+            },
+            {
+              "jp": "これは いくらですか？",
+              "romaji": "kore wa ikura desu ka?",
+              "en": "How much is this?"
+            },
+            {
+              "jp": "おみやげは どれですか？",
+              "romaji": "omiyage wa dore desu ka?",
+              "en": "Which one is the souvenir?"
+            },
+            {
+              "jp": "いくらですか？",
+              "romaji": "ikura desu ka?",
+              "en": "How much is it?"
+            }
+          ],
+          "tips": [
+            "Common mistakes from your sheet: これは なんですか when you wanted the price (use いくら); おみやげは なんですか when you're looking for it (use どれ); これを いくらですか (use は); それは when it's in your own hand (use これ).",
+            "いくらですか on its own is fine once it's obvious what you're pointing at."
+          ]
+        },
+        {
+          "id": "price",
+          "title": "Reacting to the price",
+          "jp": "たかい・やすい・そうですか",
+          "intro": "Once you hear the number, say something. たかい and やすい are a pair, and そうですか is the all-purpose \"I see\" that keeps you from going silent.",
+          "rule": {
+            "label": "Expensive, cheap, I see",
+            "pattern": "たかいです<b>ね</b>。 ⇔ やすいです<b>ね</b>。 ／ そうですか。",
+            "note": "Both are い-adjectives, so ね goes on the end as usual. ちょっと softens: ちょっと たかいですね. そうですか is said with falling tone: it's a reaction, not a question."
+          },
+          "when": "After the staff says the price. そうですか also works after any piece of information: これは ぶたにくです → そうですか.",
+          "examples": [
+            {
+              "jp": "たかいですね。",
+              "romaji": "takai desu ne",
+              "en": "It's expensive, isn't it?"
+            },
+            {
+              "jp": "ちょっと たかいですね。",
+              "romaji": "chotto takai desu ne",
+              "en": "It's a little expensive."
+            },
+            {
+              "jp": "これは やすいですね。",
+              "romaji": "kore wa yasui desu ne",
+              "en": "This one is cheap."
+            },
+            {
+              "jp": "それは さんぜんえんです。",
+              "romaji": "sore wa sanzen en desu",
+              "en": "That is 3,000 yen. (staff)"
+            },
+            {
+              "jp": "そうですか。",
+              "romaji": "sou desu ka",
+              "en": "I see."
+            }
+          ],
+          "tips": [
+            "たかい also means \"tall\". Context decides; with a price it's always \"expensive\"."
+          ]
+        },
+        {
+          "id": "order",
+          "title": "Ordering: this one, one of these",
+          "jp": "ください・おねがいします・ひとつ",
+          "intro": "ください and おねがいします both mean \"please\" when you order; おねがいします is a touch softer. Add ひとつ for \"one\", and じゃあ to say \"well then\" once you've decided.",
+          "rule": {
+            "label": "The order",
+            "pattern": "じゃあ、これ<b>を</b> ください。 ／ これを <b>ひとつ</b> おねがいします。",
+            "note": "を marks what you want. ひとつ (one item) goes between the item and the verb. じゃあ = then / in that case."
+          },
+          "when": "After the price and your そうですか. じゃあ signals the decision; then the item, を, how many, please.",
+          "examples": [
+            {
+              "jp": "じゃあ、これを ください。",
+              "romaji": "jaa, kore o kudasai",
+              "en": "Then, this one, please."
+            },
+            {
+              "jp": "これを おねがいします。",
+              "romaji": "kore o onegaishimasu",
+              "en": "This one, please. (polite)"
+            },
+            {
+              "jp": "これを ひとつ おねがいします。",
+              "romaji": "kore o hitotsu onegaishimasu",
+              "en": "One of these, please."
+            },
+            {
+              "jp": "あれを ひとつ おねがいします。",
+              "romaji": "are o hitotsu onegaishimasu",
+              "en": "One of those (over there), please."
+            }
+          ],
+          "tips": [
+            "ひとつ is the general counter for \"one thing\". ふたつ (two) and みっつ (three) follow; your teacher will add them when you need them.",
+            "Challenge 2 from your sheet: always add ひとつ when you order."
+          ]
+        },
+        {
+          "id": "restaurant",
+          "title": "At the table",
+          "jp": "おいしいですよ・どうも",
+          "intro": "The restaurant scene adds four things: the staff's よ, the negative おいしくない, the quick thanks どうも, and the food words.",
+          "rule": {
+            "label": "よ and くない",
+            "pattern": "おいしいです<b>よ</b>。 (I'm telling you) ／ おいし<b>くない</b>です。 (not delicious)",
+            "note": "よ asserts something the listener doesn't know; ね asks for agreement. For い-adjectives, the negative is い → くない: おいしい → おいしくない."
+          },
+          "when": "Staff: これは うなぎです。おいしいですよ. You: うなぎですか。おいしいですか？ Then どうぞ / どうも when the dish arrives.",
+          "examples": [
+            {
+              "jp": "これは うなぎです。おいしいですよ。",
+              "romaji": "kore wa unagi desu. oishii desu yo",
+              "en": "This is eel. It's delicious. (staff)"
+            },
+            {
+              "jp": "うなぎですか。おいしいですか？",
+              "romaji": "unagi desu ka. oishii desu ka?",
+              "en": "Eel? Is it good?"
+            },
+            {
+              "jp": "はい、おいしいですよ。",
+              "romaji": "hai, oishii desu yo",
+              "en": "Yes, it's delicious. (staff)"
+            },
+            {
+              "jp": "おいしくないです。",
+              "romaji": "oishikunai desu",
+              "en": "It's not delicious."
+            },
+            {
+              "jp": "はい、どうぞ。",
+              "romaji": "hai, douzo",
+              "en": "Here you go."
+            },
+            {
+              "jp": "どうも。",
+              "romaji": "doumo",
+              "en": "Thanks. (short for ありがとうございます)"
+            }
+          ],
+          "tips": [
+            "どうも is the short, casual \"thanks\". Say ありがとうございます when you pay; どうも when someone hands you a glass of water.",
+            "Food words: さかな fish, おにく meat, とりにく chicken, ぶたにく pork, ぎゅうにく beef, うなぎ eel. にく = meat; the first part says which animal."
+          ]
+        },
+        {
+          "id": "rhythm2",
+          "title": "Rhythm: すいません",
+          "jp": "はく",
+          "intro": "Your teacher's audio chart for this lesson starts with すいません and もういちど おねがいします. The beats are the thing to copy.",
+          "rule": {
+            "label": "Count the beats",
+            "pattern": "す・い・ま・せ・ん = 5 beats ／ も・う・い・ち・ど・お・ね・が・い・し・ま・す = 12 beats",
+            "note": "ん is a full beat of its own. The final す in します goes quiet but still takes its beat. Both phrases fall at the end."
+          },
+          "when": "Calling the staff (raise a hand slightly) and when you didn't catch the price.",
+          "examples": [
+            {
+              "jp": "すいません。",
+              "romaji": "suimasen",
+              "en": "Excuse me. (spoken form of すみません; calling the staff)"
+            },
+            {
+              "jp": "もういちど おねがいします。",
+              "romaji": "mou ichido onegaishimasu",
+              "en": "Please say that again."
+            }
+          ],
+          "tips": [
+            "すいません is how すみません sounds in everyday speech. Both are fine; you'll hear すいません more."
+          ]
+        }
+      ],
+      "vocab": [
+        "さかな",
+        "おにく",
+        "とりにく",
+        "ぶたにく",
+        "ぎゅうにく",
+        "うなぎ",
+        "たかい",
+        "やすい",
+        "ひとつ",
+        "おいしい",
+        "おいしくない",
+        "せんす",
+        "おみやげ"
+      ],
+      "build": [
+        {
+          "type": "slot",
+          "en": "The staff is holding a fan. Ask what it is.",
+          "jp": "___は なんですか？",
+          "answer": "それ",
+          "options": [
+            "それ",
+            "これ",
+            "あれ",
+            "どれ"
+          ],
+          "why": "In the staff's hand = near the listener = それ."
+        },
+        {
+          "type": "slot",
+          "en": "A cake is far away in the showcase. Ask the price.",
+          "jp": "___は いくらですか？",
+          "answer": "あれ",
+          "options": [
+            "あれ",
+            "これ",
+            "それ",
+            "どれ"
+          ],
+          "why": "Far from both of you = あれ."
+        },
+        {
+          "type": "slot",
+          "en": "It's in your own hand. Ask the price.",
+          "jp": "___は いくらですか？",
+          "answer": "これ",
+          "options": [
+            "これ",
+            "それ",
+            "あれ",
+            "どれ"
+          ],
+          "why": "In your hand = これ."
+        },
+        {
+          "type": "slot",
+          "en": "You want the price of a fan.",
+          "jp": "せんすは ___ですか？",
+          "answer": "いくら",
+          "options": [
+            "いくら",
+            "なん",
+            "どれ",
+            "どんな"
+          ],
+          "why": "Price → いくら."
+        },
+        {
+          "type": "slot",
+          "en": "Many teas. Which one is the tea you want?",
+          "jp": "おちゃは ___ですか？",
+          "answer": "どれ",
+          "options": [
+            "どれ",
+            "なん",
+            "いくら",
+            "どこ"
+          ],
+          "why": "One among many → どれ."
+        },
+        {
+          "type": "slot",
+          "en": "You see food you don't know.",
+          "jp": "これは ___ですか？",
+          "answer": "なん",
+          "options": [
+            "なん",
+            "いくら",
+            "どれ",
+            "どう"
+          ],
+          "why": "Don't know what it is → なん."
+        },
+        {
+          "type": "particle",
+          "en": "How much is this? (pick the particle)",
+          "jp": "これ___ いくらですか？",
+          "answer": "は",
+          "options": [
+            "は",
+            "を",
+            "が",
+            "に"
+          ],
+          "why": "Questions about a thing use は. を is only for what you order."
+        },
+        {
+          "type": "particle",
+          "en": "This one, please. (pick the particle)",
+          "jp": "これ___ ください。",
+          "answer": "を",
+          "options": [
+            "を",
+            "は",
+            "が",
+            "の"
+          ],
+          "why": "を marks what you want when ordering."
+        },
+        {
+          "type": "order",
+          "en": "One of these, please.",
+          "tiles": [
+            "これを",
+            "ひとつ",
+            "おねがいします。"
+          ],
+          "why": "Item + を, then how many, then please."
+        },
+        {
+          "type": "order",
+          "en": "Then, this one, please.",
+          "tiles": [
+            "じゃあ、",
+            "これを",
+            "ください。"
+          ],
+          "why": "じゃあ (then) first, item + を, ください last."
+        },
+        {
+          "type": "order",
+          "en": "One of those over there, please.",
+          "tiles": [
+            "あれを",
+            "ひとつ",
+            "おねがいします。"
+          ],
+          "why": "あれ for far away, を, ひとつ, please."
+        },
+        {
+          "type": "slot",
+          "en": "3,000 yen for a fan. React.",
+          "jp": "___ですね。",
+          "answer": "たかい",
+          "options": [
+            "たかい",
+            "やすい",
+            "おいしい",
+            "いくら"
+          ],
+          "why": "たかい = expensive."
+        },
+        {
+          "type": "slot",
+          "en": "Soften it: it's a little expensive.",
+          "jp": "___ たかいですね。",
+          "answer": "ちょっと",
+          "options": [
+            "ちょっと",
+            "とても",
+            "じゃあ",
+            "そう"
+          ],
+          "why": "ちょっと = a little."
+        },
+        {
+          "type": "slot",
+          "en": "The staff says これは ぶたにくです. Say \"I see\".",
+          "jp": "___。",
+          "answer": "そうですか",
+          "options": [
+            "そうですか",
+            "どうぞ",
+            "どれですか",
+            "そうです"
+          ],
+          "why": "そうですか = I see (falling tone)."
+        },
+        {
+          "type": "slot",
+          "en": "The fish was not good.",
+          "jp": "おいし___です。",
+          "answer": "くない",
+          "options": [
+            "くない",
+            "いじゃない",
+            "くありません",
+            "いです"
+          ],
+          "why": "い-adjective negative: drop い, add くない."
+        },
+        {
+          "type": "slot",
+          "en": "The staff hands you tea and says どうぞ. You say:",
+          "jp": "___。",
+          "answer": "どうも",
+          "options": [
+            "どうも",
+            "どうぞ",
+            "いくらですか",
+            "ください"
+          ],
+          "why": "どうも = thanks."
+        },
+        {
+          "type": "slot",
+          "en": "Staff: this is eel, and it's good (telling you).",
+          "jp": "おいしいです___。",
+          "answer": "よ",
+          "options": [
+            "よ",
+            "ね",
+            "か",
+            "の"
+          ],
+          "why": "よ asserts new information; ね asks for agreement."
+        },
+        {
+          "type": "slot",
+          "en": "Call the staff.",
+          "jp": "___。",
+          "answer": "すいません",
+          "options": [
+            "すいません",
+            "どうも",
+            "じゃあ",
+            "そうですか"
+          ],
+          "why": "すいません (spoken すみません) gets attention."
+        }
+      ],
+      "speak": [
+        {
+          "en": "Excuse me. (spoken form of すみません; calling the staff)",
+          "jp": "すいません。",
+          "romaji": "suimasen"
+        },
+        {
+          "en": "What is that? (near you)",
+          "jp": "それは なんですか？",
+          "romaji": "sore wa nan desu ka?"
+        },
+        {
+          "en": "What is that over there?",
+          "jp": "あれは なんですか？",
+          "romaji": "are wa nan desu ka?"
+        },
+        {
+          "en": "How much is this?",
+          "jp": "これは いくらですか？",
+          "romaji": "kore wa ikura desu ka?"
+        },
+        {
+          "en": "How much is that one over there?",
+          "jp": "あれは いくらですか？",
+          "romaji": "are wa ikura desu ka?"
+        },
+        {
+          "en": "Which one is the souvenir?",
+          "jp": "おみやげは どれですか？",
+          "romaji": "omiyage wa dore desu ka?"
+        },
+        {
+          "en": "I see.",
+          "jp": "そうですか。",
+          "romaji": "sou desu ka"
+        },
+        {
+          "en": "It's expensive, isn't it?",
+          "jp": "たかいですね。",
+          "romaji": "takai desu ne"
+        },
+        {
+          "en": "It's a little expensive.",
+          "jp": "ちょっと たかいですね。",
+          "romaji": "chotto takai desu ne"
+        },
+        {
+          "en": "This one is cheap.",
+          "jp": "これは やすいですね。",
+          "romaji": "kore wa yasui desu ne"
+        },
+        {
+          "en": "Then, this one, please.",
+          "jp": "じゃあ、これを ください。",
+          "romaji": "jaa, kore o kudasai"
+        },
+        {
+          "en": "One of these, please.",
+          "jp": "これを ひとつ おねがいします。",
+          "romaji": "kore o hitotsu onegaishimasu"
+        },
+        {
+          "en": "One of those (over there), please.",
+          "jp": "あれを ひとつ おねがいします。",
+          "romaji": "are o hitotsu onegaishimasu"
+        },
+        {
+          "en": "Eel? Is it good?",
+          "jp": "うなぎですか。おいしいですか？",
+          "romaji": "unagi desu ka. oishii desu ka?"
+        },
+        {
+          "en": "It's not delicious.",
+          "jp": "おいしくないです。",
+          "romaji": "oishikunai desu"
+        },
+        {
+          "en": "Thanks. (short for ありがとうございます)",
+          "jp": "どうも。",
+          "romaji": "doumo"
+        }
+      ],
+      "roleplay": {
+        "title": "A small restaurant in Tokyo",
+        "intro": "You don't know the food on the menu. Ask what it is and how much, order one, and pay. The dish, the far-away dish and the prices change each run; use それ and あれ, not just これ.",
+        "variants": {
+          "food": [
+            [
+              "うなぎ",
+              "unagi",
+              "eel",
+              "eel"
+            ],
+            [
+              "さかな",
+              "sakana",
+              "fish",
+              "fish"
+            ],
+            [
+              "ぶたにく",
+              "butaniku",
+              "pork",
+              "pork"
+            ],
+            [
+              "ぎゅうにく",
+              "gyuuniku",
+              "beef",
+              "beef"
+            ]
+          ],
+          "far": [
+            [
+              "とりにく",
+              "toriniku",
+              "chicken",
+              "chicken"
+            ],
+            [
+              "さかな",
+              "sakana",
+              "fish",
+              "fish"
+            ],
+            [
+              "ぎゅうにく",
+              "gyuuniku",
+              "beef",
+              "beef"
+            ]
+          ],
+          "p1": [
+            [
+              "にせんえん",
+              "nisen en",
+              "2,000 yen",
+              "2,000 yen"
+            ],
+            [
+              "せんごひゃくえん",
+              "sengohyaku en",
+              "1,500 yen",
+              "1,500 yen"
+            ],
+            [
+              "さんぜんえん",
+              "sanzen en",
+              "3,000 yen",
+              "3,000 yen"
+            ]
+          ],
+          "p2": [
+            [
+              "せんえん",
+              "sen en",
+              "1,000 yen",
+              "1,000 yen"
+            ],
+            [
+              "はっぴゃくえん",
+              "happyaku en",
+              "800 yen",
+              "800 yen"
+            ]
+          ]
+        },
+        "lines": [
+          {
+            "who": "staff",
+            "jp": "いらっしゃいませ。どうぞ。",
+            "romaji": "irasshaimase. douzo",
+            "en": "Welcome. Please come in."
+          },
+          {
+            "who": "you",
+            "cue": "Say a quick thanks.",
+            "jp": "どうも。",
+            "romaji": "doumo",
+            "en": "Thanks."
+          },
+          {
+            "who": "you",
+            "cue": "Call the staff and ask what this is.",
+            "jp": "すいません。これは なんですか？",
+            "romaji": "suimasen. kore wa nan desu ka?",
+            "en": "Excuse me. What is this?"
+          },
+          {
+            "who": "staff",
+            "jp": "それは {food}です。",
+            "romaji": "sore wa {food.r} desu",
+            "en": "That's {food.en}."
+          },
+          {
+            "who": "you",
+            "cue": "Repeat it back and ask if it's good.",
+            "jp": "{food}ですか。おいしいですか？",
+            "romaji": "{food.r} desu ka. oishii desu ka?",
+            "en": "{Food.en}? Is it good?"
+          },
+          {
+            "who": "staff",
+            "jp": "はい、おいしいですよ。",
+            "romaji": "hai, oishii desu yo",
+            "en": "Yes, it's delicious."
+          },
+          {
+            "who": "you",
+            "cue": "Ask how much it is.",
+            "jp": "いくらですか？",
+            "romaji": "ikura desu ka?",
+            "en": "How much is it?"
+          },
+          {
+            "who": "staff",
+            "jp": "{p1}です。",
+            "romaji": "{p1.r} desu",
+            "en": "It's {p1.en}."
+          },
+          {
+            "who": "you",
+            "cue": "Say \"I see\" and that it's a little expensive.",
+            "jp": "そうですか。ちょっと たかいですね。",
+            "romaji": "sou desu ka. chotto takai desu ne",
+            "en": "I see. It's a little expensive."
+          },
+          {
+            "who": "you",
+            "cue": "Point across the room. Ask what that is over there.",
+            "jp": "あれは なんですか？",
+            "romaji": "are wa nan desu ka?",
+            "en": "What is that over there?"
+          },
+          {
+            "who": "staff",
+            "jp": "あれは {far}です。{p2}です。",
+            "romaji": "are wa {far.r} desu. {p2.r} desu",
+            "en": "That's {far.en}. It's {p2.en}."
+          },
+          {
+            "who": "you",
+            "cue": "Decide: one of those, please.",
+            "jp": "じゃあ、あれを ひとつ おねがいします。",
+            "romaji": "jaa, are o hitotsu onegaishimasu",
+            "en": "Then one of those, please."
+          },
+          {
+            "who": "staff",
+            "jp": "はい、どうぞ。",
+            "romaji": "hai, douzo",
+            "en": "Here you go."
+          },
+          {
+            "who": "you",
+            "cue": "Say it's delicious!",
+            "jp": "おいしいです！",
+            "romaji": "oishii desu!",
+            "en": "It's delicious!"
+          },
+          {
+            "who": "staff",
+            "jp": "{p2}です。",
+            "romaji": "{p2.r} desu",
+            "en": "That's {p2.en}."
+          },
+          {
+            "who": "you",
+            "cue": "Hand over the money and thank them.",
+            "jp": "はい、どうぞ。ありがとうございます。",
+            "romaji": "hai, douzo. arigatou gozaimasu",
+            "en": "Here you go. Thank you."
+          }
+        ]
+      },
+      "check": [
+        {
+          "prompt": "The staff is holding a fan. You ask what it is.",
+          "options": [
+            "それは なんですか？",
+            "これは なんですか？",
+            "どれは なんですか？"
+          ],
+          "answer": 0,
+          "why": "Near the listener = それ."
+        },
+        {
+          "prompt": "A cake is far away in the showcase. Ask the price.",
+          "options": [
+            "あれは いくらですか？",
+            "これは いくらですか？",
+            "それを ください。"
+          ],
+          "answer": 0,
+          "why": "Far from both = あれ."
+        },
+        {
+          "prompt": "You want one of these.",
+          "options": [
+            "これを ひとつ おねがいします。",
+            "これは ひとつですか？",
+            "ひとつは なんですか？"
+          ],
+          "answer": 0,
+          "why": "Item + を + ひとつ + please."
+        },
+        {
+          "prompt": "The staff gives you tea and says どうぞ. You say:",
+          "options": [
+            "どうも。",
+            "どうぞ。",
+            "いくらですか？"
+          ],
+          "answer": 0,
+          "why": "どうも = thanks."
+        },
+        {
+          "prompt": "You want to know which one is the eel.",
+          "options": [
+            "うなぎは どれですか？",
+            "うなぎは なんですか？",
+            "うなぎを ください。"
+          ],
+          "answer": 0,
+          "why": "One among many = どれ."
+        },
+        {
+          "prompt": "3,000 yen is a lot for a fan.",
+          "options": [
+            "たかいですね。",
+            "やすいですね。",
+            "おいしいですね。"
+          ],
+          "answer": 0,
+          "why": "たかい = expensive."
+        },
+        {
+          "prompt": "The staff says これは ぶたにくです. You say \"I see\".",
+          "options": [
+            "そうですか。",
+            "どうぞ。",
+            "どれですか？"
+          ],
+          "answer": 0,
+          "why": "そうですか = I see."
+        },
+        {
+          "prompt": "The fish was not good.",
+          "options": [
+            "おいしくないです。",
+            "おいしいです。",
+            "やすくないです。"
+          ],
+          "answer": 0,
+          "why": "おいしい → おいしくない."
+        },
+        {
+          "prompt": "You want the price of a fan (せんす).",
+          "options": [
+            "せんすは いくらですか？",
+            "せんすは なんですか？",
+            "せんすは どれですか？"
+          ],
+          "answer": 0,
+          "why": "Price = いくら."
+        },
+        {
+          "prompt": "It's in your hand. Ask the price.",
+          "options": [
+            "これは いくらですか？",
+            "それは いくらですか？",
+            "これを いくらですか？"
+          ],
+          "answer": 0,
+          "why": "In your hand = これ, and questions use は."
         }
       ]
     }

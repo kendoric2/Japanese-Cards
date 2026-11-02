@@ -1,5 +1,5 @@
 {
-  "version": "lessons-1-5b",
+  "version": "lessons-1-6",
   "decks": [
     {
       "name": "How are you?",
@@ -766,6 +766,143 @@
       ]
     },
     {
+      "name": "At a restaurant · Tokyo",
+      "cards": [
+        {
+          "jp": "すいません。",
+          "romaji": "suimasen",
+          "sounds": "soo-ee-mah-sen",
+          "en": "Excuse me. (spoken form of すみません; calling the staff)"
+        },
+        {
+          "jp": "それは なんですか？",
+          "romaji": "sore wa nan desu ka?",
+          "sounds": "soh-reh wah nahn dess kah?",
+          "en": "What is that? (near you)"
+        },
+        {
+          "jp": "あれは なんですか？",
+          "romaji": "are wa nan desu ka?",
+          "sounds": "ah-reh wah nahn dess kah?",
+          "en": "What is that over there?"
+        },
+        {
+          "jp": "あれは いくらですか？",
+          "romaji": "are wa ikura desu ka?",
+          "sounds": "ah-reh wah ee-koo-rah dess kah?",
+          "en": "How much is that one over there?"
+        },
+        {
+          "jp": "いくらですか？",
+          "romaji": "ikura desu ka?",
+          "sounds": "ee-koo-rah dess kah?",
+          "en": "How much is it?"
+        },
+        {
+          "jp": "それは せんすです。",
+          "romaji": "sore wa sensu desu",
+          "sounds": "soh-reh wah sen-soo dess",
+          "en": "That is a folding fan. (staff)"
+        },
+        {
+          "jp": "それは さんぜんえんです。",
+          "romaji": "sore wa sanzen en desu",
+          "sounds": "soh-reh wah sahn-zen en dess",
+          "en": "That is 3,000 yen. (staff)"
+        },
+        {
+          "jp": "そうですか。",
+          "romaji": "sou desu ka",
+          "sounds": "soh dess kah",
+          "en": "I see."
+        },
+        {
+          "jp": "じゃあ、これを ください。",
+          "romaji": "jaa, kore o kudasai",
+          "sounds": "jah, koh-reh oh koo-dah-sai",
+          "en": "Then, this one, please."
+        },
+        {
+          "jp": "これを おねがいします。",
+          "romaji": "kore o onegaishimasu",
+          "sounds": "koh-reh oh oh-neh-guy-shee-mahss",
+          "en": "This one, please. (polite)"
+        },
+        {
+          "jp": "これを ひとつ おねがいします。",
+          "romaji": "kore o hitotsu onegaishimasu",
+          "sounds": "koh-reh oh hee-toh-tsoo oh-neh-guy-shee-mahss",
+          "en": "One of these, please."
+        },
+        {
+          "jp": "あれを ひとつ おねがいします。",
+          "romaji": "are o hitotsu onegaishimasu",
+          "sounds": "ah-reh oh hee-toh-tsoo oh-neh-guy-shee-mahss",
+          "en": "One of those (over there), please."
+        },
+        {
+          "jp": "たかいですね。",
+          "romaji": "takai desu ne",
+          "sounds": "tah-kai dess neh",
+          "en": "It's expensive, isn't it?"
+        },
+        {
+          "jp": "ちょっと たかいですね。",
+          "romaji": "chotto takai desu ne",
+          "sounds": "choht-toh tah-kai dess neh",
+          "en": "It's a little expensive."
+        },
+        {
+          "jp": "これは やすいですね。",
+          "romaji": "kore wa yasui desu ne",
+          "sounds": "koh-reh wah yah-soo-ee dess neh",
+          "en": "This one is cheap."
+        },
+        {
+          "jp": "これは うなぎです。おいしいですよ。",
+          "romaji": "kore wa unagi desu. oishii desu yo",
+          "sounds": "koh-reh wah oo-nah-gee dess. oh-ee-shee dess yoh",
+          "en": "This is eel. It's delicious. (staff)"
+        },
+        {
+          "jp": "うなぎですか。おいしいですか？",
+          "romaji": "unagi desu ka. oishii desu ka?",
+          "sounds": "oo-nah-gee dess kah. oh-ee-shee dess kah?",
+          "en": "Eel? Is it good?"
+        },
+        {
+          "jp": "はい、おいしいですよ。",
+          "romaji": "hai, oishii desu yo",
+          "sounds": "hai, oh-ee-shee dess yoh",
+          "en": "Yes, it's delicious. (staff)"
+        },
+        {
+          "jp": "おいしくないです。",
+          "romaji": "oishikunai desu",
+          "sounds": "oh-ee-shee-koo-nai dess",
+          "en": "It's not delicious."
+        },
+        {
+          "jp": "この さかなは おいしいです。",
+          "romaji": "kono sakana wa oishii desu",
+          "sounds": "koh-noh sah-kah-nah wah oh-ee-shee dess",
+          "en": "This fish is delicious."
+        },
+        {
+          "jp": "どうも。",
+          "romaji": "doumo",
+          "sounds": "doh-moh",
+          "en": "Thanks. (short for ありがとうございます)"
+        },
+        {
+          "jp": "はい、どうぞ。",
+          "romaji": "hai, douzo",
+          "sounds": "hai, doh-zoh",
+          "en": "Here you go."
+        }
+      ]
+    },
+    {
       "name": "Words",
       "cards": [
         {
@@ -1043,6 +1180,72 @@
           "romaji": "tanoshii",
           "sounds": "tah-noh-shee",
           "en": "fun"
+        },
+        {
+          "jp": "さかな",
+          "romaji": "sakana",
+          "sounds": "sah-kah-nah",
+          "en": "fish"
+        },
+        {
+          "jp": "おにく",
+          "romaji": "oniku",
+          "sounds": "oh-nee-koo",
+          "en": "meat"
+        },
+        {
+          "jp": "とりにく",
+          "romaji": "toriniku",
+          "sounds": "toh-ree-nee-koo",
+          "en": "chicken"
+        },
+        {
+          "jp": "ぶたにく",
+          "romaji": "butaniku",
+          "sounds": "boo-tah-nee-koo",
+          "en": "pork"
+        },
+        {
+          "jp": "ぎゅうにく",
+          "romaji": "gyuuniku",
+          "sounds": "gyoo-nee-koo",
+          "en": "beef"
+        },
+        {
+          "jp": "うなぎ",
+          "romaji": "unagi",
+          "sounds": "oo-nah-gee",
+          "en": "eel"
+        },
+        {
+          "jp": "たかい",
+          "romaji": "takai",
+          "sounds": "tah-kai",
+          "en": "expensive"
+        },
+        {
+          "jp": "ひとつ",
+          "romaji": "hitotsu",
+          "sounds": "hee-toh-tsoo",
+          "en": "one (item)"
+        },
+        {
+          "jp": "おいしい",
+          "romaji": "oishii",
+          "sounds": "oh-ee-shee",
+          "en": "delicious"
+        },
+        {
+          "jp": "おいしくない",
+          "romaji": "oishikunai",
+          "sounds": "oh-ee-shee-koo-nai",
+          "en": "not delicious"
+        },
+        {
+          "jp": "この ○○",
+          "romaji": "kono ○○",
+          "sounds": "koh-noh ○○",
+          "en": "this ○○ (before a noun)"
         }
       ]
     },
