@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = '2.2.0';
+  const APP_VERSION = '2.3.0';
   const KEY_PROGRESS = 'kotoba.progress.v1';
   const KEY_SETTINGS = 'kotoba.settings.v1';
   const SEP = '\u001f';                       // deck name + SEP + jp text = progress key
@@ -34,7 +34,7 @@
     lesson: null, build: null, speak: null, rp: null,
     cardsVersion: null,
     progress: loadJSON(KEY_PROGRESS, { cards: {}, streak: { count: 0, lastDay: null }, sessions: 0, lastVersion: null, kana: { rows: {}, tiers: {} }, lessons: {}, plan: { day: null, done: {} } }),
-    settings: loadJSON(KEY_SETTINGS, { theme: 'auto', reverse: false, shuffle: false, size: 20, name: 'Elan', autoSpeak: false, romajiHelp: true, quiz: { ...QUIZ_DEFAULTS } }),
+    settings: loadJSON(KEY_SETTINGS, { theme: 'auto', reverse: false, shuffle: false, size: 20, name: 'Elan', autoSpeak: false, romajiHelp: true, style: 'wabi', quiz: { ...QUIZ_DEFAULTS } }),
     selected: new Set(),
     session: null, quiz: null, learn: null, lastResult: null,
     screen: 'home', tab: 'home', kanaTier: null,
@@ -44,6 +44,7 @@
   state.progress.plan = { day: null, done: {}, ...(state.progress.plan || {}) };
   state.settings.quiz = { ...QUIZ_DEFAULTS, ...(state.settings.quiz || {}) };
   if (state.settings.romajiHelp === undefined) state.settings.romajiHelp = true;
+  if (!state.settings.style) state.settings.style = 'wabi';
   const saveProgress = () => saveJSON(KEY_PROGRESS, state.progress);
   const saveSettings = () => saveJSON(KEY_SETTINGS, state.settings);
 
@@ -80,8 +81,9 @@
   function fmtTime(ms) { const s = Math.round(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; }
   function haptic(ms = 10) { if (navigator.vibrate) { try { navigator.vibrate(ms); } catch {} } }
   function jpLen(text) { return [...text.replace(/[\s。、！？]/g, '')].length; }
+  function jpGlyphs(text) { return [...text.replace(/\s/g, '')].length; } // counts punctuation too: it takes a full width on the card
   function jpSizeClass(text) {
-    const n = jpLen(text);
+    const n = jpGlyphs(text);
     if (n <= 2) return 'size-xl';
     if (n <= 5) return 'size-l';
     if (n <= 9) return 'size-m';
@@ -161,7 +163,10 @@
     const t = state.settings.theme;
     const dark = t === 'dark' || (t === 'auto' && darkMQ.matches);
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-    metaTheme.setAttribute('content', dark ? '#14161c' : '#f7f3ec');
+    const wabi = state.settings.style !== 'classic';
+    document.documentElement.setAttribute('data-style', wabi ? 'wabi' : 'classic');
+    metaTheme.setAttribute('content', dark ? (wabi ? '#1d1b18' : '#14161c') : (wabi ? '#ece6d8' : '#f7f3ec'));
+    $$('#opt-style .seg').forEach(b => b.classList.toggle('is-on', b.dataset.style === (wabi ? 'wabi' : 'classic')));
     $$('#opt-theme .seg').forEach(b => b.classList.toggle('is-on', b.dataset.theme === t));
   }
   darkMQ.addEventListener?.('change', applyTheme);
@@ -1875,6 +1880,7 @@
 
     // settings
     $$('#opt-theme .seg').forEach(b => b.addEventListener('click', () => { state.settings.theme = b.dataset.theme; saveSettings(); haptic(); applyTheme(); }));
+    $$('#opt-style .seg').forEach(b => b.addEventListener('click', () => { state.settings.style = b.dataset.style; saveSettings(); haptic(); applyTheme(); }));
     $('#opt-name').addEventListener('input', e => { state.settings.name = e.target.value.trim(); saveSettings(); });
     $('#opt-autospeak').addEventListener('change', e => { state.settings.autoSpeak = e.target.checked; saveSettings(); });
     $('#opt-romaji').addEventListener('change', e => { state.settings.romajiHelp = e.target.checked; saveSettings(); });

@@ -17,7 +17,7 @@
   <link rel="icon" href="./icons/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@400;500;600;700&family=Fraunces:opsz,wght,SOFT@9..144,400..700,50&display=swap">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -258,7 +258,7 @@
       <span class="counter" id="study-counter">0 left</span>
     </header>
     <div class="study-title" id="study-title">Deck</div>
-    <div class="card-stage" id="card-stage">
+    <div class="card-stage" id="card-stage" lang="ja">
       <div class="card-ghost card-ghost-2"></div>
       <div class="card-ghost card-ghost-1"></div>
     </div>
@@ -328,6 +328,13 @@
 
       <h3 class="group-title">Appearance</h3>
       <div class="group">
+        <div class="row">
+          <span class="row-label">Style<small>Wabi-sabi: linen, ink, uneven edges</small></span>
+          <div class="segmented segmented-sm" id="opt-style">
+            <button class="seg" data-style="wabi">Wabi-sabi</button>
+            <button class="seg" data-style="classic">Classic</button>
+          </div>
+        </div>
         <div class="row">
           <span class="row-label">Theme</span>
           <div class="segmented segmented-sm" id="opt-theme">
