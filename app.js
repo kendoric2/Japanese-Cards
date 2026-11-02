@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = '2.5.0';
+  const APP_VERSION = '2.5.1';
   const KEY_PROGRESS = 'kotoba.progress.v1';
   const KEY_SETTINGS = 'kotoba.settings.v1';
   const SEP = '\u001f';                       // deck name + SEP + jp text = progress key
@@ -1794,7 +1794,10 @@
     if (n === 0) return [['ゼロ', 'zero']];
     const out = [];
     const man = Math.floor(n / 10000); n %= 10000;
-    if (man) out.push([DIGITS[man][0] + 'まん', DIGITS[man][1] + 'man']);
+    if (man) {
+      if (man < 10) out.push([DIGITS[man][0] + 'まん', DIGITS[man][1] + 'man']);
+      else { const mc = numChunks(man); out.push([mc.map(c => c[0]).join('') + 'まん', mc.map(c => c[1]).join('') + 'man']); }
+    }
     const th = Math.floor(n / 1000); n %= 1000;
     if (th) out.push(THOUSANDS[th]);
     const hu = Math.floor(n / 100); n %= 100;
@@ -1820,8 +1823,20 @@
   const numLevelDone = lv => { const r = numRec(lv.id); return r.read >= 80 && r.hear >= 80 && r.build >= 80; };
   function numbersStatusLine() { const done = NUM_LEVELS.filter(numLevelDone).length; return done ? `${done} of ${NUM_LEVELS.length} levels mastered` : 'Read, hear and build numbers and prices'; }
 
+  function renderConverter() {
+    const raw = $('#conv-input').value.replace(/[^0-9]/g, '').slice(0, 8);
+    if ($('#conv-input').value !== raw) $('#conv-input').value = raw;
+    const out = $('#conv-out');
+    if (!raw) { out.hidden = true; return; }
+    const n = Number(raw); const price = $('#conv-price').checked;
+    const ch = numChunks(n);
+    $('#conv-kana').innerHTML = ch.map(c => c[2] ? `<b>${c[0]}</b>` : c[0]).join(' ') + (price ? ' えんです' : '');
+    $('#conv-ro').textContent = ch.map(c => c[1]).join(' ') + (price ? ' en desu' : '') + ` · ${price ? '¥' : ''}${fmtNum(n)}`;
+    out.hidden = false;
+  }
   function renderNumbers() {
     $('#num-sub').textContent = numbersStatusLine();
+    renderConverter();
     const wrap = $('#num-levels'); wrap.innerHTML = '';
     NUM_LEVELS.forEach((lv, i) => {
       const r = numRec(lv.id);
@@ -1996,6 +2011,10 @@
     $('#home-kana-card').addEventListener('click', () => showTab('kana'));
     $('#home-num-card').addEventListener('click', () => showTab('numbers'));
     $('#btn-num-close').addEventListener('click', endNumbersEarly);
+    $('#conv-input').addEventListener('input', renderConverter);
+    $('#conv-price').addEventListener('change', renderConverter);
+    $('#conv-speak').addEventListener('click', e => { const n = Number($('#conv-input').value || 0); speak(numKana(n) + ($('#conv-price').checked ? 'えんです' : ''), e.currentTarget); });
+    $('#conv-input').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); $('#conv-speak').click(); e.target.blur(); } });
     $('#btn-settings').addEventListener('click', () => { renderSettings(); showScreen('settings'); });
     $('#btn-settings-back').addEventListener('click', () => showTab('home'));
     $('#home-ref-card').addEventListener('click', () => { renderRef(); showScreen('ref'); });

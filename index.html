@@ -229,6 +229,20 @@
         </div>
         <div class="kana-badge jp">百</div>
       </header>
+      <section class="conv">
+        <div class="conv-head"><p class="eyebrow">へんかん</p><h2>Converter</h2></div>
+        <div class="conv-row">
+          <input class="conv-input" id="conv-input" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Type a number" autocomplete="off" maxlength="10">
+          <label class="conv-price"><input type="checkbox" id="conv-price"><span>as a price</span></label>
+        </div>
+        <div class="conv-out" id="conv-out" hidden>
+          <div class="conv-kana jp" id="conv-kana"></div>
+          <div class="conv-ro" id="conv-ro"></div>
+          <button class="btn btn-primary btn-small" id="conv-speak">Hear it</button>
+        </div>
+        <p class="hint conv-hint" id="conv-hint">Up to 99,999,999. Red parts change their sound.</p>
+      </section>
+      <div class="section-head"><h2>Practice</h2><span class="section-sub">10 random numbers per drill</span></div>
       <div class="num-levels" id="num-levels"></div>
       <div class="section-head"><h2>Chart</h2><span class="section-sub">Red = sound change</span></div>
       <div id="num-chart"></div>

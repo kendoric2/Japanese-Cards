@@ -1101,3 +1101,19 @@ html, body, #app { overflow-x: hidden; }
 .n-prompt-num.small { font-size: 48px; }
 .n-opt-kana { font-family: var(--font-jp); font-size: 20px; }
 .n-opt-num { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* converter */
+.conv { margin-top: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 16px; box-shadow: var(--shadow-md); }
+.conv-head h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-top: 2px; }
+.conv-row { display: flex; gap: 10px; align-items: center; margin-top: 12px; }
+.conv-input { flex: 1; min-width: 0; font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; padding: 10px 14px; border-radius: 14px; border: 1.5px solid var(--line-strong); background: var(--bg); color: var(--text); outline: none; -webkit-appearance: none; }
+.conv-input:focus { border-color: var(--accent); }
+.conv-price { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text-2); flex: 0 0 auto; }
+.conv-price input { width: 20px; height: 20px; accent-color: var(--accent); }
+.conv-out { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.conv-kana { font-size: 26px; font-weight: 500; line-height: 1.4; }
+.conv-kana b { color: var(--accent); font-weight: 700; }
+.conv-ro { font-size: 15px; color: var(--text-2); }
+.conv-out .btn { margin-top: 6px; }
+.conv-hint { padding: 10px 2px 0; margin: 0; }
+[data-style="wabi"] .conv { border-radius: var(--r-b); }
