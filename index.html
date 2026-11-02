@@ -135,6 +135,14 @@
         </span>
         <span class="kana-card-arrow"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
       </button>
+      <button class="kana-card" id="home-vocab-card">
+        <span class="kana-card-glyph jp" style="background:var(--surface-3);color:var(--text)">語</span>
+        <span class="kana-card-body">
+          <span class="kana-card-title">Vocabulary</span>
+          <span class="kana-card-sub" id="home-vocab-sub">Every word and phrase, searchable</span>
+        </span>
+        <span class="kana-card-arrow"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
       <button class="kana-card" id="home-num-card">
         <span class="kana-card-glyph jp" style="background:var(--text);color:var(--bg)">百</span>
         <span class="kana-card-body">
@@ -257,6 +265,38 @@
     </header>
     <div class="study-title" id="num-title">Numbers</div>
     <div class="quiz-body" id="num-body"></div>
+  </section>
+
+  <!-- ============ VOCABULARY ============ -->
+  <section class="screen screen-tab" id="screen-vocab" data-screen="vocab">
+    <div class="page-wrap">
+      <header class="sub-header">
+        <button class="icon-btn" id="btn-vocab-back" aria-label="Back"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="sub-header-text"><p class="eyebrow">たんご</p><h1>Vocabulary</h1></div>
+      </header>
+      <div class="vocab-search">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="vocab-q" type="search" placeholder="Search kana, romaji or English" autocomplete="off" autocapitalize="none">
+        <button class="vocab-clear" id="vocab-clear" aria-label="Clear" hidden>✕</button>
+      </div>
+      <div class="vocab-filters">
+        <div class="segmented segmented-sm" id="vocab-kind">
+          <button class="seg is-on" data-kind="all">All</button>
+          <button class="seg" data-kind="words">Words</button>
+          <button class="seg" data-kind="phrases">Phrases</button>
+        </div>
+        <div class="segmented segmented-sm" id="vocab-status">
+          <button class="seg is-on" data-status="all">Any</button>
+          <button class="seg" data-status="new">New</button>
+          <button class="seg" data-status="learning">Learning</button>
+          <button class="seg" data-status="mastered">Mastered</button>
+        </div>
+      </div>
+      <div class="tier-chips" id="vocab-lessons"></div>
+      <div class="vocab-summary" id="vocab-summary"></div>
+      <div id="vocab-list"></div>
+      <div class="tab-bottom-space"></div>
+    </div>
   </section>
 
   <!-- ============ REFERENCE ============ -->

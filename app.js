@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = '2.5.1';
+  const APP_VERSION = '2.6.0';
   const KEY_PROGRESS = 'kotoba.progress.v1';
   const KEY_SETTINGS = 'kotoba.settings.v1';
   const SEP = '\u001f';                       // deck name + SEP + jp text = progress key
@@ -37,6 +37,7 @@
     settings: loadJSON(KEY_SETTINGS, { theme: 'auto', reverse: false, shuffle: false, size: 20, name: 'Elan', autoSpeak: false, romajiHelp: true, style: 'wabi', quiz: { ...QUIZ_DEFAULTS } }),
     selected: new Set(),
     session: null, quiz: null, learn: null, lastResult: null,
+    vocab: { q: '', kind: 'all', status: 'all', lesson: 'all', limit: 60 },
     screen: 'home', tab: 'home', kanaTier: null,
   };
   state.progress.kana = { rows: {}, tiers: {}, ...(state.progress.kana || {}) };
@@ -217,7 +218,7 @@
   }
 
   // ---------------------------------------------------------------- screens & tabs
-  const TAB_SCREENS = ['home', 'review', 'kana', 'numbers', 'quiz', 'lesson', 'guide', 'ref', 'refentry'];
+  const TAB_SCREENS = ['home', 'review', 'kana', 'numbers', 'quiz', 'lesson', 'guide', 'ref', 'refentry', 'vocab'];
   function showScreen(name) {
     state.screen = name;
     $$('.screen').forEach(s => s.classList.toggle('is-active', s.dataset.screen === name));
@@ -1228,6 +1229,7 @@
     $('#stat-mastered-sub').textContent = `of ${all.length} cards`;
     $('#home-kana-sub').textContent = kanaStatusLine();
     $('#home-num-sub').textContent = numbersStatusLine();
+    $('#home-vocab-sub').textContent = vocabStatusLine();
     $('#home-ref-sub').textContent = state.grammar.entries.length ? `${state.grammar.entries.length} rules · particles, verbs, adjectives, numbers` : 'Sentence structure, particles, verbs, adjectives';
     const cur = currentLesson();
     $('#home-sub').textContent = cur ? `Working on Lesson ${cur.num}: ${cur.title}.` : 'Welcome back.';
@@ -1965,6 +1967,65 @@
     $('#btn-redo-missed').textContent = 'Another 10'; $('#btn-redo-missed').hidden = false;
   }
 
+
+  // ================================================================ vocabulary (glossary)
+  const isWordCard = c => jpLen(c.jp) <= 7 && !/[。？！]/.test(c.jp);
+  function cardStatus(c) { return isMastered(c) ? 'mastered' : isUnseen(c) ? 'new' : 'learning'; }
+  function lessonOfDeck(deckName) { return state.lessons.find(l => (l.decks || []).includes(deckName)) || null; }
+  function vocabStatusLine() {
+    const all = state.decks.filter(d => d.name !== 'Look-alike hiragana').flatMap(d => d.cards); const words = all.filter(isWordCard).length;
+    return `${words} words · ${all.length - words} phrases · searchable`;
+  }
+  function openVocab() { $('#vocab-q').value = state.vocab.q; renderVocab(); showScreen('vocab'); }
+  function highlight(text, q) {
+    if (!q) return escapeHTML(text);
+    const i = text.toLowerCase().indexOf(q.toLowerCase()); if (i < 0) return escapeHTML(text);
+    return escapeHTML(text.slice(0, i)) + '<mark class="hl">' + escapeHTML(text.slice(i, i + q.length)) + '</mark>' + escapeHTML(text.slice(i + q.length));
+  }
+  function renderVocab() {
+    const v = state.vocab; const q = v.q.trim().toLowerCase();
+    $('#vocab-clear').hidden = !q;
+    $$('#vocab-kind .seg').forEach(b => b.classList.toggle('is-on', b.dataset.kind === v.kind));
+    $$('#vocab-status .seg').forEach(b => b.classList.toggle('is-on', b.dataset.status === v.status));
+    // lesson chips
+    const chips = $('#vocab-lessons'); chips.innerHTML = '';
+    const mk = (id, label) => { const b = document.createElement('button'); b.className = 'tier-chip' + (v.lesson === id ? ' is-on' : ''); b.textContent = label; b.addEventListener('click', () => { v.lesson = id; haptic(); renderVocab(); }); chips.appendChild(b); };
+    mk('all', 'All lessons'); state.lessons.forEach(l => mk(l.id, `L${l.num} ${l.title}`)); mk('none', 'Words');
+    // collect
+    let rows = [];
+    const GLOSSARY_SKIP = ['Look-alike hiragana']; // tips, not vocabulary
+    state.decks.filter(d => !GLOSSARY_SKIP.includes(d.name)).forEach(d => d.cards.forEach(c => rows.push({ c, deck: d.name, lesson: lessonOfDeck(d.name) })));
+    if (v.lesson !== 'all') rows = rows.filter(r => v.lesson === 'none' ? !r.lesson : r.lesson?.id === v.lesson);
+    if (v.kind === 'words') rows = rows.filter(r => isWordCard(r.c)); else if (v.kind === 'phrases') rows = rows.filter(r => !isWordCard(r.c));
+    if (v.status !== 'all') rows = rows.filter(r => cardStatus(r.c) === v.status);
+    if (q) rows = rows.filter(r => [r.c.jp, r.c.romaji, r.c.en, r.c.sounds].some(t => t && t.toLowerCase().includes(q)));
+    const total = rows.length;
+    const newRows = rows.filter(r => isUnseen(r.c));
+    const summary = $('#vocab-summary');
+    summary.innerHTML = `<span>${total} ${total === 1 ? 'entry' : 'entries'}${q ? ` for “${escapeHTML(v.q.trim())}”` : ''}</span>${newRows.length ? `<button class="text-btn" id="vocab-meet">Meet ${Math.min(8, newRows.length)} new</button>` : ''}`;
+    summary.querySelector('#vocab-meet')?.addEventListener('click', () => startPreview({ cards: newRows.map(r => r.c), title: 'Meet new words', returnTo: 'vocab' }));
+    // group by lesson (then deck), keep deck order
+    const list = $('#vocab-list'); list.innerHTML = '';
+    if (!rows.length) { list.innerHTML = '<div class="empty">Nothing matches. Try the romaji or the English.</div>'; return; }
+    const shown = rows.slice(0, v.limit);
+    const groups = new Map();
+    shown.forEach(r => { const key = r.lesson ? `Lesson ${r.lesson.num} · ${r.lesson.title}` : r.deck; if (!groups.has(key)) groups.set(key, []); groups.get(key).push(r); });
+    for (const [title, items] of groups) {
+      const g = document.createElement('div'); g.className = 'vocab-group';
+      g.innerHTML = `<h3>${escapeHTML(title)}<span>${items.length}</span></h3><div class="vocab-rows">${items.map(r => {
+        const c = r.c, st = cardStatus(c);
+        return `<button class="vocab-row" data-jp="${escapeHTML(c.jp)}"><span class="vocab-dot ${st}" title="${st}"></span><span class="vocab-main"><span class="vocab-jp">${highlight(c.jp, v.q.trim())}</span><span class="vocab-ro">${highlight(c.romaji, v.q.trim())}${c.sounds ? ` · <span class="s">“${highlight(c.sounds, v.q.trim())}”</span>` : ''}</span><span class="vocab-en">${highlight(c.en, v.q.trim())}</span></span><span class="speak-btn">${SPEAK_SVG}</span></button>`;
+      }).join('')}</div>`;
+      $$('.vocab-row', g).forEach(b => b.addEventListener('click', () => speak(b.dataset.jp, b.querySelector('.speak-btn'))));
+      list.appendChild(g);
+    }
+    if (rows.length > shown.length) {
+      const more = document.createElement('button'); more.className = 'vocab-more'; more.textContent = `Show ${Math.min(60, rows.length - shown.length)} more`;
+      more.addEventListener('click', () => { v.limit += 60; renderVocab(); });
+      list.appendChild(more);
+    }
+  }
+
   // ---------------------------------------------------------------- settings
   function renderSettings() {
     $('#opt-name').value = state.settings.name || '';
@@ -2010,6 +2071,12 @@
     $$('.tab').forEach(t => t.addEventListener('click', () => { haptic(); showTab(t.dataset.tab); }));
     $('#home-kana-card').addEventListener('click', () => showTab('kana'));
     $('#home-num-card').addEventListener('click', () => showTab('numbers'));
+    $('#home-vocab-card').addEventListener('click', openVocab);
+    $('#btn-vocab-back').addEventListener('click', () => showTab('home'));
+    $('#vocab-q').addEventListener('input', () => { state.vocab.q = $('#vocab-q').value; renderVocab(); });
+    $('#vocab-clear').addEventListener('click', () => { $('#vocab-q').value = ''; state.vocab.q = ''; renderVocab(); });
+    $$('#vocab-kind .seg').forEach(b => b.addEventListener('click', () => { state.vocab.kind = b.dataset.kind; haptic(); renderVocab(); }));
+    $$('#vocab-status .seg').forEach(b => b.addEventListener('click', () => { state.vocab.status = b.dataset.status; haptic(); renderVocab(); }));
     $('#btn-num-close').addEventListener('click', endNumbersEarly);
     $('#conv-input').addEventListener('input', renderConverter);
     $('#conv-price').addEventListener('change', renderConverter);
