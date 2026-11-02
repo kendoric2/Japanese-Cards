@@ -1065,3 +1065,11 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 [data-style="wabi"] .g-rule .g-pattern { font-size: 18px; }
 .pv-jp, .sp-jp, .rp-jp, .learn-kana, .b-sentence { line-break: strict; }
+
+/* no sideways panning, anywhere */
+html, body, #app { overflow-x: hidden; }
+.page-wrap, .home-wrap, .summary-wrap, .settings-wrap, .quiz-body, .rp-log, .guide-wrap { overflow-x: hidden; overscroll-behavior-x: none; }
+.g-tip { display: block; overflow-wrap: anywhere; }
+.g-tip::before { margin-right: 8px; }
+.g-intro, .g-when, .g-note, .ref-body, .b-why, .plan-sub, .part-sub, .lesson-meta, .ro-inline, .g-pattern-ro, .kana-sheet-note, .learn-note { overflow-wrap: anywhere; }
+.g-section, .ref-list, .g-rule { min-width: 0; max-width: 100%; }
