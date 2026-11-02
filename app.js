@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const APP_VERSION = '2.6.0';
+  const APP_VERSION = '2.6.1';
   const KEY_PROGRESS = 'kotoba.progress.v1';
   const KEY_SETTINGS = 'kotoba.settings.v1';
   const SEP = '\u001f';                       // deck name + SEP + jp text = progress key
@@ -157,6 +157,8 @@
     // rule patterns get a romaji line underneath instead of inline brackets
     $$('.g-pattern', root).forEach(p => { if (p.nextElementSibling?.classList.contains('g-pattern-ro')) return; const ro = document.createElement('div'); ro.className = 'g-pattern-ro'; ro.textContent = romanize(p.textContent); p.after(ro); });
   }
+
+  const roLine = (kana, cls = 'ro-under') => state.settings.romajiHelp && /[ぁ-ゖァ-ヺ]/.test(kana) ? `<small class="${cls}">${escapeHTML(romanize(kana))}</small>` : '';
 
   // ---------------------------------------------------------------- theme
   const metaTheme = $('#meta-theme-color');
@@ -1036,7 +1038,7 @@
         <div class="q-prompt-main"><div class="q-en ${item.prompt.length > 48 ? 'long' : ''}">${escapeHTML(item.prompt)}</div></div>
         <div class="card-hint">What do you say?</div>
       </div>
-      <div class="q-options">${shuffled.map((o, i) => `<button class="${jpOptClass(o.text)}" data-i="${i}">${escapeHTML(o.text)}</button>`).join('')}</div>`;
+      <div class="q-options">${shuffled.map((o, i) => `<button class="${jpOptClass(o.text)}" data-i="${i}">${escapeHTML(o.text)}${roLine(o.text)}</button>`).join('')}</div>`;
     $$('.q-opt', body).forEach(b => b.addEventListener('click', () => {
       const q = state.quiz; if (!q || q.busy) return;
       q.busy = true;
@@ -1452,15 +1454,17 @@
         <div class="b-kind">${KIND[it.type] || 'Drill'}</div>
         <div class="b-en">${escapeHTML(it.en)}</div>
         <div class="b-sentence">${escapeHTML(parts[0] || '')}<span class="b-blank" id="b-blank">&nbsp;</span>${escapeHTML(parts[1] || '')}</div>
+        ${state.settings.romajiHelp ? `<div class="b-sentence-ro" id="b-sentence-ro">${escapeHTML(romanize(parts[0] || ''))} <span class="ro-blank">___</span> ${escapeHTML(romanize(parts[1] || ''))}</div>` : ''}
       </div>
-      <div class="b-options ${narrow ? 'narrow' : ''}">${options.map((o, i) => `<button class="${jpOptClass(o)}" data-i="${i}">${escapeHTML(o)}</button>`).join('')}</div>`;
+      <div class="b-options ${narrow ? 'narrow' : ''}">${options.map((o, i) => `<button class="${jpOptClass(o)}" data-i="${i}">${escapeHTML(o)}${narrow ? '' : roLine(o)}</button>`).join('')}</div>`;
     const blank = $('#b-blank');
     $$('.q-opt', body).forEach(btn => btn.addEventListener('click', () => {
       const b = state.build; if (!b || b.busy) return; b.busy = true;
       const chosen = options[Number(btn.dataset.i)], ok = chosen === it.answer;
-      $$('.q-opt', body).forEach(x => { x.disabled = true; if (x.textContent === it.answer) x.classList.add('is-right'); else if (x !== btn) x.classList.add('is-dim'); });
+      $$('.q-opt', body).forEach(x => { x.disabled = true; if (x.firstChild && x.firstChild.textContent === it.answer) x.classList.add('is-right'); else if (x !== btn) x.classList.add('is-dim'); });
       if (!ok) btn.classList.add('is-wrong');
       blank.textContent = chosen; blank.className = `b-blank filled ${ok ? 'ok' : 'bad'}`;
+      const rb = body.querySelector('.ro-blank'); if (rb) { rb.textContent = romanize(chosen); rb.className = `ro-blank ${ok ? 'ok' : 'bad'}`; }
       recordBuild(it, ok); haptic(ok ? 12 : 25);
       speak(it.jp.replace('___', it.answer));
       showWhy(body, ok, it, ok ? '' : `The answer is <b class="jp">${escapeHTML(it.answer)}</b>. `);
@@ -1475,7 +1479,7 @@
         <div class="b-en">${escapeHTML(it.en)}</div>
         <div class="b-answer" id="b-answer"></div>
       </div>
-      <div class="b-bank" id="b-bank">${tiles.map((x, k) => `<button class="b-tile jp" data-k="${k}">${escapeHTML(x.t)}</button>`).join('')}</div>
+      <div class="b-bank" id="b-bank">${tiles.map((x, k) => `<button class="b-tile jp" data-k="${k}">${escapeHTML(x.t)}${roLine(x.t, 'tile-ro')}</button>`).join('')}</div>
       <div class="b-foot"><button class="btn btn-reveal" id="btn-order-check" disabled>Check</button></div>`;
     const answer = $('#b-answer'), check = $('#btn-order-check');
     let placed = [];
@@ -1484,7 +1488,7 @@
       if (state.build?.busy || btn.classList.contains('is-used')) return;
       btn.classList.add('is-used'); haptic(6);
       const k = Number(btn.dataset.k);
-      const chip = document.createElement('button'); chip.className = 'b-tile jp'; chip.textContent = tiles[k].t; chip.dataset.k = k;
+      const chip = document.createElement('button'); chip.className = 'b-tile jp'; chip.innerHTML = escapeHTML(tiles[k].t) + roLine(tiles[k].t, 'tile-ro'); chip.dataset.k = k;
       chip.addEventListener('click', () => { if (state.build?.busy) return; chip.remove(); btn.classList.remove('is-used'); placed = placed.filter(p => p !== k); sync(); });
       answer.appendChild(chip); placed.push(k); sync();
     }));
@@ -1913,19 +1917,19 @@
       const extra = numDistractors(n, lv, 2).flatMap(d => numChunks(d).map(c => c[0])).filter(c => !chunks.includes(c));
       const bank = shuffle([...chunks, ...traps.slice(0, 2), ...shuffle([...new Set(extra)]).slice(0, Math.max(1, 5 - traps.length))]);
       body.innerHTML = `<div class="b-prompt"><div class="b-kind">Build the number</div><div class="b-en"><span class="n-prompt-num small">${priceLabel(n, lv)}</span></div><div class="b-answer" id="n-answer"></div></div>
-        <div class="b-bank" id="n-bank">${bank.map((t, k) => `<button class="b-tile jp" data-k="${k}">${escapeHTML(t)}</button>`).join('')}</div>
+        <div class="b-bank" id="n-bank">${bank.map((t, k) => `<button class="b-tile jp" data-k="${k}">${escapeHTML(t)}${roLine(t, 'tile-ro')}</button>`).join('')}</div>
         <div class="b-foot"><button class="btn btn-reveal" id="btn-num-check" disabled>Check</button></div>`;
       const answer = $('#n-answer'), check = $('#btn-num-check'); let placed = [];
       const sync = () => { check.disabled = placed.length === 0; };
       $$('#n-bank .b-tile', body).forEach(btn => btn.addEventListener('click', () => {
         if (state.num?.busy || btn.classList.contains('is-used')) return;
         btn.classList.add('is-used'); haptic(6);
-        const chip = document.createElement('button'); chip.className = 'b-tile jp'; chip.textContent = btn.textContent;
+        const chip = document.createElement('button'); chip.className = 'b-tile jp'; chip.innerHTML = btn.innerHTML;
         chip.addEventListener('click', () => { if (state.num?.busy) return; chip.remove(); btn.classList.remove('is-used'); placed = placed.filter(p => p !== chip); sync(); });
         answer.appendChild(chip); placed.push(chip); sync();
       }));
       check.addEventListener('click', () => {
-        const got = placed.map(c => c.textContent).join(' '); const ok = got === chunks.join(' ');
+        const got = placed.map(c => c.firstChild.textContent).join(' '); const ok = got === chunks.join(' ');
         answer.classList.add(ok ? 'ok' : 'bad'); check.closest('.b-foot').remove();
         answerNumber(ok, null, chunks.join(' '), n, body);
       });

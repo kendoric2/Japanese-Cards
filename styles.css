@@ -1149,3 +1149,13 @@ html, body, #app { overflow-x: hidden; }
 mark.hl { background: var(--accent-soft-2); color: inherit; border-radius: 3px; padding: 0 1px; }
 .vocab-jp, .vocab-ro, .vocab-en { display: block; }
 .vocab-ro { overflow-wrap: anywhere; }
+
+/* romaji under kana in drills */
+.ro-under { display: block; font-family: var(--font-en); font-size: 12px; font-weight: 500; color: var(--text-3); margin-top: 3px; letter-spacing: 0; }
+.q-opt.is-right .ro-under { color: rgba(255,255,255,0.85); }
+.q-opt.is-wrong .ro-under { color: inherit; opacity: 0.8; }
+.tile-ro { display: block; font-family: var(--font-en); font-size: 11px; font-weight: 500; color: var(--text-3); margin-top: 1px; line-height: 1.1; }
+.b-answer .b-tile .tile-ro { color: var(--text-2); }
+.b-sentence-ro { font-family: var(--font-en); font-size: 15px; color: var(--text-3); margin-top: 4px; position: relative; overflow-wrap: anywhere; }
+.ro-blank { color: var(--accent); font-weight: 600; }
+.ro-blank.ok { color: var(--good); } .ro-blank.bad { color: var(--bad); }
